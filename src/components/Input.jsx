@@ -30,11 +30,11 @@ const InputPrompt = ({ placeholder, containerStyle, inputStyle }) => {
     }, []);
 
     return (
-        <div ref={containerRef} className={`border border-[var(--color-gray)] rounded-3xl shadow-lg px-5 py-4 ${containerStyle}`}>
+        <div ref={containerRef} className={`bg-blue-50 border border-[var(--color-gray)] rounded-3xl shadow-lg px-5 py-4 ${containerStyle}`}>
             <textarea
                 ref={inputRef}
                 placeholder={placeholder}
-                className={`w-full p-3 focus:outline-none resize-none placeholder:text-gray-400 ${inputStyle}`}
+                className={`w-full p-3 text-black focus:outline-none resize-none placeholder:text-gray-400 ${inputStyle}`}
                 cols={2}
             >
             </textarea>

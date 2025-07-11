@@ -11,12 +11,10 @@
   --color-lightgray: #eff6ff;
   --color-gray: #605C78; 
   --color-darkgray: #36363e;
-  
-  
 
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  color-scheme: light dark;
-  /* background-color: #242424; */
+  color-scheme: dark light;
+  background-color: #080808;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
