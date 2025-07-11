@@ -30,7 +30,7 @@ const InputPrompt = ({ placeholder }) => {
     }, []);
 
     return (
-        <div ref={containerRef} className='border border-purple-100 rounded-3xl shadow-lg px-5 py-4'>
+        <div ref={containerRef} className='bg-white border border-purple-100 rounded-3xl shadow-lg px-5 py-4'>
             <textarea
                 ref={inputRef}
                 placeholder={placeholder}
