@@ -1,13 +1,18 @@
-import { BsBodyText, BsEye, BsGlobe, BsImage, BsPencilSquare, BsThreeDots } from 'react-icons/bs'
 import './App.css'
-import { ButtonGradient, ButtonOutline } from './components/Button'
+import { BsBodyText, BsEye, BsGlobe, BsImage, BsPencilSquare, BsThreeDots } from 'react-icons/bs'
+import { Button, ButtonGradient, ButtonOutline } from './components/Button'
 import { Card } from './components/Card'
 import { InputForm, InputPrompt } from './components/Input'
 import Tag from './components/Tag'
+import NavBar from './components/NavBar'
 
 function App() {
   return (
     <div>
+      <div>
+        <h1><u>NavBar</u></h1>
+        <NavBar></NavBar>
+      </div>
       <div>
         <h1><u>Buttons</u></h1>
         <ButtonGradient>
@@ -16,6 +21,9 @@ function App() {
         <ButtonOutline color={"purple"}>
           Connexion
         </ButtonOutline>
+        <Button color='green'>
+          S'inscrire
+        </Button>
       </div>
       <br />
       <div>
@@ -38,13 +46,13 @@ function App() {
       <br />
       <div>
         <h1><u>Cards</u></h1>
-        <Card shadow={1} hoverShadow>
+        <Card>
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
               <h3 className="text-xl"><strong>Lancement Cours de Cuisine</strong></h3>
               <Tag color="green">Active</Tag>
             </div>
-            <div className="flex items-center gap-1 text-gray-500">
+            <div className="flex items-center gap-1 text-gray-200">
               <ButtonOutline><BsEye /></ButtonOutline>
               <ButtonOutline><BsPencilSquare /></ButtonOutline>
               <ButtonOutline><BsThreeDots /></ButtonOutline>
@@ -53,7 +61,7 @@ function App() {
           <p className="text-gray-500 mb-2">
             Promouvoir mon nouveau cours de cuisine en ligne pour débutants
           </p>
-          <div className="flex items-center gap-10 text-gray-500">
+          <div className="flex items-center gap-10 text-gray-200">
             <div className="flex items-center gap-2">
               <div><BsImage /></div>
               <span>3 images</span>
