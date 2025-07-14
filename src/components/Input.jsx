@@ -2,19 +2,19 @@ import React from 'react'
 import { ButtonGradient } from './Button'
 import { BsStars } from 'react-icons/bs'
 
-const InputPrompt = ({ placeholder }) => {
+const InputPrompt = ({ placeholder, containerStyle, inputStyle }) => {
     const containerRef = React.useRef(null);
     const inputRef = React.useRef(null);
 
     React.useEffect(() => {
         const handleFocus = () => {
             if (containerRef.current && inputRef.current) {
-                containerRef.current.classList.add('ring-2', 'ring-purple-200');
+                containerRef.current.classList.add('ring-2', 'ring-[var(--color-lightgray)]');
             }
         };
         const handleBlur = () => {
             if (inputRef.current && containerRef.current) {
-                containerRef.current.classList.remove('ring-2', 'ring-purple-200');
+                containerRef.current.classList.remove('ring-2', 'ring-[var(--color-lightgray)]');
             }
         };
         if (inputRef.current) {
@@ -30,11 +30,11 @@ const InputPrompt = ({ placeholder }) => {
     }, []);
 
     return (
-        <div ref={containerRef} className='border border-purple-100 rounded-3xl shadow-lg px-5 py-4'>
+        <div ref={containerRef} className={`border border-[var(--color-gray)] rounded-3xl shadow-lg px-5 py-4 ${containerStyle}`}>
             <textarea
                 ref={inputRef}
                 placeholder={placeholder}
-                className="w-full p-3 focus:outline-none resize-none placeholder:text-gray-500"
+                className={`w-full p-3 focus:outline-none resize-none placeholder:text-gray-400 ${inputStyle}`}
                 cols={2}
             >
             </textarea>
@@ -61,12 +61,12 @@ const InputForm = ({placeholder, password = false}) => {
     React.useEffect(() => {
         const handleFocus = () => {
             if (inputRef.current) {
-                inputRef.current.classList.add('border-purple-100', 'ring-2', 'ring-purple-200');
+                inputRef.current.classList.add('border-purple-100', 'ring-2', 'ring-[var(--color-lightgray)]');
             }
         };
         const handleBlur = () => {
             if (inputRef.current) {
-                inputRef.current.classList.remove('border-purple-100', 'ring-2', 'ring-purple-200');
+                inputRef.current.classList.remove('border-purple-100', 'ring-2', 'ring-[var(--color-lightgray)]');
             }
         };
         if (inputRef.current) {
@@ -75,8 +75,8 @@ const InputForm = ({placeholder, password = false}) => {
         }
         return () => {
             if (inputRef.current) {
-                // inputRef.current.removeEventListener('focus', handleFocus);
-                // inputRef.current.removeEventListener('blur', handleBlur);
+                inputRef.current.removeEventListener('focus', handleFocus);
+                inputRef.current.removeEventListener('blur', handleBlur);
             }
         };
     }, []);
@@ -86,7 +86,7 @@ const InputForm = ({placeholder, password = false}) => {
             ref={inputRef}
             type={password ? "password" : "text"}
             placeholder={placeholder}
-            className="w-full px-4 py-3 focus:outline-none border border-gray-300 rounded-lg placeholder:text-gray-500"
+            className="w-full px-4 py-3 focus:outline-none border border-[var(--color-gray)] rounded-lg placeholder:text-gray-500"
         />
     )
 }

@@ -1,30 +1,36 @@
 import React from 'react'
 
-const ButtonGradient = ({children, circle = false}) => {
+const Button = ({children, circle = false, color = "blue"}) => {
+    const colorClasses = {
+        blue: 'bg-[var(--color-blue)] border border-[var(--color-blue)] hover:text-[var(--color-blue)]',
+        green: 'bg-[var(--color-green)] border border-[var(--color-green)] hover:text-[var(--color-green)]',
+        red: 'bg-[var(--color-red)] border border-[var(--color-red)] hover:text-[var(--color-red)]',
+    };
     return (
-        <button className={`bg-gradient-to-r from-purple-600 to-pink-600 text-white ${circle ? "rounded-full p-2" : "rounded py-2 px-4"} hover:from-purple-700 hover:to-pink-700 transition duration-200 cursor-pointer`}>
+        <button className={`${colorClasses[color] || colorClasses['blue']} font-bold ${circle ? "rounded-full p-2" : "rounded py-2 px-4"} hover:bg-[var(--color-lightgray)] transition duration-200 cursor-pointer`}>
             {children}
         </button>
   )
 }
 
-const ButtonOutline = ({children, color}) => {
-    const colorClasses = {
-        default: 'text-gray-900 hover:bg-gray-100',
-        purple: 'border border-purple-200 text-purple-600 hover:bg-purple-50',
-        green: 'border border-green-200 text-green-700 hover:bg-green-50',
-        red: 'border border-red-200 text-red-400 hover:bg-red-50',
-        blue: 'border border-blue-200 text-blue-800 hover:bg-blue-50',
-        yellow: 'border border-yellow-200 text-yellow-700 hover:bg-yellow-50',
-    }
+const ButtonOutline = ({children, circle = false}) => {
     return (
-        <button className={`${colorClasses[color] || colorClasses.default} py-2 px-4 rounded transition duration-200 cursor-pointer`}>
+        <button className={`border border-[var(--color-blue-light)] font-bold ${circle ? "rounded-full p-2" : "rounded py-2 px-4"} hover:bg-[var(--color-lightgray)] hover:text-[var(--color-blue)] hover:border-[var(--color-lightgray)] transition duration-200 cursor-pointer`}>
+            {children}
+        </button>
+  )
+}
+
+const ButtonGradient = ({children, circle = false}) => {
+    return (
+        <button className={`bg-gradient-to-tr from-[var(--color-blue)] to-[var(--color-green)] text-white font-bold ${circle ? "rounded-full p-2" : "rounded py-2 px-4"} hover:opacity-75  transition duration-200 cursor-pointer`}>
             {children}
         </button>
   )
 }
 
 export {
-    ButtonGradient,
-    ButtonOutline
+    Button,
+    ButtonOutline,
+    ButtonGradient
 }
