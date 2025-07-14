@@ -13,9 +13,8 @@
   --color-darkgray: #36363e;
 
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  color-scheme: dark light;
-  background-color: #080808;
-
+  /* color-scheme: dark light; */
+  
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -28,6 +27,8 @@ a {
 }
 
 body {
+  color: white;
+  background-color: #080808;
   margin: 0;
 }
 

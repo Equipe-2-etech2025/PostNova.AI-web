@@ -34,11 +34,11 @@ const InputPrompt = ({ placeholder, containerStyle, inputStyle }) => {
             <textarea
                 ref={inputRef}
                 placeholder={placeholder}
-                className={`w-full p-3 text-black focus:outline-none resize-none placeholder:text-gray-400 ${inputStyle}`}
-                cols={2}
+                className={`w-full p-2 text-black focus:outline-none resize-none placeholder:text-gray-400 ${inputStyle}`}
+                cols={1}
             >
             </textarea>
-            <div className='flex items-center justify-between my-2'>
+            <div className='flex items-center justify-between my-1'>
                 <div className='flex items-center gap-2'>
                     <button className='text-gray-500 hover:text-gray-700 transition duration-200'>
                         <i className="ri-image-line"></i>
