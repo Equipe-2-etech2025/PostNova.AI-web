@@ -9,12 +9,12 @@ const InputPrompt = ({ placeholder, containerStyle, inputStyle }) => {
     React.useEffect(() => {
         const handleFocus = () => {
             if (containerRef.current && inputRef.current) {
-                containerRef.current.classList.add('ring-2', 'ring-[var(--color-lightgray)]');
+                containerRef.current.classList.add('ring-1', 'ring-[var(--color-lightgray)]');
             }
         };
         const handleBlur = () => {
             if (inputRef.current && containerRef.current) {
-                containerRef.current.classList.remove('ring-2', 'ring-[var(--color-lightgray)]');
+                containerRef.current.classList.remove('ring-1', 'ring-[var(--color-lightgray)]');
             }
         };
         if (inputRef.current) {
@@ -30,11 +30,11 @@ const InputPrompt = ({ placeholder, containerStyle, inputStyle }) => {
     }, []);
 
     return (
-        <div ref={containerRef} className={`bg-blue-50 border border-[var(--color-gray)] rounded-3xl shadow-lg px-5 py-4 ${containerStyle}`}>
+        <div ref={containerRef} className={`bg-blue-50/10 border border-[var(--color-gray)] rounded-3xl shadow-lg px-5 py-4 backdrop-blur-2xl ${containerStyle}`}>
             <textarea
                 ref={inputRef}
                 placeholder={placeholder}
-                className={`w-full p-2 text-black focus:outline-none resize-none placeholder:text-gray-400 ${inputStyle}`}
+                className={`w-full p-2 text-white focus:outline-none resize-none placeholder:text-gray-400 ${inputStyle}`}
                 cols={1}
             >
             </textarea>

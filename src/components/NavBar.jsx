@@ -3,11 +3,11 @@ import { ButtonGradient } from './Button'
 
 const NavBar = () => {
     return (
-        <div className='fixed w-full backdrop-blur-lg'>
-            <div className='container flex items-center justify-between p-5 mx-auto'>
+        <div className='fixed w-full backdrop-blur-lg z-50'>
+            <div className='container flex items-center justify-between py-5 mx-auto'>
                 <div>
                     <a className='text-2xl font-bold text-white cursor-pointer' href="#">
-                        PostNova
+                        <strong>PostNova</strong>
                     </a>
                 </div>
                 <nav>
