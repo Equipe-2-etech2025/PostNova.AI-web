@@ -9,10 +9,10 @@ const Home = () => {
         <>
             <section className="relative h-screen">
                 <div className="absolute bottom-10 w-full h-1/2 -z-10">
-                    <div className="h-full bg-radial from-[var(--color-blue)] to-black opacity-75"></div>
+                    <div className="h-full bg-radial from-[var(--color-blue)] to-[#080808] to-50% opacity-75"></div>
                 </div>
                 <div className="absolute bottom-0 w-full h-1/2 -z-10">
-                    <div className="h-full bg-radial from-[var(--color-green)] to-black opacity-25"></div>
+                    <div className="h-full bg-radial from-[var(--color-green)] to-[#080808] to-50% opacity-25"></div>
                 </div>
                 <div className="container flex flex-col items-center justify-center h-full mx-auto">
                     <h1 className="w-3/4 text-6xl text-center font-bold mb-4">
