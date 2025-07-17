@@ -5,3 +5,7 @@ logs
 **/*.back.*
 
 node_modules
+.git
+.DS_Store
+dist
+*.local
