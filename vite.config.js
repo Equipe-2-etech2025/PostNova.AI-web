@@ -8,4 +8,18 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
+  server: {
+    host: '0.0.0.0',
+    port: 5173,
+    strictPort: true,
+    watch: {
+      usePolling: true 
+    },
+    hmr: {
+      clientPort: 5173 
+    }
+  },
+  preview: {
+    port: 5173
+  }
 })

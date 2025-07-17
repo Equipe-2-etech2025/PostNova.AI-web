@@ -5,4 +5,7 @@ logs
 **/*.back.*
 
 node_modules
-/nbproject/private/
+.git
+.DS_Store
+dist
+*.local
