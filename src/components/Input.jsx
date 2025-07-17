@@ -1,6 +1,6 @@
 import React from 'react'
-import { ButtonGradient } from './Button'
-import { BsStars } from 'react-icons/bs'
+import { Button } from './Button'
+import { BsArrowUpCircle } from 'react-icons/bs'
 
 const InputPrompt = ({ placeholder, containerStyle, inputStyle }) => {
     const containerRef = React.useRef(null);
@@ -47,9 +47,9 @@ const InputPrompt = ({ placeholder, containerStyle, inputStyle }) => {
                         <i className="ri-link-m"></i>
                     </button>
                 </div>
-                <ButtonGradient circle>
-                    <BsStars className='text-white' size={24} />
-                </ButtonGradient>
+                <Button circle>
+                    <BsArrowUpCircle className="text-[var(--color-lightgray)]" size={24} />
+                </Button>
             </div>
         </div>
     )
