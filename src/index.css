@@ -1,5 +1,4 @@
 @import "tailwindcss";
-
 :root {
 
   --color-blue: #4335C4;
@@ -41,3 +40,5 @@ body {
     color: #747bff;
   }
 }
+
+

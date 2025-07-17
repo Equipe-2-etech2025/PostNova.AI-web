@@ -32,5 +32,5 @@ const ButtonGradient = ({children, circle = false}) => {
 export {
     Button,
     ButtonOutline,
-    ButtonGradient
+    ButtonGradient,
 }
