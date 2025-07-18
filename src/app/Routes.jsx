@@ -14,7 +14,6 @@ const Routes = () => {
     return (
         <AuthProvider>
             <BrowserRouter>
-                <NavBar />
                 <Router>
                     {/* Routes publiques */}
                     <Route path="/" element={<Home />} />

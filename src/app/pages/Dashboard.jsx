@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../../components/Button';
+import NavBar from '../../components/NavBar'
 
 const Dashboard = () => {
   const { user, logout } = useAuth();

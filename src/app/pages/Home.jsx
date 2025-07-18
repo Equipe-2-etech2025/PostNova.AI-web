@@ -3,10 +3,12 @@ import { InputPrompt } from '../../components/Input'
 import { Card } from '../../components/Card'
 import { BsCheck, BsX } from 'react-icons/bs'
 import { Button } from '../../components/Button'
+import NavBar from '../../components/NavBar'
 
 const Home = () => {
     return (
         <>
+        <NavBar />
             <section className="relative h-screen">
                 <div className="absolute bottom-10 w-full h-1/2 -z-10">
                     <div className="h-full bg-radial from-[var(--color-blue)] to-black opacity-75"></div>
