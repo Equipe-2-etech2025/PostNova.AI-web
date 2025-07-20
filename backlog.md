@@ -13,6 +13,9 @@
 
 - [EPA-15] Réalisation du maquette page tableau de bord (Assigné à: Andhi Andrianina)
 - [EPA-9] Création de .github/workflows(CI/CD) React (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche : `feature/EPA-9-workflows`  
+  Commit : `EPA-9: suppression de travail de test dans .github/workflows`
+
 - [EPA-8] Creation de .github/workflows(CI/CD) Laravel (Assigné à: Mialisoa Lisa Rasoanirina)
 
 ## Terminé non testé
