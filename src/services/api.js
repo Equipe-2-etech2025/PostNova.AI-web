@@ -1,8 +1,19 @@
 import axios from 'axios';
 
 // Configuration de base d'Axios
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+const getApiBaseUrl = () => {
+  // En développement, utiliser la variable d'environnement
+  if (import.meta.env.DEV) {
+    return import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+  }
+  
+  // En production, utiliser l'URL de production
+  return import.meta.env.VITE_API_URL || '/api';
+};
 
+const API_BASE_URL = getApiBaseUrl();
+
+console.log('🔗 URL API configurée:', API_BASE_URL);
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {

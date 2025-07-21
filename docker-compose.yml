@@ -9,18 +9,15 @@ services:
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
-      - VITE_API_URL=http://localhost:8000/api
-    depends_on:
-      - api
+      # URL flexible selon l'environnement
+      - VITE_API_URL=${VITE_API_URL:-http://localhost:8000/api}
+      - VITE_USE_DOCKER_API=${VITE_USE_DOCKER_API:-false}
     stdin_open: true
     tty: true
-  api:
-    build: ./api
-    ports:
-      - "8000:8000"
-    environment:
-      - APP_ENV=local
-      - APP_DEBUG=true
-      - CORS_ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
-    volumes:
-      - ./api:/var/www/html
+    # Réseau pour communiquer avec l'API si elle est en Docker
+    networks:
+      - postnova-network
+
+networks:
+  postnova-network:
+    driver: bridge
