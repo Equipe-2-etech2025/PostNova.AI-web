@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
-const ProtectedRoute = ({ children, requireAdmin = false }) => {
+const ProtectedRoute = ({ children, requireAdmin = false, requireEmailVerification = true }) => {
   const { isAuthenticated, user, loading } = useAuth();
   const location = useLocation();
 
@@ -20,10 +20,17 @@ const ProtectedRoute = ({ children, requireAdmin = false }) => {
     );
   }
 
+  // Si pas authentifié, rediriger vers login
   if (!isAuthenticated) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
+  // Si email non vérifié et vérification requise, rediriger vers vérification
+  if (requireEmailVerification && user && !user.email_verified_at) {
+    return <Navigate to="/email/verify" replace />;
+  }
+
+  // Si admin requis mais utilisateur pas admin
   if (requireAdmin && user?.role !== 'admin') {
     return <Navigate to="/dashboard" replace />;
   }
