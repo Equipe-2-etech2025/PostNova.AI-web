@@ -1,6 +1,7 @@
 services:
   web:
     build: .
+    container_name: postnova-web
     ports:
       - "5173:5173"
     volumes:
@@ -9,15 +10,13 @@ services:
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
-      # URL flexible selon l'environnement
-      - VITE_API_URL=${VITE_API_URL:-http://localhost:8000/api}
-      - VITE_USE_DOCKER_API=${VITE_USE_DOCKER_API:-false}
+      - VITE_API_URL=http://postnova-webserver/api
+      - VITE_USE_DOCKER_API=true
     stdin_open: true
     tty: true
-    # Réseau pour communiquer avec l'API si elle est en Docker
     networks:
       - postnova-network
 
 networks:
   postnova-network:
-    driver: bridge
+    external: true
