@@ -4,7 +4,7 @@ import logo from '../assets/logo.png';
 
 const NavBar = () => {
     return (
-        <div className='fixed w-full backdrop-blur-lg z-50'>
+        <div className='sticky top-0 w-full backdrop-blur-lg z-50'>
             <div className='container flex items-center justify-between py-5 mx-auto'>
                 <div className='flex items-center gap-2'>
                     <span>

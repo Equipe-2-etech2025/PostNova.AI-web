@@ -8,8 +8,10 @@
   --color-red: #C43B35;
   
   --color-lightgray: #eff6ff;
-  --color-gray: #605C78; 
+  --color-gray: #3e3d47; 
   --color-darkgray: #242428;
+
+  --color-black: #080808;
 
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   /* color-scheme: dark light; */
@@ -27,7 +29,7 @@ a {
 
 body {
   color: white;
-  background-color: #080808;
+  background-color: var(--color-black);
   margin: 0;
 }
 

@@ -7,7 +7,8 @@ import ProtectedRoute from '../components/ProtectedRoute'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/register'
-import Dashboard from './pages/Dashboard'
+import DashboardUser from './pages/DashboardUser'
+
 import NavBar from '../components/NavBar'
 
 const Routes = () => {
@@ -25,7 +26,7 @@ const Routes = () => {
                         path="/dashboard" 
                         element={
                             <ProtectedRoute>
-                                <Dashboard />
+                                <DashboardUser />
                             </ProtectedRoute>
                         } 
                     />
