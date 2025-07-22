@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import NavBar from '../components/NavBar'
 import Login from './pages/Login'
 import Register from './pages/register'
+import DashboardUser from './pages/DashboardUser'
 
 const Routes = () => {
     return (
@@ -13,6 +14,7 @@ const Routes = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/dashboard" element={<DashboardUser />} />                
             </Routers>
         </BrowserRouter>
     )
