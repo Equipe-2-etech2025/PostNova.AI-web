@@ -75,9 +75,9 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error('Erreur dans login context:', error);
-      return { 
-        success: false, 
-        message: 'Erreur de connexion', 
+      return {
+        success: false,
+        message: 'Erreur de connexion',
         errors: {}
       };
     } finally {
@@ -99,9 +99,9 @@ export const AuthProvider = ({ children }) => {
         return { success: false, message: response.message, errors: response.errors };
       }
     } catch (error) {
-      return { 
-        success: false, 
-        message: 'Erreur d\'inscription', 
+      return {
+        success: false,
+        message: 'Erreur d\'inscription',
         errors: {}
       };
     } finally {
@@ -135,6 +135,10 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateUser = (newUserData) => {
+    setUser(prevUser => ({ ...prevUser, ...newUserData }));
+  };
+
   const value = {
     user,
     isAuthenticated,
@@ -143,7 +147,8 @@ export const AuthProvider = ({ children }) => {
     register,
     logout,
     refreshToken,
-    checkAuthStatus
+    checkAuthStatus,
+    updateUser
   };
 
   return (

@@ -8,7 +8,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/register'
 import Dashboard from './pages/Dashboard'
-import NavBar from '../components/NavBar'
+import EmailVerification from './pages/EmailVerification';
 
 const Routes = () => {
     return (
@@ -20,14 +20,24 @@ const Routes = () => {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     
-                    {/* Routes protégées */}
+                    {/* Route de vérification email - authentifiée mais sans vérification email requise */}
                     <Route 
-                        path="/dashboard" 
+                        path="/email/verify" 
                         element={
-                            <ProtectedRoute>
-                                <Dashboard />
+                            <ProtectedRoute requireEmailVerification={false}>
+                                <EmailVerification />
                             </ProtectedRoute>
                         } 
+                    />
+                    
+                    {/* Routes protégées avec vérification email requise */}
+                    <Route
+                        path="/dashboard"
+                        element={
+                            <ProtectedRoute requireEmailVerification={true}>
+                                <Dashboard />
+                            </ProtectedRoute>
+                        }
                     />
                     
                     {/* Redirection par défaut pour les utilisateurs connectés */}
