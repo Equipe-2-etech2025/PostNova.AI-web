@@ -1,11 +1,15 @@
 import React from 'react'
 import { ButtonGradient } from './Button'
+import logo from '../assets/logo.png';
 
 const NavBar = () => {
     return (
         <div className='sticky top-0 w-full backdrop-blur-lg z-50'>
             <div className='container flex items-center justify-between py-5 mx-auto'>
-                <div>
+                <div className='flex items-center gap-2'>
+                    <span>
+                        <img class="size-10" src={logo} alt="" />
+                    </span>
                     <a className='text-2xl font-bold text-white cursor-pointer' href="#">
                         <strong>PostNova</strong>
                     </a>
