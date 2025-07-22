@@ -4,10 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0 --port 5173",
+    "dev:local": "cp .env.local .env && npm run dev",
+    "dev:docker": "cp .env.docker .env && npm run dev",
     "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "docker:up": "docker compose up",
+    "docker:up-full": "docker compose -f docker-compose.full.yml up"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",

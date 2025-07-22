@@ -13,10 +13,30 @@ export default defineConfig({
     port: 5173,
     strictPort: true,
     watch: {
-      usePolling: true 
+      usePolling: true
     },
     hmr: {
-      clientPort: 5173 
+      clientPort: 5173
+    },
+
+    //  Configuration du proxy pour l'API
+    proxy: {
+      '/api': {
+        target: 'http://postnova-webserver',
+        changeOrigin: true,
+        secure: false,
+        configure: (proxy, options) => {
+          proxy.on('error', (err, req, res) => {
+            console.log('Proxy error:', err.message);
+          });
+          proxy.on('proxyReq', (proxyReq, req, res) => {
+            console.log('Proxy Request:', req.method, req.url);
+          });
+          proxy.on('proxyRes', (proxyRes, req, res) => {
+            console.log('Proxy Response:', proxyRes.statusCode, req.url);
+          });
+        },
+      }
     }
   },
   preview: {
