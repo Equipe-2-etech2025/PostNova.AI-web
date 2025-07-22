@@ -7,6 +7,7 @@ import ProtectedRoute from '../components/ProtectedRoute'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/register'
+import NavBar from '../components/NavBar'
 import Dashboard from './pages/Dashboard'
 import EmailVerification from './pages/EmailVerification';
 
@@ -23,7 +24,7 @@ const Routes = () => {
                     {/* Route de vérification email - authentifiée mais sans vérification email requise */}
                     <Route 
                         path="/email/verify" 
-                        element={
+                        element={              
                             <ProtectedRoute requireEmailVerification={false}>
                                 <EmailVerification />
                             </ProtectedRoute>

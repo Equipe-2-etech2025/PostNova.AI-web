@@ -1,6 +1,7 @@
 services:
   web:
     build: .
+    container_name: postnova-web
     ports:
       - "5173:5173"
     volumes:
@@ -9,18 +10,13 @@ services:
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
-      - VITE_API_URL=http://localhost:8000/api
-    depends_on:
-      - api
+      - VITE_API_URL=http://postnova-webserver/api
+      - VITE_USE_DOCKER_API=true
     stdin_open: true
     tty: true
-  api:
-    build: ./api
-    ports:
-      - "8000:8000"
-    environment:
-      - APP_ENV=local
-      - APP_DEBUG=true
-      - CORS_ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
-    volumes:
-      - ./api:/var/www/html
+    networks:
+      - postnova-network
+
+networks:
+  postnova-network:
+    external: true
