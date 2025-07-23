@@ -8,7 +8,7 @@ const NavBar = () => {
             <div className='container flex items-center justify-between py-5 mx-auto'>
                 <div className='flex items-center gap-2'>
                     <span>
-                        <img class="size-10" src={logo} alt="" />
+                        <img className="size-10" src={logo} alt="" />
                     </span>
                     <a className='text-2xl font-bold text-white cursor-pointer' href="#">
                         <strong>PostNova</strong>
