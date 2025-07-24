@@ -241,18 +241,19 @@ const Register = () => {
                   <span className="text-sm text-gray-300 leading-relaxed">
                     J'accepte les{' '}
                     <Link
-                      to="/terms"
+                      to="/conditions-utilisation"
                       className="text-[#4335C4] hover:text-[#5a4fd4] transition-colors underline"
                     >
                       conditions d'utilisation
                     </Link>
                     {' '}et la{' '}
                     <Link
-                      to="/privacy"
+                      to="/politique-confidentialite"
                       className="text-[#4335C4] hover:text-[#5a4fd4] transition-colors underline"
                     >
                       politique de confidentialité
                     </Link>
+                    
                   </span>
                 </label>
                 {errors.acceptTerms && (
