@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import { authService } from '../services/authService.js';
 
 const AuthContext = createContext();
@@ -15,9 +15,19 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const initialCheckDone = useRef(false);
 
   useEffect(() => {
-    checkAuthStatus();
+    if (!initialCheckDone.current) {
+      initialCheckDone.current = true;
+      const currentPath = window.location.pathname;
+      if (!currentPath.includes('/email/verify')) {
+        checkAuthStatus();
+      } else {
+        setLoading(false);
+      }
+      
+    }
   }, []);
 
   const checkAuthStatus = async () => {
