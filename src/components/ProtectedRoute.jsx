@@ -21,9 +21,6 @@ const ProtectedRoute = ({ children, requireAdmin = false, requireEmailVerificati
   }
 
   // Si pas authentifié, rediriger vers login
-  if (!isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
 
   // Si email non vérifié et vérification requise, rediriger vers vérification
   if (requireEmailVerification && user && !user.email_verified_at) {

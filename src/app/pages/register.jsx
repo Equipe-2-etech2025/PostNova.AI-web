@@ -83,8 +83,16 @@ const Register = () => {
     const result = await register(formData);
     
     if (result.success) {
+      showSuccess('Inscription réussie ! Vérifiez votre email.', {
+        duration: 3000,
+        position: 'top-center'
+      });
       setMessage(result.message);
-        navigate('/dashboard');
+      navigate('/email/verify', {
+        state: {
+          email: formData.email
+        }
+      });
     } else {
       showError('Une erreur est survenue', {
         duration: 5000,

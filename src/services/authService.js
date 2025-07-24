@@ -11,7 +11,7 @@ export const authService = {
         success: true,
         token: response.data.data.token,
         user: response.data.data.user,
-        message: response.data.message || 'Connexion réussie'
+        message: response.data.message || 'Connexion réussie',
       };
     } catch (error) {
       console.error('Erreur de connexion:', error);
@@ -42,7 +42,8 @@ export const authService = {
         success: true,
         token: response.data.data.token,
         user: response.data.data.user,
-        message: response.data.message || 'Inscription réussie'
+        message: response.data.message || 'Inscription réussie',
+        requiresEmailVerification: true
       };
     } catch (error) {
       console.error('Erreur d\'inscription:', error);
