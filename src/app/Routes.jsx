@@ -3,6 +3,7 @@ import { BrowserRouter, Routes as Router, Route, Navigate } from 'react-router-d
 import { AuthProvider } from '../contexts/AuthContext'
 import ProtectedRoute from '../components/ProtectedRoute'
 
+
 // Pages
 import Home from './pages/Home'
 import Login from './pages/Login'
@@ -10,6 +11,7 @@ import Register from './pages/register'
 import NavBar from '../components/NavBar'
 import Dashboard from './pages/Dashboard'
 import EmailVerification from './pages/EmailVerification';
+import PasswordResetFlow from './pages/ResetPassword';
 
 const Routes = () => {
     return (
@@ -20,6 +22,8 @@ const Routes = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/resetPassword" element={<PasswordResetFlow />} />
+
                     
                     {/* Route de vérification email - authentifiée mais sans vérification email requise */}
                     <Route 
