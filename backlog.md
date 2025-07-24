@@ -2,6 +2,10 @@
 
 ## À faire
 - [EPA-28] Interface politique de confidentialité et règles d'utilisation (Assigné à: Tahiry Houlder RATERAHAJA)
+   Branche: feature/EPA-28-condition-politique
+   Commit: `EPA-28: creation de condition et politique de page'
+
+
 - [EPA-27] Interface mot de passe oublié + vérification email* (Assigné à: Tahiry Houlder RATERAHAJA)
 - [EPA-26] Intégration mot de passe oublié + vérification email (Assigné à: Nathan Rakotoarimanana)
 

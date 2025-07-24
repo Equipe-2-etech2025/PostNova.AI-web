@@ -12,6 +12,8 @@ import NavBar from '../components/NavBar'
 import Dashboard from './pages/Dashboard'
 import EmailVerification from './pages/EmailVerification';
 import PasswordResetFlow from './pages/ResetPassword';
+import PolitiqueConfidentialite from './pages/politiqueConfidentialite'
+import ConditionsUtilisation from './pages/conditionsUtilisation'
 
 const Routes = () => {
     return (
@@ -23,6 +25,8 @@ const Routes = () => {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/resetPassword" element={<PasswordResetFlow />} />
+                    <Route path="/conditions-utilisation" element={<ConditionsUtilisation />} />
+                    <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
 
                     
                     {/* Route de vérification email - authentifiée mais sans vérification email requise */}
