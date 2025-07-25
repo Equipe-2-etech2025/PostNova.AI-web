@@ -152,6 +152,8 @@ export const AuthProvider = ({ children }) => {
   const value = {
     user,
     isAuthenticated,
+    setIsAuthenticated,
+    setUser,            
     loading,
     login,
     register,
@@ -159,7 +161,7 @@ export const AuthProvider = ({ children }) => {
     refreshToken,
     checkAuthStatus,
     updateUser
-  };
+  };  
 
   return (
     <AuthContext.Provider value={value}>

@@ -49,7 +49,6 @@ export const emailService = {
   async verifyEmail(params) {
     try {
       const response = await api.post('auth/email/verify', params);
-      console.log('Email vérifié avec succès:', response.data);
       return {
         success: true,
         token: response.data.data.token,

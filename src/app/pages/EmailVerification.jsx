@@ -9,14 +9,16 @@ import { useNotification } from '../../hooks/useNotification';
 const EmailVerification = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { user, updateUser, checkAuthStatus } = useAuth();
+  const { user} = useAuth();
   const { notification, showSuccess, showError, showInfo, hideNotification } = useNotification();
+  const { setIsAuthenticated, setUser } = useAuth();
   
   const [isVerifying, setIsVerifying] = useState(false);
   const [isResending, setIsResending] = useState(false);
   const [canResend, setCanResend] = useState(true);
   const [resendCooldown, setResendCooldown] = useState(0);
   const hasVerifiedOnceRef = useRef(false);
+
 
   const location = useLocation();
   const email = location.state?.email;
@@ -33,24 +35,6 @@ const EmailVerification = () => {
       handleVerifyFromUrl({ id, hash, expires, signature });
     }
   }, [searchParams]);
-   
-
-  // Gestion du cooldown pour le renvoi
-  useEffect(() => {
-    let interval;
-    if (resendCooldown > 0) {
-      interval = setInterval(() => {
-        setResendCooldown(prev => {
-          if (prev <= 1) {
-            setCanResend(true);
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [resendCooldown]);
 
   const handleVerifyFromUrl = async (params) => {
     try {
@@ -61,15 +45,13 @@ const EmailVerification = () => {
       
       if (result.success) {
         console.log('Email vérifié');
-        showSuccess('Email vérifié avec succès !');
         localStorage.setItem('auth_token', result.token); 
-        const token=localStorage.getItem('auth_token');
-        console.log('token',result.token);
-        await checkAuthStatus();
+        setUser(result.user);
+        setIsAuthenticated(true);
         // Redirection vers le dashboard
         setTimeout(() => {
           navigate('/dashboard');
-        }, 2000);
+        }, 1000);
       } else {
         showError(result.message);
       }
