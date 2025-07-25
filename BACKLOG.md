@@ -35,7 +35,8 @@
 ## Terminé(e)
 - [EPA-39] Web - Amélioration du lisibilité du code avec Prettier et EsLint (Assigné à: Andhi Andrianina)
   Branche : `chore/EPA-39-setup-lint-format`  
-  Commit : `EPA-39: improved code readability`
+  Commit : `EPA-39: improved code readability with Prettier and ESLint`
+  Commit : `EPA-39: update BACKLOG.md`
 
 - [EPA-29] Création de fichier backlog.md (Assigné à: Mialisoa Lisa Rasoanirina)  
   Branche : `feature/EPA-29-backlog`  
