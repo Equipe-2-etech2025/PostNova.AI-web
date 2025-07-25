@@ -1,39 +1,41 @@
 {
-  "name": "postnova.ai-web",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite --host 0.0.0.0 --port 5173",
-    "dev:local": "cp .env.local .env && npm run dev",
-    "dev:docker": "cp .env.docker .env && npm run dev",
-    "build": "vite build",
-    "preview": "vite preview",
-    "docker:up": "docker compose up",
-    "docker:up-full": "docker compose -f docker-compose.full.yml up"
-  },
-  "dependencies": {
-    "@tailwindcss/vite": "^4.1.11",
-    "axios": "^1.10.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-icons": "^5.5.0",
-    "react-router": "^7.6.3",
-    "react-router-dom": "^7.7.0",
-    "tailwindcss": "^4.1.11"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.29.0",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "@vitejs/plugin-react": "^4.5.2",
-    "eslint": "^9.31.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
-    "globals": "^16.2.0",
-    "prettier": "^3.6.2",
-    "vite": "^7.0.0"
-  }
+	"name": "postnova.ai-web",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite --host 0.0.0.0 --port 5173",
+		"dev:local": "cp .env.local .env && npm run dev",
+		"dev:docker": "cp .env.docker .env && npm run dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"docker:up": "docker compose up",
+		"docker:up-full": "docker compose -f docker-compose.full.yml up",
+		"lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+		"format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\""
+	},
+	"dependencies": {
+		"@tailwindcss/vite": "^4.1.11",
+		"axios": "^1.10.0",
+		"react": "^19.1.0",
+		"react-dom": "^19.1.0",
+		"react-icons": "^5.5.0",
+		"react-router": "^7.6.3",
+		"react-router-dom": "^7.7.0",
+		"tailwindcss": "^4.1.11"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.29.0",
+		"@types/react": "^19.1.8",
+		"@types/react-dom": "^19.1.6",
+		"@vitejs/plugin-react": "^4.5.2",
+		"eslint": "^9.31.0",
+		"eslint-config-prettier": "^10.1.8",
+		"eslint-plugin-react": "^7.37.5",
+		"eslint-plugin-react-hooks": "^5.2.0",
+		"eslint-plugin-react-refresh": "^0.4.20",
+		"globals": "^16.2.0",
+		"prettier": "^3.6.2",
+		"vite": "^7.0.0"
+	}
 }
