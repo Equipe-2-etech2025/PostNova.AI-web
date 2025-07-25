@@ -1,207 +1,235 @@
 @import "tailwindcss";
 :root {
+	--color-blue: #4335c4;
 
-  --color-blue: #4335C4;
+	--color-green: #44a16f;
 
-  --color-green: #44A16F;
-  
-  --color-red: #C43B35;
-  
-  --color-lightgray: #eff6ff;
-  --color-gray: #3e3d47; 
-  --color-darkgray: #242428;
+	--color-red: #c43b35;
 
-  --color-black: #080808;
+	--color-lightgray: #eff6ff;
+	--color-gray: #3e3d47;
+	--color-darkgray: #242428;
 
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  /* color-scheme: dark light; */
-  
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	--color-black: #080808;
+
+	font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+	/* color-scheme: dark light; */
+
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 a {
-  font-weight: 500;
-  text-decoration: inherit;
+	font-weight: 500;
+	text-decoration: inherit;
 }
 
 body {
-  color: white;
-  background-color: var(--color-black);
-  margin: 0;
+	color: white;
+	background-color: var(--color-black);
+	margin: 0;
 }
 
 @media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
+	:root {
+		color: #213547;
+		background-color: #ffffff;
+	}
+	a:hover {
+		color: #747bff;
+	}
 }
 
 /* Animations existantes + améliorations pour typewriter */
 @keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
-  20%, 40%, 60%, 80% { transform: translateX(2px); }
+	0%,
+	100% {
+		transform: translateX(0);
+	}
+	10%,
+	30%,
+	50%,
+	70%,
+	90% {
+		transform: translateX(-2px);
+	}
+	20%,
+	40%,
+	60%,
+	80% {
+		transform: translateX(2px);
+	}
 }
 
 @keyframes slide-down {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+	from {
+		opacity: 0;
+		transform: translateY(-20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 5px rgba(67, 53, 196, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 20px rgba(67, 53, 196, 0.8);
-  }
+	0%,
+	100% {
+		box-shadow: 0 0 5px rgba(67, 53, 196, 0.5);
+	}
+	50% {
+		box-shadow: 0 0 20px rgba(67, 53, 196, 0.8);
+	}
 }
 
 /* Animation typewriter cursor améliorée */
 @keyframes cursor-blink {
-  0%, 45% { opacity: 1; }
-  46%, 100% { opacity: 0; }
+	0%,
+	45% {
+		opacity: 1;
+	}
+	46%,
+	100% {
+		opacity: 0;
+	}
 }
 
 @keyframes text-glow-pulse {
-  0%, 100% {
-    text-shadow: 0 0 10px currentColor;
-  }
-  50% {
-    text-shadow: 0 0 20px currentColor, 0 0 30px currentColor;
-  }
+	0%,
+	100% {
+		text-shadow: 0 0 10px currentColor;
+	}
+	50% {
+		text-shadow:
+			0 0 20px currentColor,
+			0 0 30px currentColor;
+	}
 }
 
 @keyframes smooth-appear {
-  from {
-    opacity: 0;
-    transform: translateY(2px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+	from {
+		opacity: 0;
+		transform: translateY(2px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 /* Classes utilitaires */
 .animate-fade-in {
-  animation: fade-in 0.3s ease-out;
+	animation: fade-in 0.3s ease-out;
 }
 
 .shake {
-  animation: shake 0.5s ease-in-out;
+	animation: shake 0.5s ease-in-out;
 }
 
 .animate-slide-down {
-  animation: slide-down 0.4s ease-out;
+	animation: slide-down 0.4s ease-out;
 }
 
 .animate-pulse-glow {
-  animation: pulse-glow 2s infinite;
+	animation: pulse-glow 2s infinite;
 }
 
 .typewriter-cursor {
-  animation: cursor-blink 1.2s infinite;
+	animation: cursor-blink 1.2s infinite;
 }
 
 .text-glow {
-  animation: text-glow-pulse 2s ease-in-out infinite;
+	animation: text-glow-pulse 2s ease-in-out infinite;
 }
 
 .smooth-appear {
-  animation: smooth-appear 0.2s ease-out;
+	animation: smooth-appear 0.2s ease-out;
 }
 
 /* Transition pour les messages */
 .message-enter {
-  opacity: 0;
-  transform: translateY(-20px) scale(0.95);
+	opacity: 0;
+	transform: translateY(-20px) scale(0.95);
 }
 
 .message-enter-active {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  transition: all 0.3s ease-out;
+	opacity: 1;
+	transform: translateY(0) scale(1);
+	transition: all 0.3s ease-out;
 }
 
 .message-exit {
-  opacity: 1;
-  transform: translateY(0) scale(1);
+	opacity: 1;
+	transform: translateY(0) scale(1);
 }
 
 .message-exit-active {
-  opacity: 0;
-  transform: translateY(-20px) scale(0.95);
-  transition: all 0.3s ease-in;
+	opacity: 0;
+	transform: translateY(-20px) scale(0.95);
+	transition: all 0.3s ease-in;
 }
 
 /* Amélioration du focus pour l'accessibilité */
 .focus-visible:focus {
-  outline: 2px solid #4335C4;
-  outline-offset: 2px;
+	outline: 2px solid #4335c4;
+	outline-offset: 2px;
 }
 
 /* Hover effects pour les boutons */
 .btn-hover-effect {
-  position: relative;
-  overflow: hidden;
+	position: relative;
+	overflow: hidden;
 }
 
 .btn-hover-effect::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-  transition: left 0.5s;
+	content: "";
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(
+		90deg,
+		transparent,
+		rgba(255, 255, 255, 0.1),
+		transparent
+	);
+	transition: left 0.5s;
 }
 
 .btn-hover-effect:hover::before {
-  left: 100%;
+	left: 100%;
 }
 
 /* Styles pour le texte typewriter */
 .typewriter-text {
-  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-  letter-spacing: 0.02em;
+	font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+	letter-spacing: 0.02em;
 }
 
 /* Effet de glow amélioré */
 .text-glow-enhanced {
-  text-shadow: 
-    0 0 5px currentColor,
-    0 0 10px currentColor,
-    0 0 15px currentColor,
-    0 0 20px currentColor;
+	text-shadow:
+		0 0 5px currentColor,
+		0 0 10px currentColor,
+		0 0 15px currentColor,
+		0 0 20px currentColor;
 }
 
 /* Animation fluide pour les caractères */
 .char-appear {
-  animation: smooth-appear 0.1s ease-out;
+	animation: smooth-appear 0.1s ease-out;
 }
