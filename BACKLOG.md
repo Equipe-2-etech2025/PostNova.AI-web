@@ -33,10 +33,16 @@
 - [EPA-14] Creation de composant réutilisable (bouton, card, modal, ...) (Assigné à: Tahiry Houlder RATERAHAJA)
 
 ## Terminé(e)
+- [EPA-39] Web - Amélioration du lisibilité du code avec Prettier et EsLint (Assigné à: Andhi Andrianina)
+  Branche : `chore/EPA-39-setup-lint-format`  
+  Commit : `EPA-39: improved code readability with Prettier and ESLint`
+  Commit : `EPA-39: update BACKLOG.md`
+
 - [EPA-29] Création de fichier backlog.md (Assigné à: Mialisoa Lisa Rasoanirina)  
   Branche : `feature/EPA-29-backlog`  
   Commit : `EPA-29: création de fichier backlog.md`
 
+- [EPA-39] Création de test Unitaire avec PHP unit pour les fonctionnalités d'user et authentification (Assigné à: Nathan Rakotoarimanana)
 - [EPA-24] Création de test Unitaire avec PHP unit pour les fonctionnalités d'user et authentification (Assigné à: Nathan Rakotoarimanana)
 - [EPA-21] Integration auth front+back (Assigné à: Nathan Rakotoarimanana)
 - [EPA-20] Backend Inscription et authentification user/admin avec gestion des tokens, validation, vérification (Assigné à: Nathan Rakotoarimanana)

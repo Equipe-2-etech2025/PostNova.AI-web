@@ -17,7 +17,8 @@ Frontend web React propulsé par Vite pour la plateforme SaaS **PostNova.AI** �
 - **Langage** : JavaScript
 - **Styling** : TailwindCSS
 - **Routing** : React Router
-- **Gestion d’état** : Zustand
+- **Formatting** : Prettier
+- **Linting** : EsLint
   
 ## 📁 Structure du Projet
 ```
