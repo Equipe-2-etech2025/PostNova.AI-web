@@ -26,6 +26,10 @@
 - [EPA-8] Creation de .github/workflows(CI/CD) Laravel (Assigné à: Mialisoa Lisa Rasoanirina)
 
 ## Terminé non testé
+- [EPA-41] Modification des "routes" (Assigné à: Andhi Andrianina)
+  Branche: `refactor/EPA-41-organize-routes`
+  Commit: `EPA-41: routing structure`
+  
 - [EPA-40] Création de fichier backlog.md pour le fronted (Assigné à: Andhi Andrianina)
   Branche : `feature/EPA-40-formatting-codes`  
   Commit : `EPA-40: format all codes`
