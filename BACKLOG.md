@@ -26,6 +26,11 @@
 - [EPA-8] Creation de .github/workflows(CI/CD) Laravel (Assigné à: Mialisoa Lisa Rasoanirina)
 
 ## Terminé non testé
+- [EPA-40] Création de fichier backlog.md pour le fronted (Assigné à: Andhi Andrianina)
+  Branche : `feature/EPA-40-formatting-codes`  
+  Commit : `EPA-40: format all codes`
+  Commit : `EPA-40: update BACKLOG.md`
+
 - [EPA-31] Création de fichier backlog.md pour le fronted (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche : `feature/EPA-31-backlog`  
   Commit : `EPA-31: création de fichier backlog.md`
