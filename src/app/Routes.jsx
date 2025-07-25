@@ -13,7 +13,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/register";
 import NavBar from "../components/NavBar";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/DashboardUser";
 import EmailVerification from "./pages/EmailVerification";
 import PasswordResetFlow from "./pages/ResetPassword";
 import PolitiqueConfidentialite from "./pages/politiqueConfidentialite";
