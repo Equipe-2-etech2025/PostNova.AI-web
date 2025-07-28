@@ -15,9 +15,6 @@
   Commit: `EPA-25: config env test et implémenation de SocialTest`
   Commit: `EPA-25: fix nom ticket pour backlog.md`
 
-- [EPA-15] Réalisation du maquette page tableau de bord (Assigné à: Andhi Andrianina)
-  Branche: `feature/EPA-15-ui-dashboard`
-  Commit: `EPA-15: add DashboardUser component`
 
 - [EPA-9] Création de .github/workflows(CI/CD) React (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche : `feature/EPA-9-workflows`  
@@ -42,6 +39,14 @@
 - [EPA-14] Creation de composant réutilisable (bouton, card, modal, ...) (Assigné à: Tahiry Houlder RATERAHAJA)
 
 ## Terminé(e)
+- [EPA-42] Création, organisation des dossiers (shared/, layout/, components/, ...) et gestion des importation des composants (Assigné à: Andhi Andrianina)
+  Branche: `refactor/EPA-42-folder-structure-manage-import`
+  Commit: `EPA-42: folder structure and import management`
+
+- [EPA-15] Réalisation du maquette page tableau de bord (Assigné à: Andhi Andrianina)
+  Branche: `feature/EPA-15-ui-dashboard`
+  Commit: `EPA-15: add DashboardUser component`
+
 - [EPA-39] Web - Amélioration du lisibilité du code avec Prettier et EsLint (Assigné à: Andhi Andrianina)
   Branche : `chore/EPA-39-setup-lint-format`  
   Commit : `EPA-39: improved code readability with Prettier and ESLint`

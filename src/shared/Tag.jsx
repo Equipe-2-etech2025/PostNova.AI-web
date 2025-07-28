@@ -12,7 +12,7 @@ const Tag = ({ children, color }) => {
 
 	return (
 		<div
-			className={`${tagClasses[color] || tagClasses.default} inline-block text-xs font-semibold rounded-full px-4 pt-1.5 pb-1`}
+			className={`${tagClasses[color] || tagClasses.default} inline-block text-xs font-semibold rounded-full px-4 pt-1 pb-1`}
 		>
 			{children}
 		</div>

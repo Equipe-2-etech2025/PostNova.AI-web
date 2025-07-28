@@ -1,6 +1,6 @@
 import React from "react";
-import { Button } from "./Button";
 import { BsArrowUpCircle } from "react-icons/bs";
+import { Button } from "@shared/Button";
 
 const InputPrompt = ({ placeholder, containerStyle, inputStyle }) => {
 	const containerRef = React.useRef(null);
@@ -24,25 +24,13 @@ const InputPrompt = ({ placeholder, containerStyle, inputStyle }) => {
 			}
 		};
 		if (inputRef.current) {
-			inputRef.current.addEventListener(
-				"focus",
-				handleFocus
-			);
-			inputRef.current.addEventListener(
-				"blur",
-				handleBlur
-			);
+			inputRef.current.addEventListener("focus", handleFocus);
+			inputRef.current.addEventListener("blur", handleBlur);
 		}
 		return () => {
 			if (inputRef.current) {
-				inputRef.current.removeEventListener(
-					"focus",
-					handleFocus
-				);
-				inputRef.current.removeEventListener(
-					"blur",
-					handleBlur
-				);
+				inputRef.current.removeEventListener("focus", handleFocus);
+				inputRef.current.removeEventListener("blur", handleBlur);
 			}
 		};
 	}, []);
@@ -68,10 +56,7 @@ const InputPrompt = ({ placeholder, containerStyle, inputStyle }) => {
 					</button>
 				</div>
 				<Button circle>
-					<BsArrowUpCircle
-						className="text-[var(--color-lightgray)]"
-						size={24}
-					/>
+					<BsArrowUpCircle className="text-[var(--color-lightgray)]" size={24} />
 				</Button>
 			</div>
 		</div>
@@ -101,25 +86,13 @@ const InputForm = ({ placeholder, password = false }) => {
 			}
 		};
 		if (inputRef.current) {
-			inputRef.current.addEventListener(
-				"focus",
-				handleFocus
-			);
-			inputRef.current.addEventListener(
-				"blur",
-				handleBlur
-			);
+			inputRef.current.addEventListener("focus", handleFocus);
+			inputRef.current.addEventListener("blur", handleBlur);
 		}
 		return () => {
 			if (inputRef.current) {
-				inputRef.current.removeEventListener(
-					"focus",
-					handleFocus
-				);
-				inputRef.current.removeEventListener(
-					"blur",
-					handleBlur
-				);
+				inputRef.current.removeEventListener("focus", handleFocus);
+				inputRef.current.removeEventListener("blur", handleBlur);
 			}
 		};
 	}, []);

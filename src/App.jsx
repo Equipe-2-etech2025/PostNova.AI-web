@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import routes from "./app/routes";
-import ProtectedRoute from "./components/ProtectedRoute";
-import { AuthProvider } from "./contexts/AuthContext";
+import ProtectedRoute from "@components/ProtectedRoute";
+import { AuthProvider } from "@contexts/AuthContext";
 
 const AppRoutes = () => {
 	return (
@@ -15,11 +15,7 @@ const AppRoutes = () => {
 							route.public ? (
 								route.element
 							) : (
-								<ProtectedRoute>
-									{
-										route.element
-									}
-								</ProtectedRoute>
+								<ProtectedRoute>{route.element}</ProtectedRoute>
 							)
 						}
 					/>

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 
 const PasswordResetFlow = () => {
 	const [step, setStep] = useState(1); // 1 pour l'email, 2 pour la réinitialisation
@@ -27,54 +26,21 @@ const PasswordResetFlow = () => {
 					<div className="flex-1 flex items-center justify-center px-8 py-6 md:py-12 overflow-y-auto">
 						<div className="w-full max-w-md my-auto">
 							<h2 className="text-2xl font-bold text-white mb-4 text-center">
-								Email
-								de
-								récupération
-								de
-								mot
-								de
-								passe
+								Email de récupération de mot de passe
 							</h2>
 							<p className="text-sm text-gray-400 mb-6 text-center">
-								Veuillez
-								saisir
-								votre
-								email
-								pour
-								recevoir
-								un
-								lien
-								de
-								réinitialisation
-								de
-								mot
-								de
-								passe.
+								Veuillez saisir votre email pour recevoir un lien de réinitialisation de
+								mot de passe.
 							</p>
 
-							<form
-								onSubmit={
-									handleEmailSubmit
-								}
-								className="space-y-6"
-							>
+							<form onSubmit={handleEmailSubmit} className="space-y-6">
 								<div>
 									<input
 										type="email"
 										name="email"
 										placeholder="Email"
-										value={
-											email
-										}
-										onChange={(
-											e
-										) =>
-											setEmail(
-												e
-													.target
-													.value
-											)
-										}
+										value={email}
+										onChange={(e) => setEmail(e.target.value)}
 										className="w-full px-4 py-3 rounded-md bg-[#2e2d3b] text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 transform focus:scale-105"
 										required
 									/>
@@ -84,8 +50,7 @@ const PasswordResetFlow = () => {
 										type="submit"
 										className="px-6 py-3 bg-[#4335C4] text-white rounded-md hover:bg-[#5a4fd4] transition-colors duration-200"
 									>
-										Valider
-										l'email
+										Valider l'email
 									</button>
 								</div>
 							</form>
@@ -97,47 +62,20 @@ const PasswordResetFlow = () => {
 					<div className="flex-1 flex items-center justify-center px-8 py-6 md:py-12 overflow-y-auto">
 						<div className="w-full max-w-md my-auto">
 							<h2 className="text-2xl font-bold text-white mb-4 text-center">
-								Réinitialisation
-								Mot
-								de
-								Passe
+								Réinitialisation Mot de Passe
 							</h2>
 							<p className="text-sm text-gray-400 mb-6 text-center">
-								Veuillez
-								saisir
-								un
-								nouveau
-								mot
-								de
-								passe
-								et
-								le
-								confirmer.
+								Veuillez saisir un nouveau mot de passe et le confirmer.
 							</p>
 
-							<form
-								onSubmit={
-									handlePasswordReset
-								}
-								className="space-y-6"
-							>
+							<form onSubmit={handlePasswordReset} className="space-y-6">
 								<div>
 									<input
 										type="password"
 										name="password"
 										placeholder="Nouveau Mot de passe"
-										value={
-											password
-										}
-										onChange={(
-											e
-										) =>
-											setPassword(
-												e
-													.target
-													.value
-											)
-										}
+										value={password}
+										onChange={(e) => setPassword(e.target.value)}
 										className="w-full px-4 py-3 rounded-md bg-[#2e2d3b] text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 transform focus:scale-105"
 										required
 									/>
@@ -148,18 +86,8 @@ const PasswordResetFlow = () => {
 										type="password"
 										name="password_confirmation"
 										placeholder="Confirmer Nouveau Mot de Passe"
-										value={
-											confirmPassword
-										}
-										onChange={(
-											e
-										) =>
-											setConfirmPassword(
-												e
-													.target
-													.value
-											)
-										}
+										value={confirmPassword}
+										onChange={(e) => setConfirmPassword(e.target.value)}
 										className="w-full px-4 py-3 rounded-md bg-[#2e2d3b] text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 transform focus:scale-105"
 										required
 									/>
@@ -170,11 +98,7 @@ const PasswordResetFlow = () => {
 										type="submit"
 										className="px-6 py-3 bg-[#4335C4] text-white rounded-md hover:bg-[#5a4fd4] transition-colors duration-200"
 									>
-										Réinitialiser
-										votre
-										mot
-										de
-										passe
+										Réinitialiser votre mot de passe
 									</button>
 								</div>
 							</form>

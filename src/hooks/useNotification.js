@@ -32,33 +32,21 @@ export const useNotification = () => {
 
 	const showSuccess = useCallback(
 		(message, options) => {
-			return showNotification(
-				message,
-				"success",
-				options
-			);
+			return showNotification(message, "success", options);
 		},
 		[showNotification]
 	);
 
 	const showError = useCallback(
 		(message, options) => {
-			return showNotification(
-				message,
-				"error",
-				options
-			);
+			return showNotification(message, "error", options);
 		},
 		[showNotification]
 	);
 
 	const showWarning = useCallback(
 		(message, options) => {
-			return showNotification(
-				message,
-				"warning",
-				options
-			);
+			return showNotification(message, "warning", options);
 		},
 		[showNotification]
 	);

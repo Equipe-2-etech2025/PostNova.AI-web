@@ -25,7 +25,7 @@ const ButtonOutline = ({ children, circle = false, color = "default" }) => {
 	};
 	return (
 		<button
-			className={`${colorClasses[color] || colorClasses["blue"]} border font-bold ${circle ? "rounded-full p-2" : "rounded py-2 px-4"} hover:bg-[var(--color-lightgray)] hover:text-[var(--color-blue)] hover:border-[var(--color-lightgray)] transition duration-200 cursor-pointer`}
+			className={`${colorClasses[color] || colorClasses["blue"]} border font-bold ${circle ? "rounded-full" : "rounded"} pt-2 pb-1.5 px-4 hover:bg-[var(--color-lightgray)] hover:text-[var(--color-blue)] hover:border-[var(--color-lightgray)] transition duration-200 cursor-pointer`}
 		>
 			{children}
 		</button>

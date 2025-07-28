@@ -25,18 +25,9 @@ const SimpleTypewriter = ({
 		if (!isDeleting && displayedText.length < text.length) {
 			// Écriture
 			timeout = setTimeout(() => {
-				setDisplayedText(
-					text.slice(
-						0,
-						displayedText.length +
-							1
-					)
-				);
+				setDisplayedText(text.slice(0, displayedText.length + 1));
 			}, typingSpeed);
-		} else if (
-			!isDeleting &&
-			displayedText.length === text.length
-		) {
+		} else if (!isDeleting && displayedText.length === text.length) {
 			// Pause avant suppression
 			if (loop) {
 				timeout = setTimeout(() => {
@@ -46,13 +37,7 @@ const SimpleTypewriter = ({
 		} else if (isDeleting && displayedText.length > 0) {
 			// Suppression
 			timeout = setTimeout(() => {
-				setDisplayedText(
-					text.slice(
-						0,
-						displayedText.length -
-							1
-					)
-				);
+				setDisplayedText(text.slice(0, displayedText.length - 1));
 			}, deleteSpeed);
 		} else if (isDeleting && displayedText.length === 0) {
 			// Redémarrage
@@ -70,7 +55,7 @@ const SimpleTypewriter = ({
 		loop,
 	]);
 
-	const formatText = (text) => {
+	const formatText = () => {
 		// Diviser le texte en segments avec leurs couleurs
 		const segments = [
 			{ text: "Une ", color: "text-white" },
@@ -97,36 +82,20 @@ const SimpleTypewriter = ({
 
 		segments.forEach((segment, segmentIndex) => {
 			const segmentStart = charCount;
-			const segmentEnd =
-				charCount + segment.text.length;
 
 			// Calculer combien de caractères de ce segment sont visibles
 			const visibleLength = Math.max(
 				0,
-				Math.min(
-					segment.text.length,
-					displayedText.length -
-						segmentStart
-				)
+				Math.min(segment.text.length, displayedText.length - segmentStart)
 			);
-			const visibleText = segment.text.slice(
-				0,
-				visibleLength
-			);
+			const visibleText = segment.text.slice(0, visibleLength);
 
 			charCount += segment.text.length;
 
 			if (visibleText.length > 0) {
 				// Ajouter un retour à la ligne si nécessaire
-				if (
-					segment.breakLine &&
-					result.length > 0
-				) {
-					result.push(
-						<br
-							key={`br-${segmentIndex}`}
-						/>
-					);
+				if (segment.breakLine && result.length > 0) {
+					result.push(<br key={`br-${segmentIndex}`} />);
 				}
 
 				result.push(
@@ -155,13 +124,8 @@ const SimpleTypewriter = ({
 				<span
 					className={`inline-block w-0.5 h-6 md:h-10 ml-1 transition-all duration-200`}
 					style={{
-						backgroundColor:
-							isDeleting
-								? "#4335C4"
-								: "#4335C4",
-						opacity: showCursor
-							? 1
-							: 0,
+						backgroundColor: isDeleting ? "#4335C4" : "#4335C4",
+						opacity: showCursor ? 1 : 0,
 						boxShadow: showCursor
 							? `0 0 10px ${isDeleting ? "#4335C4" : "#4335C4"}`
 							: "none",
