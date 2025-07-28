@@ -1,23 +1,18 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
-import galaxy from "../../assets/galaxy.png";
-import { Button } from "../../components/Button";
-import TypewriterText from "../../components/TypewriterText";
-import MessageNotification from "../../components/MessageNotification";
-import { useNotification } from "../../hooks/useNotification";
-import logo from "../../assets/logo.png";
+import useAuth from "@hooks/useAuth";
+import { useNotification } from "@hooks/useNotification";
+import { Button } from "@shared/Button";
+import MessageNotification from "@shared/MessageNotification";
+import TypewriterText from "@components/Auth/TypewriterText";
+import galaxy from "@assets/galaxy.png";
+import logo from "@assets/logo.png";
 
 const Register = () => {
 	const navigate = useNavigate();
 	const { register, loading } = useAuth();
-	const {
-		notification,
-		showSuccess,
-		showError,
-		showWarning,
-		hideNotification,
-	} = useNotification();
+	const { notification, showSuccess, showError, showWarning, hideNotification } =
+		useNotification();
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const [formData, setFormData] = useState({
@@ -61,24 +56,18 @@ const Register = () => {
 		if (!formData.password) {
 			newErrors.password = "Le mot de passe est requis";
 		} else if (formData.password.length < 8) {
-			newErrors.password =
-				"Le mot de passe doit contenir au moins 8 caractères";
+			newErrors.password = "Le mot de passe doit contenir au moins 8 caractères";
 		}
 
 		if (!formData.password_confirmation) {
 			newErrors.password_confirmation =
 				"La confirmation du mot de passe est requise";
-		} else if (
-			formData.password !==
-			formData.password_confirmation
-		) {
-			newErrors.password_confirmation =
-				"Les mots de passe ne correspondent pas";
+		} else if (formData.password !== formData.password_confirmation) {
+			newErrors.password_confirmation = "Les mots de passe ne correspondent pas";
 		}
 
 		if (!formData.acceptTerms) {
-			newErrors.acceptTerms =
-				"Vous devez accepter les conditions d'utilisation";
+			newErrors.acceptTerms = "Vous devez accepter les conditions d'utilisation";
 		}
 
 		return newErrors;
@@ -96,13 +85,10 @@ const Register = () => {
 		const result = await register(formData);
 
 		if (result.success) {
-			showSuccess(
-				"Inscription réussie ! Vérifiez votre email.",
-				{
-					duration: 3000,
-					position: "top-center",
-				}
-			);
+			showSuccess("Inscription réussie ! Vérifiez votre email.", {
+				duration: 3000,
+				position: "top-center",
+			});
 			setMessage(result.message);
 			navigate("/email/verify", {
 				state: {
@@ -149,18 +135,10 @@ const Register = () => {
 					<div className="absolute bottom-16 left-0 right-0 text-center">
 						<TypewriterText
 							text="Une idée, une campagne"
-							typingSpeed={
-								80
-							}
-							deleteSpeed={
-								40
-							}
-							pauseTime={
-								2500
-							}
-							loop={
-								true
-							}
+							typingSpeed={80}
+							deleteSpeed={40}
+							pauseTime={2500}
+							loop={true}
 						/>
 					</div>
 				</div>
@@ -169,66 +147,35 @@ const Register = () => {
 				<div className="flex-1 flex items-center justify-center px-8 py-6 md:py-12 overflow-y-auto">
 					<div className="w-full max-w-md my-auto">
 						<div className="flex items-center justify-center gap-2 mb-10">
-							<img
-								src={
-									logo
-								}
-								className="size-15"
-								alt=""
-							/>
+							<img src={logo} className="size-15" alt="" />
 							<h1 className="text-2xl font-bold text-white cursor-pointer">
-								<strong>
-									PostNova
-								</strong>
+								<strong>PostNova</strong>
 							</h1>
 						</div>
 						<h2 className="text-3xl md:text-4xl font-bold mb-4 text-center animate-fade-in">
 							S'inscrire
 						</h2>
 						<p className="text-sm text-gray-400 mb-6 text-center">
-							Créez
-							votre
-							compte
-							pour
-							commencer
-							à créer
-							des
-							campagnes
-							innovantes.
+							Créez votre compte pour commencer à créer des campagnes innovantes.
 						</p>
 
-						<form
-							onSubmit={
-								handleSubmit
-							}
-							className="space-y-6"
-						>
+						<form onSubmit={handleSubmit} className="space-y-6">
 							<div>
 								<input
 									type="text"
 									name="name"
-									value={
-										formData.name
-									}
-									onChange={
-										handleChange
-									}
+									value={formData.name}
+									onChange={handleChange}
 									placeholder="Nom d'utilisateur"
 									className={`w-full px-4 py-3 rounded-md bg-[#2e2d3b] text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 transform focus:scale-105 ${
 										errors.name
 											? "focus:ring-red-500 border border-red-500"
 											: "focus:ring-[#4335C4]"
 									}`}
-									disabled={
-										loading
-									}
+									disabled={loading}
 								/>
 								{errors.name && (
-									<p className="mt-1 text-sm text-red-400">
-										{
-											errors.name
-										}
-									</p>
+									<p className="mt-1 text-sm text-red-400">{errors.name}</p>
 								)}
 							</div>
 
@@ -236,28 +183,18 @@ const Register = () => {
 								<input
 									type="email"
 									name="email"
-									value={
-										formData.email
-									}
-									onChange={
-										handleChange
-									}
+									value={formData.email}
+									onChange={handleChange}
 									placeholder="Email"
 									className={`w-full px-4 py-3 rounded-md bg-[#2e2d3b] text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 transform focus:scale-105 ${
 										errors.email
 											? "focus:ring-red-500 border border-red-500"
 											: "focus:ring-[#4335C4]"
 									}`}
-									disabled={
-										loading
-									}
+									disabled={loading}
 								/>
 								{errors.email && (
-									<p className="mt-1 text-sm text-red-400">
-										{
-											errors.email
-										}
-									</p>
+									<p className="mt-1 text-sm text-red-400">{errors.email}</p>
 								)}
 							</div>
 
@@ -265,28 +202,18 @@ const Register = () => {
 								<input
 									type="password"
 									name="password"
-									value={
-										formData.password
-									}
-									onChange={
-										handleChange
-									}
+									value={formData.password}
+									onChange={handleChange}
 									placeholder="Mot de passe"
 									className={`w-full px-4 py-3 rounded-md bg-[#2e2d3b] text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 transform focus:scale-105 ${
 										errors.password
 											? "focus:ring-red-500 border border-red-500"
 											: "focus:ring-[#4335C4]"
 									}`}
-									disabled={
-										loading
-									}
+									disabled={loading}
 								/>
 								{errors.password && (
-									<p className="mt-1 text-sm text-red-400">
-										{
-											errors.password
-										}
-									</p>
+									<p className="mt-1 text-sm text-red-400">{errors.password}</p>
 								)}
 							</div>
 
@@ -294,27 +221,19 @@ const Register = () => {
 								<input
 									type="password"
 									name="password_confirmation"
-									value={
-										formData.password_confirmation
-									}
-									onChange={
-										handleChange
-									}
+									value={formData.password_confirmation}
+									onChange={handleChange}
 									placeholder="Confirmer Mot de Passe"
 									className={`w-full px-4 py-3 rounded-md bg-[#2e2d3b] text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 transform focus:scale-105 ${
 										errors.password_confirmation
 											? "focus:ring-red-500 border border-red-500"
 											: "focus:ring-[#4335C4]"
 									}`}
-									disabled={
-										loading
-									}
+									disabled={loading}
 								/>
 								{errors.password_confirmation && (
 									<p className="mt-1 text-sm text-red-400">
-										{
-											errors.password_confirmation
-										}
+										{errors.password_confirmation}
 									</p>
 								)}
 							</div>
@@ -324,60 +243,40 @@ const Register = () => {
 									<input
 										type="checkbox"
 										name="acceptTerms"
-										checked={
-											formData.acceptTerms
-										}
-										onChange={
-											handleChange
-										}
+										checked={formData.acceptTerms}
+										onChange={handleChange}
 										className={`mr-3 mt-1 rounded bg-[#2e2d3b] border-gray-600 text-[#4335C4] focus:ring-[#4335C4] focus:ring-offset-0 ${
-											errors.acceptTerms
-												? "border-red-500"
-												: ""
+											errors.acceptTerms ? "border-red-500" : ""
 										}`}
-										disabled={
-											isSubmitting ||
-											loading
-										}
+										disabled={isSubmitting || loading}
 									/>
 									<span className="text-sm text-gray-300 leading-relaxed">
-										J'accepte
-										les{" "}
+										J'accepte les{" "}
 										<Link
-											to="/conditions-utilisation"
+											to="/terms-of-use"
 											className="text-[#4335C4] hover:text-[#5a4fd4] transition-colors underline"
 										>
-											conditions
-											d'utilisation
+											conditions d'utilisation
 										</Link>{" "}
-										et
-										la{" "}
+										et la{" "}
 										<Link
-											to="/politique-confidentialite"
+											to="/privacy-policy"
 											className="text-[#4335C4] hover:text-[#5a4fd4] transition-colors underline"
 										>
-											politique
-											de
-											confidentialité
+											politique de confidentialité
 										</Link>
 									</span>
 								</label>
 								{errors.acceptTerms && (
 									<div className="flex items-center text-red-400 text-sm animate-fade-in">
-										<svg
-											className="w-4 h-4 mr-2"
-											fill="currentColor"
-											viewBox="0 0 20 20"
-										>
+										<svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
 											<path
 												fillRule="evenodd"
 												d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
 												clipRule="evenodd"
 											/>
 										</svg>
-										{
-											errors.acceptTerms
-										}
+										{errors.acceptTerms}
 									</div>
 								)}
 							</div>
@@ -385,9 +284,7 @@ const Register = () => {
 							<div className="flex justify-center">
 								<Button
 									type="submit"
-									disabled={
-										loading
-									}
+									disabled={loading}
 									className={`${loading ? "opacity-50 cursor-not-allowed" : ""}`}
 								>
 									{loading ? (
@@ -423,16 +320,12 @@ const Register = () => {
 
 						<div className="mt-6 text-center">
 							<p className="text-sm text-gray-400">
-								Déjà
-								un
-								compte
-								?{" "}
+								Déjà un compte ?{" "}
 								<Link
 									to="/login"
 									className="text-[#4335C4] hover:text-[#5a4fd4] transition-colors duration-200"
 								>
-									Se
-									connecter
+									Se connecter
 								</Link>
 							</p>
 						</div>

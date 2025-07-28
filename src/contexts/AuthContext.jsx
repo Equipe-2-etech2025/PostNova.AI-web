@@ -1,25 +1,9 @@
-import React, {
-	createContext,
-	useContext,
-	useState,
-	useEffect,
-	useRef,
-} from "react";
-import { authService } from "../services/authService.js";
+import React, { createContext, useState, useEffect, useRef } from "react";
+import { authService } from "@services/authService";
 
 const AuthContext = createContext();
 
-export const useAuth = () => {
-	const context = useContext(AuthContext);
-	if (!context) {
-		throw new Error(
-			"useAuth must be used within an AuthProvider"
-		);
-	}
-	return context;
-};
-
-export const AuthProvider = ({ children }) => {
+const AuthProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [loading, setLoading] = useState(true);
@@ -41,28 +25,18 @@ export const AuthProvider = ({ children }) => {
 		try {
 			const token = localStorage.getItem("token");
 			if (token) {
-				console.log(
-					"Token trouvé, vérification de l'utilisateur..."
-				);
-				const userData =
-					await authService.getCurrentUser();
+				console.log("Token trouvé, vérification de l'utilisateur...");
+				const userData = await authService.getCurrentUser();
 
 				if (userData) {
 					setUser(userData);
 					setIsAuthenticated(true);
-					console.log(
-						"Utilisateur authentifié:",
-						userData
-					);
+					console.log("Utilisateur authentifié:", userData);
 				} else {
-					localStorage.removeItem(
-						"token"
-					);
+					localStorage.removeItem("token");
 					setUser(null);
 					setIsAuthenticated(false);
-					console.log(
-						"Token invalide, utilisateur déconnecté"
-					);
+					console.log("Token invalide, utilisateur déconnecté");
 				}
 			} else {
 				console.log("Aucun token trouvé");
@@ -77,9 +51,7 @@ export const AuthProvider = ({ children }) => {
 
 			// En cas d'erreur 401, c'est normal (pas connecté)
 			if (error.response?.status === 401) {
-				console.log(
-					"Utilisateur non authentifié"
-				);
+				console.log("Utilisateur non authentifié");
 			} else {
 				localStorage.removeItem("token");
 			}
@@ -94,19 +66,13 @@ export const AuthProvider = ({ children }) => {
 	const login = async (credentials) => {
 		try {
 			setLoading(true);
-			const response =
-				await authService.login(credentials);
+			const response = await authService.login(credentials);
 
 			if (response.success) {
-				localStorage.setItem(
-					"token",
-					response.token
-				);
+				localStorage.setItem("token", response.token);
 				setUser(response.user);
 				setIsAuthenticated(true);
-				console.log(
-					"Connexion réussie dans le contexte"
-				);
+				console.log("Connexion réussie dans le contexte");
 				return {
 					success: true,
 					message: response.message,
@@ -119,10 +85,7 @@ export const AuthProvider = ({ children }) => {
 				};
 			}
 		} catch (error) {
-			console.error(
-				"Erreur dans login context:",
-				error
-			);
+			console.error("Erreur dans login context:", error);
 			return {
 				success: false,
 				message: "Erreur de connexion",
@@ -132,17 +95,13 @@ export const AuthProvider = ({ children }) => {
 			setLoading(false);
 		}
 	};
-	
+
 	const register = async (userData) => {
 		try {
 			setLoading(true);
-			const response =
-				await authService.register(userData);
+			const response = await authService.register(userData);
 			if (response.success) {
-				localStorage.setItem(
-					"token",
-					response.token
-				);
+				localStorage.setItem("token", response.token);
 				setUser(response.user);
 				setIsAuthenticated(true);
 				return {
@@ -157,6 +116,7 @@ export const AuthProvider = ({ children }) => {
 				};
 			}
 		} catch (error) {
+			console.log(error);
 			return {
 				success: false,
 				message: "Erreur d'inscription",
@@ -171,10 +131,7 @@ export const AuthProvider = ({ children }) => {
 		try {
 			await authService.logout();
 		} catch (error) {
-			console.error(
-				"Erreur lors de la déconnexion:",
-				error
-			);
+			console.error("Erreur lors de la déconnexion:", error);
 		} finally {
 			localStorage.removeItem("token");
 			setUser(null);
@@ -186,18 +143,12 @@ export const AuthProvider = ({ children }) => {
 		try {
 			const response = await authService.refreshToken();
 			if (response.success) {
-				localStorage.setItem(
-					"token",
-					response.token
-				);
+				localStorage.setItem("token", response.token);
 				return true;
 			}
 			return false;
 		} catch (error) {
-			console.error(
-				"Erreur lors du rafraîchissement:",
-				error
-			);
+			console.error("Erreur lors du rafraîchissement:", error);
 			return false;
 		}
 	};
@@ -210,19 +161,17 @@ export const AuthProvider = ({ children }) => {
 		user,
 		isAuthenticated,
 		setIsAuthenticated,
-		setUser,            
+		setUser,
 		loading,
 		login,
 		register,
 		logout,
 		refreshToken,
 		checkAuthStatus,
-		updateUser
-	  };  
+		updateUser,
+	};
 
-	return (
-		<AuthContext.Provider value={value}>
-			{children}
-		</AuthContext.Provider>
-	);
+	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+
+export { AuthContext, AuthProvider };
