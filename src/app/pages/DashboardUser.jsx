@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, ButtonOutline } from "../../components/Button";
+import { useAuth } from "../../contexts/AuthContext";
 import {
 	BsArrowUpRightCircleFill,
 	BsBarChartLine,
@@ -22,6 +23,7 @@ import { Card } from "../../components/Card";
 import Tag from "../../components/Tag";
 
 const DashboardUser = () => {
+	const { user } = useAuth();
 	return (
 		<>
 			<NavBar />
@@ -30,8 +32,10 @@ const DashboardUser = () => {
 					<div className="flex items-center justify-between gap-6">
 						<div className="flex flex-col gap-2">
 							<h1 className="text-3xl font-bold">
-								Bienvenue,
-								Alexandre
+								Bonjour,{" "}
+								{
+									user?.name
+								}
 							</h1>
 							<p>
 								Créez
