@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { BsArrowLeft, BsExclamationCircleFill } from "react-icons/bs";
 import useAuth from "@hooks/useAuth";
 import { useNotification } from "@hooks/useNotification";
 import Button from "@shared/Button";
@@ -7,13 +8,13 @@ import MessageNotification from "@shared/MessageNotification";
 import TypewriterText from "@components/Auth/TypewriterText";
 import galaxy from "@assets/galaxy.png";
 import logo from "@assets/logo.png";
-import { BsArrowLeft, BsExclamationCircleFill } from "react-icons/bs";
 import { InputForm } from "@shared/Input";
 
 const Login = () => {
 	const navigate = useNavigate();
 	const { login, loading } = useAuth();
-	const { notification, showSuccess, showError, hideNotification } = useNotification();
+	const { notification, showSuccess, showError, showWarning, hideNotification } =
+		useNotification();
 
 	// États pour le formulaire
 	const [formData, setFormData] = useState({
