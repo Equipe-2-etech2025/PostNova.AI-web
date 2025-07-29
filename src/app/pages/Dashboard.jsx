@@ -146,11 +146,6 @@ const DashboardUser = () => {
 						<div className="flex flex-col gap-2">
 							<h1 className="text-3xl font-bold">
 								Bonjour, {user?.name}
-								<span
-									className={`${userInfo.name ? "bg-transparent" : "bg-gray-500/10 rounded-lg text-transparent animate-pulse"} transition-all duration-200`}
-								>
-									{userInfo.name || "Username"}
-								</span>
 							</h1>
 							<p>
 								Créez des campagnes marketing complètes en moins d'une minute grâce à
