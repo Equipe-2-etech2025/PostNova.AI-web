@@ -1,6 +1,6 @@
 import React from "react";
 import { BsArrowUpCircle } from "react-icons/bs";
-import { Button } from "@shared/Button";
+import Button from "@shared/Button";
 
 const InputPrompt = ({ placeholder, containerStyle, inputStyle }) => {
 	const containerRef = React.useRef(null);

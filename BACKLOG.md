@@ -10,6 +10,10 @@
 - [EPA-26] Intégration mot de passe oublié + vérification email (Assigné à: Nathan Rakotoarimanana)
 
 ## En cours
+- [EPA-43] Implementation de theme sombre (Assigné à: Andhi Andrianina)
+  Branche: `feature/EPA-43-theme-context`
+  Commit: `EPA-43: update Home, Dashboard page and enhance theme management`
+
 - [EPA-25] Création de test Unitaire et test fonctionnel pour les models (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-25-test`
   Commit: `EPA-25: config env test et implémenation de SocialTest`

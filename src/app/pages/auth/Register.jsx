@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import useAuth from "@hooks/useAuth";
 import { useNotification } from "@hooks/useNotification";
-import { Button } from "@shared/Button";
+import Button from "@shared/Button";
 import MessageNotification from "@shared/MessageNotification";
 import TypewriterText from "@components/Auth/TypewriterText";
 import galaxy from "@assets/galaxy.png";

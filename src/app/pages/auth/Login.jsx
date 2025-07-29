@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import useAuth from "@hooks/useAuth";
 import { useNotification } from "@hooks/useNotification";
-import { Button } from "@shared/Button";
+import Button from "@shared/Button";
 import MessageNotification from "@shared/MessageNotification";
 import TypewriterText from "@components/Auth/TypewriterText";
 import galaxy from "@assets/galaxy.png";
 import logo from "@assets/logo.png";
+import { BsArrowLeft } from "react-icons/bs";
 
 const Login = () => {
 	const navigate = useNavigate();
@@ -119,8 +120,16 @@ const Login = () => {
 				showProgressBar={true}
 			/>
 
-			<div className="h-screen w-full bg-[#1c1b23] text-white flex flex-col md:flex-row overflow-hidden">
+			<div className="relative h-screen w-full bg-[#1c1b23] text-white flex flex-col md:flex-row overflow-hidden">
 				{/*Left Section*/}
+				<div className="absolute top-10 left-1/4">
+					<div className="flex items-center">
+						<Button variant="outline" color="neutral" circle className="h-12 w-12" onClick={() => navigate(-1)}>
+							<BsArrowLeft size={24} />
+						</Button>
+					</div>
+				</div>
+
 				<div className="flex-1 flex items-center justify-center p-6 md:p-12 overflow-y-auto">
 					<div className="w-full max-w-md space-y-6">
 						<div className="text-center space-y-2">
