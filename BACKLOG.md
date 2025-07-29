@@ -10,6 +10,11 @@
 - [EPA-26] Intégration mot de passe oublié + vérification email (Assigné à: Nathan Rakotoarimanana)
 
 ## En cours
+- [EPA-38] Integration mot de passe oublié (Assigné à: Nathan Rakotoarimanana)
+  Branche: `feature/EPA-38-intg-mdp-reset`
+  Commit: `EPA-38: intégration réinitialiser mot de passe`
+
+
 - [EPA-25] Création de test Unitaire et test fonctionnel pour les models (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-25-test`
   Commit: `EPA-25: config env test et implémenation de SocialTest`

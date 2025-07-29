@@ -10,6 +10,7 @@ import {
 	BsPieChart,
 	BsPlus,
 } from "react-icons/bs";
+import useAuth from "@hooks/useAuth";
 import NavBar from "@layouts/NavBar";
 import { Button, ButtonOutline } from "@shared/Button";
 import { Card } from "@shared/Card";
@@ -18,6 +19,7 @@ import SectionBlock from "@components/Dashboard/SectionBlock";
 import LastCampaignList from "@layouts/Dashboard/CampaignList";
 
 const DashboardUser = () => {
+	const { user } = useAuth();
 	const [userInfo, setUserInfo] = useState({
 		name: "",
 	});
@@ -143,7 +145,7 @@ const DashboardUser = () => {
 					<div className="flex items-center justify-between gap-6">
 						<div className="flex flex-col gap-2">
 							<h1 className="text-3xl font-bold">
-								Bienvenue,{" "}
+								Bonjour, {user?.name}
 								<span
 									className={`${userInfo.name ? "bg-transparent" : "bg-gray-500/10 rounded-lg text-transparent animate-pulse"} transition-all duration-200`}
 								>

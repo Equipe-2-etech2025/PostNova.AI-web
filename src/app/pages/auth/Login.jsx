@@ -211,7 +211,7 @@ const Login = () => {
 									Se souvenir de moi
 								</label>
 								<Link
-									to="/resetPassword"
+									to="/reset-password"
 									className="text-gray-400 hover:text-[#4335C4] transition-colors duration-200"
 								>
 									Mot de passe oublié ?
