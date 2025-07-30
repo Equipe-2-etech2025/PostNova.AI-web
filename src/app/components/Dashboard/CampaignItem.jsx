@@ -10,7 +10,7 @@ import {
 	BsShare,
 } from "react-icons/bs";
 import { Link } from "react-router";
-import { Button } from "@shared/Button";
+import Button from "@shared/Button";
 import { Card } from "@shared/Card";
 import Tag from "@shared/Tag";
 

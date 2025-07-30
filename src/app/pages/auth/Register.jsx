@@ -2,16 +2,18 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import useAuth from "@hooks/useAuth";
 import { useNotification } from "@hooks/useNotification";
-import { Button } from "@shared/Button";
+import Button from "@shared/Button";
 import MessageNotification from "@shared/MessageNotification";
 import TypewriterText from "@components/Auth/TypewriterText";
 import galaxy from "@assets/galaxy.png";
 import logo from "@assets/logo.png";
+import { InputForm } from "@shared/Input";
+import { BsExclamationCircleFill } from "react-icons/bs";
 
 const Register = () => {
 	const navigate = useNavigate();
 	const { register, loading } = useAuth();
-	const { notification, showSuccess, showError, showWarning, hideNotification } =
+	const { notification, showSuccess, showError, hideNotification } =
 		useNotification();
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -20,16 +22,16 @@ const Register = () => {
 		email: "",
 		password: "",
 		password_confirmation: "",
+		acceptTerms: false,
 	});
 
 	const [errors, setErrors] = useState({});
-	const [message, setMessage] = useState("");
 
 	const handleChange = (e) => {
-		const { name, value } = e.target;
+		const { name, value, type, checked } = e.target;
 		setFormData((prev) => ({
 			...prev,
-			[name]: value,
+			[name]: type === "checkbox" ? checked : value,
 		}));
 
 		if (errors[name]) {
@@ -44,7 +46,7 @@ const Register = () => {
 		const newErrors = {};
 
 		if (!formData.name.trim()) {
-			newErrors.name = "Le nom est requis";
+			newErrors.name = "Le nom d'utilisateur est requis";
 		}
 
 		if (!formData.email.trim()) {
@@ -82,32 +84,42 @@ const Register = () => {
 			return;
 		}
 
-		const result = await register(formData);
+		try {
+			setIsSubmitting(true);
 
-		if (result.success) {
-			showSuccess("Inscription réussie ! Vérifiez votre email.", {
-				duration: 3000,
-				position: "top-center",
-			});
-			setMessage(result.message);
-			navigate("/email/verify", {
-				state: {
-					email: formData.email,
-				},
-			});
-		} else {
-			showError("Une erreur est survenue", {
-				duration: 5000,
-				position: "top-center",
-			});
-			setMessage(result.message);
-			if (result.errors) {
+			const result = await register(formData);
+
+			if (result.success) {
+				showSuccess("Inscription réussie ! Vérifiez votre email.", {
+					duration: 3000,
+					position: "top-center",
+				});
+				navigate("/email/verify", {
+					state: {
+						email: formData.email,
+					},
+				});
+			} else {
 				showError("Une erreur est survenue", {
 					duration: 5000,
 					position: "top-center",
 				});
-				setErrors(result.errors);
+				if (result.errors) {
+					showError("Une erreur est survenue", {
+						duration: 5000,
+						position: "top-center",
+					});
+					setErrors(result.errors);
+				}
 			}
+		} catch (error) {
+			console.error("Erreur d'inscription:", error);
+			showError("Une erreur est survenue", {
+				duration: 5000,
+				position: "top-center",
+			});
+		} finally {
+			setIsSubmitting(false);
 		}
 	};
 
@@ -124,13 +136,13 @@ const Register = () => {
 				showProgressBar={true}
 			/>
 
-			<div className="h-screen w-full bg-[#1c1b23] text-white flex flex-col md:flex-row overflow-hidden">
+			<div className="h-screen w-full flex flex-col md:flex-row overflow-hidden">
 				{/* Left */}
 				<div className="flex-1 relative p-4 h-64 md:h-auto">
 					<img
 						src={galaxy}
 						alt="galaxy"
-						className="w-full h-full object-cover opacity-30 rounded-2xl"
+						className="w-full h-full object-cover opacity-90 dark:opacity-30 rounded-2xl"
 					/>
 					<div className="absolute bottom-16 left-0 right-0 text-center">
 						<TypewriterText
@@ -146,101 +158,100 @@ const Register = () => {
 				{/* Right */}
 				<div className="flex-1 flex items-center justify-center px-8 py-6 md:py-12 overflow-y-auto">
 					<div className="w-full max-w-md my-auto">
-						<div className="flex items-center justify-center gap-2 mb-10">
-							<img src={logo} className="size-15" alt="" />
-							<h1 className="text-2xl font-bold text-white cursor-pointer">
-								<strong>PostNova</strong>
-							</h1>
+						<div className="text-center mb-2">
+							<div className="flex items-center justify-center gap-2 mb-10">
+								<img src={logo} className="size-15" alt="" />
+								<h1 className="text-2xl font-bold cursor-pointer">
+									<strong>PostNova</strong>
+								</h1>
+							</div>
+							<h2 className="text-3xl md:text-2xl font-bold mb-4 text-center animate-fade-in">
+								S'inscrire
+							</h2>
+							<p className="text-sm text-gray-700">
+								Créez votre compte pour commencer à créer des campagnes innovantes.
+							</p>
 						</div>
-						<h2 className="text-3xl md:text-4xl font-bold mb-4 text-center animate-fade-in">
-							S'inscrire
-						</h2>
-						<p className="text-sm text-gray-400 mb-6 text-center">
-							Créez votre compte pour commencer à créer des campagnes innovantes.
-						</p>
 
-						<form onSubmit={handleSubmit} className="space-y-6">
-							<div>
-								<input
+						<form className="space-y-6" onSubmit={handleSubmit}>
+							<div className="space-y-2">
+								<InputForm
 									type="text"
 									name="name"
 									value={formData.name}
 									onChange={handleChange}
 									placeholder="Nom d'utilisateur"
-									className={`w-full px-4 py-3 rounded-md bg-[#2e2d3b] text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 transform focus:scale-105 ${
-										errors.name
-											? "focus:ring-red-500 border border-red-500"
-											: "focus:ring-[#4335C4]"
-									}`}
-									disabled={loading}
+									hasError={errors.name}
+									disabled={isSubmitting || loading}
 								/>
 								{errors.name && (
-									<p className="mt-1 text-sm text-red-400">{errors.name}</p>
+									<div className="flex items-center gap-2 text-red-400 text-sm animate-fade-in">
+										<BsExclamationCircleFill size={11} />
+										{errors.name}
+									</div>
 								)}
 							</div>
 
-							<div>
-								<input
+							<div className="space-y-2">
+								<InputForm
 									type="email"
 									name="email"
 									value={formData.email}
 									onChange={handleChange}
-									placeholder="Email"
-									className={`w-full px-4 py-3 rounded-md bg-[#2e2d3b] text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 transform focus:scale-105 ${
-										errors.email
-											? "focus:ring-red-500 border border-red-500"
-											: "focus:ring-[#4335C4]"
-									}`}
-									disabled={loading}
+									placeholder="Adresse email"
+									hasError={errors.email}
+									disabled={isSubmitting || loading}
 								/>
 								{errors.email && (
-									<p className="mt-1 text-sm text-red-400">{errors.email}</p>
+									<div className="flex items-center gap-2 text-red-400 text-sm animate-fade-in">
+										<BsExclamationCircleFill size={11} />
+										{errors.email}
+									</div>
 								)}
 							</div>
 
-							<div>
-								<input
+							<div className="space-y-2">
+								<InputForm
 									type="password"
 									name="password"
 									value={formData.password}
 									onChange={handleChange}
 									placeholder="Mot de passe"
-									className={`w-full px-4 py-3 rounded-md bg-[#2e2d3b] text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 transform focus:scale-105 ${
-										errors.password
-											? "focus:ring-red-500 border border-red-500"
-											: "focus:ring-[#4335C4]"
-									}`}
-									disabled={loading}
+									hasError={errors.password}
+									disabled={isSubmitting || loading}
 								/>
 								{errors.password && (
-									<p className="mt-1 text-sm text-red-400">{errors.password}</p>
+									<div className="flex items-center gap-2 text-red-400 text-sm animate-fade-in">
+										<BsExclamationCircleFill size={11} />
+										{errors.password}
+									</div>
 								)}
 							</div>
 
-							<div>
-								<input
+							<div className="space-y-2">
+								<InputForm
 									type="password"
 									name="password_confirmation"
 									value={formData.password_confirmation}
 									onChange={handleChange}
-									placeholder="Confirmer Mot de Passe"
-									className={`w-full px-4 py-3 rounded-md bg-[#2e2d3b] text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 transform focus:scale-105 ${
-										errors.password_confirmation
-											? "focus:ring-red-500 border border-red-500"
-											: "focus:ring-[#4335C4]"
-									}`}
-									disabled={loading}
+									placeholder="Confirmation du mot de passe"
+									hasError={errors.password_confirmation}
+									disabled={isSubmitting || loading}
 								/>
 								{errors.password_confirmation && (
-									<p className="mt-1 text-sm text-red-400">
+									<div className="flex items-center gap-2 text-red-400 text-sm animate-fade-in">
+										<BsExclamationCircleFill size={11} />
 										{errors.password_confirmation}
-									</p>
+									</div>
 								)}
 							</div>
+
 							{/* Conditions d'utilisation */}
-							<div className="space-y-2">
-								<label className="flex items-start cursor-pointer hover:text-white transition-colors">
+							<div className="text-start space-y-2">
+								<div className="flex items-start">
+									<label className="flex items-start cursor-pointer transition-colors">
 									<input
+										id="acceptTerms"
 										type="checkbox"
 										name="acceptTerms"
 										checked={formData.acceptTerms}
@@ -250,23 +261,24 @@ const Register = () => {
 										}`}
 										disabled={isSubmitting || loading}
 									/>
-									<span className="text-sm text-gray-300 leading-relaxed">
-										J'accepte les{" "}
-										<Link
-											to="/terms-of-use"
-											className="text-[#4335C4] hover:text-[#5a4fd4] transition-colors underline"
-										>
-											conditions d'utilisation
-										</Link>{" "}
-										et la{" "}
-										<Link
-											to="/privacy-policy"
-											className="text-[#4335C4] hover:text-[#5a4fd4] transition-colors underline"
-										>
-											politique de confidentialité
-										</Link>
-									</span>
-								</label>
+										<span className="text-sm text-gray-600 leading-relaxed">
+											J'accepte les{" "}
+											<Link
+												to="/terms-of-use"
+												className="text-[#4335C4] hover:text-[#5a4fd4] transition-colors underline"
+											>
+												conditions d'utilisation
+											</Link>{" "}
+											et la{" "}
+											<Link
+												to="/privacy-policy"
+												className="text-[#4335C4] hover:text-[#5a4fd4] transition-colors underline"
+											>
+												politique de confidentialité
+											</Link>
+										</span>
+									</label>
+								</div>
 								{errors.acceptTerms && (
 									<div className="flex items-center text-red-400 text-sm animate-fade-in">
 										<svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -319,7 +331,7 @@ const Register = () => {
 						</form>
 
 						<div className="mt-6 text-center">
-							<p className="text-sm text-gray-400">
+							<p className="text-sm text-gray-600">
 								Déjà un compte ?{" "}
 								<Link
 									to="/login"

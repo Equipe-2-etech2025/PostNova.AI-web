@@ -1,24 +1,33 @@
 import React, { useEffect, useState } from "react";
+import Button from "@shared/Button";
+import { InputForm } from "@shared/Input";
+import { BsExclamationCircleFill } from "react-icons/bs";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { resetPassword } from "@services/resetPassword";
 import { useNotification } from "@hooks/useNotification";
 import MessageNotification from "@shared/MessageNotification";
 
 const PasswordResetFlow = () => {
+  const navigate = useNavigate();
 	const [step, setStep] = useState(1); // 1 pour l'email, 2 pour la réinitialisation
-	const [email, setEmail] = useState("");
-	const navigate = useNavigate();
-	const [password, setPassword] = useState("");
-	const [confirmPassword, setConfirmPassword] = useState("");
-	const [searchParams] = useSearchParams();
+
+	const [formData, setFormData] = useState({
+		email: "",
+		password: "",
+		password_confirmation: "",
+	});
+  
+  const [searchParams] = useSearchParams();
 	const [resetToken, setResetToken] = useState("");
 	const [resetEmail, setResetEmail] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const { notification, showSuccess, showError, showInfo, hideNotification } =
+	const [errors, setErrors] = useState({});
+  
+  const { notification, showSuccess, showError, showInfo, hideNotification } =
 		useNotification();
-
-	useEffect(() => {
+  
+  useEffect(() => {
 		const tokenFromURL = searchParams.get("token");
 		const emailFromURL = searchParams.get("email");
 
@@ -33,9 +42,30 @@ const PasswordResetFlow = () => {
 		}
 	}, [searchParams]);
 
-	const handleEmailSubmit = async (e) => {
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setFormData((prev) => ({
+			...prev,
+			[name]: value,
+		}));
+
+		// Clear the error for the modified field
+		if (errors[name]) {
+			setErrors((prev) => ({
+				...prev,
+				[name]: "",
+			}));
+		}
+	};
+  
+  const handleEmailSubmit = async (e) => {
 		try {
 			e.preventDefault();
+      
+      if (!validateForm()) {
+			  return;
+		  }
+      
 			setIsSubmitting(true);
 
 			const response = await resetPassword.sendResetPassword({
@@ -68,33 +98,82 @@ const PasswordResetFlow = () => {
 	};
 
 	const handlePasswordReset = async (e) => {
-		e.preventDefault();
-		setIsSubmitting(true);
+    try {
+      e.preventDefault();
 
-		const response = await resetPassword.reset({
-			token: resetToken,
-			email: resetEmail,
-			password,
-			password_confirmation: confirmPassword,
-		});
+      if (!validateForm()) {
+        return;
+      }
 
-		if (response.success) {
-			showSuccess("Mot de passe réinitialisé.", {
-				duration: 3000,
+      setIsSubmitting(true);
+
+      const response = await resetPassword.reset({
+        token: resetToken,
+        email: resetEmail,
+        password,
+        password_confirmation: confirmPassword,
+      });
+
+      if (response.success) {
+        showSuccess("Mot de passe réinitialisé.", {
+          duration: 3000,
+          position: "top-center",
+        });
+        navigate("/login");
+      } else {
+        if (response.errors) {
+          const allErrors = Object.values(response.errors).flat().join(" ");
+          showError(allErrors, {
+            duration: 5000,
+            position: "top-center",
+          });
+        }
+      }
+
+      setIsSubmitting(false);
+      
+     } catch (err) {
+			const allErrors = Object.values(err.message);
+			showError(allErrors, {
+				duration: 5000,
 				position: "top-center",
 			});
-			navigate("/login");
-		} else {
-			if (response.errors) {
-				const allErrors = Object.values(response.errors).flat().join(" ");
-				showError(allErrors, {
-					duration: 5000,
-					position: "top-center",
-				});
+		 }
+	};
+
+	const validateForm = () => {
+		const newErrors = {};
+
+		if (step === 1) {
+			if (!formData.email) {
+				newErrors.email = "L'email est requis";
+			} else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+				newErrors.email = "Format d'email invalide";
+			}	
+		}
+
+		if (step === 2) {
+			if (!formData.password) {
+				newErrors.password = "Le nouveau mot de passe est requis";
+			} else if (formData.password.length < 6) {
+				newErrors.password = "Le mot de passe doit contenir au moins 6 caractères";
+			}
+
+			if (formData.password !== formData.password_confirmation) {
+				newErrors.password_confirmation = "Les mots de passe ne correspondent pas";
+			}
+
+			if (!formData.password_confirmation) {
+				newErrors.password_confirmation =
+					"La confirmation du mot de passe est requise";
+			} else if (formData.password_confirmation.length < 6) {
+				newErrors.password_confirmation =
+					"La confirmation du mot de passe doit contenir au moins 6 caractères";
 			}
 		}
 
-		setIsSubmitting(false);
+		setErrors(newErrors);
+		return Object.keys(newErrors).length === 0;
 	};
 
 	return (
@@ -110,33 +189,36 @@ const PasswordResetFlow = () => {
 				showProgressBar={true}
 			/>
 			{step === 1 ? (
-				<div className="flex justify-center items-center h-screen bg-[#1c1b23]">
+				<div className="flex justify-center items-center h-screen">
 					<div className="flex-1 flex items-center justify-center px-8 py-6 md:py-12 overflow-y-auto">
 						<div className="w-full max-w-md my-auto">
-							<h2 className="text-2xl font-bold text-white mb-4 text-center">
+							<h2 className="text-2xl font-bold mb-4 text-center">
 								Email de récupération de mot de passe
 							</h2>
-							<p className="text-sm text-gray-400 mb-6 text-center">
+							<p className="text-sm text-gray-500 mb-6 text-center">
 								Veuillez saisir votre email pour recevoir un lien de réinitialisation de
 								mot de passe.
 							</p>
 
-							<form onSubmit={handleEmailSubmit} className="space-y-6">
-								<div>
-									<input
+							<form onSubmit={handleEmailSubmit} className="space-y-6 text-center">
+								<div className="space-y-1">
+									<InputForm
 										type="email"
 										name="email"
-										placeholder="Email"
-										value={email}
-										onChange={(e) => setEmail(e.target.value)}
-										className="w-full px-4 py-3 rounded-md bg-[#2e2d3b] text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 transform focus:scale-105"
-										required
+										value={formData.email}
+										onChange={handleChange}
+										placeholder="Adresse email"
 									/>
+									{errors.email && (
+										<div className="flex items-center gap-2 text-red-400 text-sm animate-fade-in">
+											<BsExclamationCircleFill size={11} />
+											{errors.email}
+										</div>
+									)}
 								</div>
 								<div className="flex justify-center">
-									<button
+									<Button
 										type="submit"
-										className="px-6 py-3 bg-[#4335C4] text-white rounded-md hover:bg-[#5a4fd4] transition-colors duration-200 flex items-center justify-center min-w-[150px]"
 										disabled={isSubmitting}
 									>
 										{isSubmitting ? (
@@ -166,52 +248,59 @@ const PasswordResetFlow = () => {
 										) : (
 											"Valider l'email"
 										)}
-									</button>
+									</Button>
 								</div>
 							</form>
 						</div>
 					</div>
 				</div>
 			) : (
-				<div className="flex justify-center items-center h-screen bg-[#1c1b23]">
+				<div className="flex justify-center items-center h-screen">
 					<div className="flex-1 flex items-center justify-center px-8 py-6 md:py-12 overflow-y-auto">
 						<div className="w-full max-w-md my-auto">
-							<h2 className="text-2xl font-bold text-white mb-4 text-center">
+							<h2 className="text-2xl font-bold mb-4 text-center">
 								Réinitialisation Mot de Passe
 							</h2>
-							<p className="text-sm text-gray-400 mb-6 text-center">
+							<p className="text-sm text-gray-500 mb-6 text-center">
 								Veuillez saisir un nouveau mot de passe et le confirmer.
 							</p>
 
 							<form onSubmit={handlePasswordReset} className="space-y-6">
-								<div>
-									<input
+								<div className="space-y-1">
+									<InputForm
 										type="password"
 										name="password"
-										placeholder="Nouveau Mot de passe"
-										value={password}
-										onChange={(e) => setPassword(e.target.value)}
-										className="w-full px-4 py-3 rounded-md bg-[#2e2d3b] text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 transform focus:scale-105"
-										required
+										value={formData.password}
+										onChange={handleChange}
+										placeholder="Entrer le nouveau mot de passe"
 									/>
+									{errors.password && (
+										<div className="flex items-center gap-2 text-red-400 text-sm animate-fade-in">
+											<BsExclamationCircleFill size={11} />
+											{errors.password}
+										</div>
+									)}
 								</div>
 
-								<div>
-									<input
+								<div className="space-y-1">
+									<InputForm
 										type="password"
 										name="password_confirmation"
-										placeholder="Confirmer Nouveau Mot de Passe"
-										value={confirmPassword}
-										onChange={(e) => setConfirmPassword(e.target.value)}
-										className="w-full px-4 py-3 rounded-md bg-[#2e2d3b] text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 transform focus:scale-105"
-										required
+										value={FormData.password_confirmation}
+										onChange={handleChange}
+										placeholder="Confirmer le nouveau mot de passe"
 									/>
+									{errors.password_confirmation && (
+										<div className="flex items-center gap-2 text-red-400 text-sm animate-fade-in">
+											<BsExclamationCircleFill size={11} />
+											{errors.password_confirmation}
+										</div>
+									)}
 								</div>
 
 								<div className="flex justify-center">
-									<button
+									<Button
 										type="submit"
-										className="px-6 py-3 bg-[#4335C4] text-white rounded-md hover:bg-[#5a4fd4] transition-colors duration-200 flex items-center justify-center min-w-[200px]"
 										disabled={isSubmitting}
 									>
 										{isSubmitting ? (
@@ -241,7 +330,7 @@ const PasswordResetFlow = () => {
 										) : (
 											"Réinitialiser votre mot de passe"
 										)}
-									</button>
+									</Button>
 								</div>
 							</form>
 						</div>

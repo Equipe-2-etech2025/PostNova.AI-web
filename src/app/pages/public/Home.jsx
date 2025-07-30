@@ -1,21 +1,15 @@
 import React from "react";
-import { BsCheck, BsX } from "react-icons/bs";
+import { BsCheck, BsFileEarmarkText, BsGlobe, BsImage, BsX } from "react-icons/bs";
 import NavBar from "@layouts/NavBar";
 import { InputPrompt } from "@shared/Input";
 import { Card } from "@shared/Card";
-import { Button } from "@shared/Button";
+import Button from "@shared/Button";
 
 const Home = () => {
 	return (
 		<>
 			<NavBar />
 			<section className="relative h-screen">
-				<div className="absolute bottom-10 w-full h-1/2 -z-10">
-					<div className="h-full bg-radial from-[var(--color-blue)] to-[#080808] to-50% opacity-75"></div>
-				</div>
-				<div className="absolute bottom-0 w-full h-1/2 -z-10">
-					<div className="h-full bg-radial from-[var(--color-green)] to-[#080808] to-50% opacity-25"></div>
-				</div>
 				<div className="container flex flex-col items-center justify-center h-full mx-auto">
 					<h1 className="w-3/4 text-6xl text-center font-bold mb-4">
 						Transformez une <span className="text-[var(--color-blue)]">idée</span> en{" "}
@@ -29,7 +23,7 @@ const Home = () => {
 					</div>
 				</div>
 			</section>
-			<section className="py-32">
+			<section id="our-services" className="py-32">
 				<div className="container mx-auto text-center">
 					<div className="mb-4">
 						<h2 className="text-5xl font-bold mb-4">Nos Services</h2>
@@ -40,7 +34,9 @@ const Home = () => {
 					</div>
 					<div className="grid grid-cols-3 gap-8">
 						<Card styles={"p-8"}>
-							<h3 className="text-6xl font-bold mb-1">P</h3>
+							<div className="table bg-purple-600/10 text-purple-600 rounded-full p-3 mb-3">
+								<BsGlobe size={32} />
+							</div>
 							<h4 className="text-2xl font-bold mb-3">Publication sur les réseaux</h4>
 							<p>
 								Publiez du contenu engageant sur les réseaux sociaux avec l'aide de
@@ -48,12 +44,16 @@ const Home = () => {
 							</p>
 						</Card>
 						<Card styles={"p-8"}>
-							<h3 className="text-6xl font-bold mb-1">I</h3>
+							<div className="table bg-blue-600/10 text-blue-600 rounded-full p-3 mb-3">
+								<BsImage size={32} />
+							</div>
 							<h4 className="text-2xl font-bold mb-3">Image</h4>
 							<p>Créez des images captivantes pour vos campagnes marketing.</p>
 						</Card>
 						<Card styles={"p-8"}>
-							<h3 className="text-6xl font-bold mb-1">I</h3>
+							<div className="table bg-green-600/10 text-green-500 rounded-full p-3 mb-3">
+								<BsFileEarmarkText size={32} />
+							</div>
 							<h4 className="text-2xl font-bold mb-3">Landing page</h4>
 							<p>
 								Concevez des pages d'atterrissage optimisées pour convertir vos
@@ -63,7 +63,7 @@ const Home = () => {
 					</div>
 				</div>
 			</section>
-			<section className="py-32">
+			<section id="popular-content" className="py-32">
 				<div className="container mx-auto">
 					<div className="text-center mb-4">
 						<h2 className="text-5xl font-bold mb-4">Contenu Populaire</h2>
@@ -72,7 +72,7 @@ const Home = () => {
 							buzz.
 						</p>
 					</div>
-					<div className="bg-[var(--color-darkgray)] border border-blue-50/10 flex rounded-4xl overflow-hidden">
+					<div className="bg-gray-50 dark:bg-black/50 flex rounded-4xl shadow-lg overflow-hidden">
 						<div className="flex-1/2 bg-[var(--color-blue)]"></div>
 						<div className="flex-1/2 flex flex-col gap-8 shadow-lg p-24 z-10">
 							<div>
@@ -101,7 +101,7 @@ const Home = () => {
 					</div>
 				</div>
 			</section>
-			<section className="py-32">
+			<section id="our-offers" className="py-32">
 				<div className="container mx-auto text-center">
 					<h2 className="text-5xl font-bold mb-4">Nos Offres</h2>
 					<p className="text-lg text-[var(--color-lightgray)] mb-12">
@@ -194,10 +194,10 @@ const Home = () => {
 						<a href="#">A propos</a>
 					</li>
 					<li>
-						<a href="#">Nos services</a>
+						<a href="#our-services">Nos services</a>
 					</li>
 					<li>
-						<a href="#">Nos offres</a>
+						<a href="#our-offers">Nos offres</a>
 					</li>
 				</ul>
 				<p className="text-sm text-[var(--color-lightgray)]">

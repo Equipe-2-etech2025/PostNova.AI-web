@@ -1,7 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router";
 import routes from "./app/routes";
-import ProtectedRoute from "@components/ProtectedRoute";
+import { ThemeProvider } from "@contexts/ThemeContext";
 import { AuthProvider } from "@contexts/AuthContext";
+import ProtectedRoute from "@components/ProtectedRoute";
 
 const AppRoutes = () => {
 	return (
@@ -27,11 +28,13 @@ const AppRoutes = () => {
 
 function App() {
 	return (
-		<AuthProvider>
-			<BrowserRouter>
-				<AppRoutes />
-			</BrowserRouter>
-		</AuthProvider>
+		<ThemeProvider>
+			<AuthProvider>
+				<BrowserRouter>
+					<AppRoutes />
+				</BrowserRouter>
+			</AuthProvider>
+		</ThemeProvider>
 	);
 }
 
