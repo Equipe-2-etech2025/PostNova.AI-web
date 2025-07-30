@@ -35,6 +35,7 @@ const NavBar = () => {
 					<Button
 						variant="outline"
 						color="tertiary"
+						circle
 						className="px-4 py-3"
 						onClick={() => toggleTheme()}
 					>

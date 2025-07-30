@@ -7,13 +7,13 @@ import MessageNotification from "@shared/MessageNotification";
 import TypewriterText from "@components/Auth/TypewriterText";
 import galaxy from "@assets/galaxy.png";
 import logo from "@assets/logo.png";
-import { BsArrowLeft } from "react-icons/bs";
+import { BsArrowLeft, BsExclamationCircleFill } from "react-icons/bs";
+import { InputForm } from "@shared/Input";
 
 const Login = () => {
 	const navigate = useNavigate();
 	const { login, loading } = useAuth();
-	const { notification, showSuccess, showError, showWarning, hideNotification } =
-		useNotification();
+	const { notification, showSuccess, showError, hideNotification } = useNotification();
 
 	// États pour le formulaire
 	const [formData, setFormData] = useState({
@@ -24,10 +24,7 @@ const Login = () => {
 
 	// États pour les erreurs et messages
 	const [errors, setErrors] = useState({});
-	const [message, setMessage] = useState("");
-	const [messageType, setMessageType] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [showMessage, setShowMessage] = useState(false);
 
 	// Gérer les changements dans les inputs
 	const handleChange = (e) => {
@@ -75,9 +72,7 @@ const Login = () => {
 		}
 
 		setIsSubmitting(true);
-		setMessage("");
 		setErrors({});
-		setShowMessage(false);
 
 		try {
 			const result = await login({
@@ -86,6 +81,10 @@ const Login = () => {
 			});
 
 			if (result.success) {
+				showSuccess("Connecté", {
+					duration: 5000,
+					position: "top-center",
+				});
 				navigate("/dashboard");
 			} else {
 				showError(result.message, {
@@ -120,11 +119,17 @@ const Login = () => {
 				showProgressBar={true}
 			/>
 
-			<div className="relative h-screen w-full bg-[#1c1b23] text-white flex flex-col md:flex-row overflow-hidden">
+			<div className="relative h-screen w-full flex flex-col md:flex-row overflow-hidden">
 				{/*Left Section*/}
 				<div className="absolute top-10 left-1/4">
 					<div className="flex items-center">
-						<Button variant="outline" color="neutral" circle className="h-12 w-12" onClick={() => navigate(-1)}>
+						<Button
+							variant="outline"
+							color="neutral"
+							circle
+							className="h-12 w-12"
+							onClick={() => navigate(-1)}
+						>
 							<BsArrowLeft size={24} />
 						</Button>
 					</div>
@@ -135,14 +140,12 @@ const Login = () => {
 						<div className="text-center space-y-2">
 							<div className="flex items-center justify-center gap-2 mb-20">
 								<img src={logo} className="size-15" alt="" />
-								<h1 className="text-2xl font-bold text-white cursor-pointer">
+								<h1 className="text-2xl font-bold cursor-pointer">
 									<strong>PostNova</strong>
 								</h1>
 							</div>
-							<h2 className="text-3xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-								Se connecter
-							</h2>
-							<p className="text-sm text-gray-400">
+							<h2 className="text-3xl md:text-2xl font-bold animate-fade-in">Se connecter</h2>
+							<p className="text-sm text-gray-700">
 								Connectez-vous à votre compte PostNova.AI pour accéder à vos campagnes.
 							</p>
 						</div>
@@ -150,28 +153,18 @@ const Login = () => {
 						<form className="space-y-6" onSubmit={handleSubmit}>
 							{/* Email */}
 							<div className="space-y-2">
-								<input
+								<InputForm
 									type="email"
 									name="email"
 									value={formData.email}
 									onChange={handleChange}
-									placeholder="Email"
-									className={`w-full px-4 py-3 rounded-lg bg-[#2e2d3b] text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 ${
-										errors.email
-											? "focus:ring-red-500 border border-red-500 shake"
-											: "focus:ring-[#4335C4] hover:bg-[#353447]"
-									}`}
+									placeholder="Adresse email"
+									hasError={errors.email}
 									disabled={isSubmitting || loading}
 								/>
 								{errors.email && (
-									<div className="flex items-center text-red-400 text-sm animate-fade-in">
-										<svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-											<path
-												fillRule="evenodd"
-												d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-												clipRule="evenodd"
-											/>
-										</svg>
+									<div className="flex items-center gap-2 text-red-400 text-sm animate-fade-in">
+										<BsExclamationCircleFill size={11} />
 										{errors.email}
 									</div>
 								)}
@@ -179,36 +172,26 @@ const Login = () => {
 
 							{/* Mot de passe */}
 							<div className="space-y-2">
-								<input
+								<InputForm
 									type="password"
 									name="password"
 									value={formData.password}
 									onChange={handleChange}
 									placeholder="Mot de passe"
-									className={`w-full px-4 py-3 rounded-lg bg-[#2e2d3b] text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-300 ${
-										errors.password
-											? "focus:ring-red-500 border border-red-500 shake"
-											: "focus:ring-[#4335C4] hover:bg-[#353447]"
-									}`}
+									hasError={errors.password}
 									disabled={isSubmitting || loading}
 								/>
 								{errors.password && (
-									<div className="flex items-center text-red-400 text-sm animate-fade-in">
-										<svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-											<path
-												fillRule="evenodd"
-												d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-												clipRule="evenodd"
-											/>
-										</svg>
+									<div className="flex items-center gap-2 text-red-400 text-sm animate-fade-in">
+										<BsExclamationCircleFill size={11} />
 										{errors.password}
 									</div>
 								)}
 							</div>
 
 							{/* Options */}
-							<div className="flex items-center justify-between text-sm text-gray-300">
-								<label className="flex items-center cursor-pointer hover:text-white transition-colors">
+							<div className="flex items-center justify-between text-sm">
+								<label className="flex items-center cursor-pointer">
 									<input
 										type="checkbox"
 										name="remember"
@@ -220,8 +203,8 @@ const Login = () => {
 									Se souvenir de moi
 								</label>
 								<Link
-									to="/resetPassword"
-									className="text-gray-400 hover:text-[#4335C4] transition-colors duration-200"
+									to="/reset-password"
+									className="hover:text-purple-600 transition-colors duration-300"
 								>
 									Mot de passe oublié ?
 								</Link>
@@ -251,7 +234,7 @@ const Login = () => {
 						</form>
 
 						{/* Lien vers l'inscription */}
-						<div className="text-center text-sm text-gray-400">
+						<div className="text-center text-sm text-gray-600">
 							Pas encore de compte ?{" "}
 							<Link
 								to="/register"
@@ -268,7 +251,7 @@ const Login = () => {
 					<img
 						src={galaxy}
 						alt="galaxy"
-						className="w-full h-full object-cover opacity-30 rounded-2xl"
+						className="w-full h-full object-cover opacity-90 dark:opacity-30 rounded-2xl"
 					/>
 					<div className="absolute bottom-16 left-0 right-0 text-center px-4">
 						<TypewriterText
