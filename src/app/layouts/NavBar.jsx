@@ -1,40 +1,53 @@
 import React from "react";
-
-import logo from "@assets/logo.png";
-import { ButtonOutline } from "@shared/Button";
 import { Link } from "react-router";
+import { BsMoonStarsFill, BsSunriseFill } from "react-icons/bs";
+import useTheme from "@hooks/useTheme";
+import Button from "@shared/Button";
+import logo from "@assets/logo.png";
 
 const NavBar = () => {
+	const { theme, toggleTheme } = useTheme();
 	return (
 		<div className="sticky top-0 w-full backdrop-blur-lg z-50">
 			<div className="container flex items-center justify-between py-5 mx-auto">
-				<div className="flex items-center gap-2">
-					<span>
-						<img className="size-10" src={logo} alt="" />
-					</span>
-					<a className="text-2xl font-bold text-white cursor-pointer" href="#">
+				<Link to={"/"} className="text-2xl font-bold">
+					<div className="flex items-center gap-2">
+						<span>
+							<img className="size-10" src={logo} alt="logo" />
+						</span>
 						<strong>PostNova</strong>
-					</a>
-				</div>
+					</div>
+				</Link>
 				<nav>
-					<ul className="flex items-center gap-5 text-white">
+					<ul className="flex items-center gap-5">
 						<li>
 							<a href="#">A propos</a>
 						</li>
 						<li>
-							<a href="#">Nos services</a>
+							<a href="#our-services">Nos services</a>
 						</li>
 						<li>
-							<a href="#">Nos offres</a>
+							<a href="#our-offers">Nos offres</a>
 						</li>
 					</ul>
 				</nav>
-				<div>
-					<Link to={"/login"}>
-						<ButtonOutline color="blue" circle>
-							Connexion
-						</ButtonOutline>
-					</Link>
+				<div className="flex items-center gap-2">
+					<Button
+						variant="outline"
+						color="tertiary"
+						circle
+						className="px-4 py-3"
+						onClick={() => toggleTheme()}
+					>
+						{theme == "light" ? (
+							<BsMoonStarsFill size={16} />
+						) : (
+							<BsSunriseFill size={16} />
+						)}
+					</Button>
+					<Button as={Link} to={"/login"} circle variant="solid" color="neutral">
+						Se connecter
+					</Button>
 				</div>
 			</div>
 		</div>

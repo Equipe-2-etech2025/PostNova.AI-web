@@ -1,45 +1,69 @@
-import React from "react";
-
-const Button = ({ children, circle = false, color = "default" }) => {
-	const colorClasses = {
-		default: "hover:bg-[var(--color-gray)]",
-		blue: "bg-[var(--color-blue)] border border-[var(--color-blue)]",
-		green: "bg-[var(--color-green)] border border-[var(--color-green)]",
-		red: "bg-[var(--color-red)] border border-[var(--color-red)]",
+const Button = ({
+	children,
+	variant = "solid",
+	color = "primary",
+	size = "md",
+	circle = false,
+	className = "",
+	disabled = false,
+	as,
+	...props
+}) => {
+	const Tag = as || "button";
+	const solidColors = {
+		primary:
+			"bg-purple-600 border border-purple-600 text-white dark:bg-purple-800 dark:border-purple-800",
+		secondary: "bg-green-600 border border-green-600 text-white",
+		tertiary: "bg-gray-500 border border-gray-500 text-white dark:bg-gray-600",
+		danger: "bg-red-600 border border-red-600 text-white dark:bg-red-500",
+		neutral: "bg-gray-900 border border-gray-900 text-gray-50 dark:bg-gray-100 dark:border-gray-100 dark:text-gray-900",
 	};
-	return (
-		<button
-			className={`${colorClasses[color] || colorClasses["blue"]} font-bold ${circle ? "rounded-full p-2" : "rounded py-2 px-4"} hover:opacity-90 transition duration-200 cursor-pointer`}
-		>
-			{children}
-		</button>
-	);
-};
 
-const ButtonOutline = ({ children, circle = false, color = "default" }) => {
-	const colorClasses = {
-		default: "border-[var(--color-gray)]",
-		blue: "border-[var(--color-blue-light)]",
-		green: "border-[var(--color-green-light)]",
-		red: "border-[var(--color-red-light)]",
+	// Outline
+	const outlineColors = {
+		primary:
+			"border border-purple-300 text-purple-700 dark:border-purple-500 dark:text-purple-400",
+		secondary:
+			"border border-green-400 text-green-600 dark:border-green-800 dark:text-green-500",
+		tertiary:
+			"border border-gray-300 text-gray-600 dark:border-gray-500 dark:text-gray-300",
+		danger:
+			"border border-red-600 text-red-600 dark:border-red-500 dark:text-red-500",
+		neutral:
+			"border border-gray-900 text-gray-900 dark:border-gray-100 dark:text-gray-100",
 	};
+
+	const sizes = {
+		none: "text-base",
+		sm: "text-sm px-3 py-1.5",
+		md: "text-base px-4 py-2",
+		lg: "text-lg px-5 py-3",
+	};
+
+	const base =
+		"inline-flex items-center justify-center font-bold transition duration-150 cursor-pointer";
+	const shape = circle ? "rounded-full" : "rounded-xl";
+	const sizeClass = sizes[size] || sizes.md;
+
+	let colorClass = "";
+	if (variant === "solid") {
+		colorClass = solidColors[color] || solidColors.primary;
+	} else if (variant === "outline") {
+		colorClass = outlineColors[color] || outlineColors.primary;
+	} else if (variant === "ghost") {
+		colorClass = `bg-transparent text-${color} dark:text-${color}`;
+	}
+
+	const disabledClass = disabled ? "opacity-50 cursor-not-allowed" : "";
+
+	const fullClass =
+		`${base} ${shape} ${sizeClass} ${colorClass} ${disabledClass} ${className}`.trim();
+
 	return (
-		<button
-			className={`${colorClasses[color] || colorClasses["blue"]} border font-bold ${circle ? "rounded-full" : "rounded"} pt-2 pb-1.5 px-4 hover:bg-[var(--color-lightgray)] hover:text-[var(--color-blue)] hover:border-[var(--color-lightgray)] transition duration-200 cursor-pointer`}
-		>
+		<Tag className={fullClass} disabled={disabled} {...props}>
 			{children}
-		</button>
+		</Tag>
 	);
 };
 
-const ButtonGradient = ({ children, circle = false }) => {
-	return (
-		<button
-			className={`bg-gradient-to-tr from-[var(--color-blue)] to-[var(--color-green)] text-white font-bold ${circle ? "rounded-full p-2" : "rounded py-2 px-4"} hover:opacity-90  transition duration-200 cursor-pointer`}
-		>
-			{children}
-		</button>
-	);
-};
-
-export { Button, ButtonOutline, ButtonGradient };
+export default Button;

@@ -1,24 +1,16 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 :root {
-	--color-blue: #4335c4;
-
-	--color-green: #44a16f;
-
-	--color-red: #c43b35;
-
-	--color-lightgray: #eff6ff;
-	--color-gray: #3e3d47;
-	--color-darkgray: #242428;
-
-	--color-black: #080808;
-
 	font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-	color-scheme: dark light;
-
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	scroll-behavior: smooth;
+}
+
+.dark {
+	color-scheme: dark;
 }
 
 a {
@@ -27,19 +19,7 @@ a {
 }
 
 body {
-	color: white;
-	background-color: var(--color-black);
 	margin: 0;
-}
-
-@media (prefers-color-scheme: light) {
-	:root {
-		color: #213547;
-		background-color: #ffffff;
-	}
-	a:hover {
-		color: #747bff;
-	}
 }
 
 /* Animations existantes + améliorations pour typewriter */

@@ -12,7 +12,7 @@ import {
 } from "react-icons/bs";
 import useAuth from "@hooks/useAuth";
 import NavBar from "@layouts/NavBar";
-import { Button, ButtonOutline } from "@shared/Button";
+import Button from "@shared/Button";
 import { Card } from "@shared/Card";
 import Indicator from "@components/Dashboard/Indicator";
 import SectionBlock from "@components/Dashboard/SectionBlock";
@@ -205,7 +205,7 @@ const DashboardUser = () => {
 										<p className="text-gray-400">
 											Fonctionnalité disponible en version Pro
 										</p>
-										<ButtonOutline>Découvrir Pro</ButtonOutline>
+										<Button variant="outline">Découvrir Pro</Button>
 									</div>
 									<ul className="relative space-y-4 mt-4">
 										<li>
