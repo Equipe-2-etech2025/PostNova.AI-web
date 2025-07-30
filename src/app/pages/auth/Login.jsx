@@ -206,6 +206,7 @@ const Login = () => {
 								<Link
 									to="/reset-password"
 									className="hover:text-purple-600 transition-colors duration-300"
+
 								>
 									Mot de passe oublié ?
 								</Link>

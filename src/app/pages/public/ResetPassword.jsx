@@ -1,9 +1,14 @@
+import React, { useEffect, useState } from "react";
 import Button from "@shared/Button";
 import { InputForm } from "@shared/Input";
-import React, { useState } from "react";
 import { BsExclamationCircleFill } from "react-icons/bs";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import { resetPassword } from "@services/resetPassword";
+import { useNotification } from "@hooks/useNotification";
+import MessageNotification from "@shared/MessageNotification";
 
 const PasswordResetFlow = () => {
+  const navigate = useNavigate();
 	const [step, setStep] = useState(1); // 1 pour l'email, 2 pour la réinitialisation
 
 	const [formData, setFormData] = useState({
@@ -11,8 +16,31 @@ const PasswordResetFlow = () => {
 		password: "",
 		password_confirmation: "",
 	});
+  
+  const [searchParams] = useSearchParams();
+	const [resetToken, setResetToken] = useState("");
+	const [resetEmail, setResetEmail] = useState("");
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const [errors, setErrors] = useState({});
+  
+  const { notification, showSuccess, showError, showInfo, hideNotification } =
+		useNotification();
+  
+  useEffect(() => {
+		const tokenFromURL = searchParams.get("token");
+		const emailFromURL = searchParams.get("email");
+
+		if (tokenFromURL && emailFromURL) {
+			setResetToken(tokenFromURL);
+			setResetEmail(emailFromURL);
+			showSuccess("Lien vérifié", {
+				duration: 3000,
+				position: "top-center",
+			});
+			setStep(2);
+		}
+	}, [searchParams]);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -29,28 +57,88 @@ const PasswordResetFlow = () => {
 			}));
 		}
 	};
+  
+  const handleEmailSubmit = async (e) => {
+		try {
+			e.preventDefault();
+      
+      if (!validateForm()) {
+			  return;
+		  }
+      
+			setIsSubmitting(true);
 
-	const handleEmailSubmit = (e) => {
-		e.preventDefault();
+			const response = await resetPassword.sendResetPassword({
+				email,
+			});
 
-		if (!validateForm()) {
-			return;
+			if (response.success) {
+				showSuccess("Reset link envoyé.", {
+					duration: 3000,
+					position: "top-center",
+				});
+			} else {
+				if (response.errors) {
+					const allErrors = Object.values(response.message);
+					showError(allErrors, {
+						duration: 5000,
+						position: "top-center",
+					});
+				}
+			}
+
+			setIsSubmitting(false);
+		} catch (err) {
+			const allErrors = Object.values(err.message);
+			showError(allErrors, {
+				duration: 5000,
+				position: "top-center",
+			});
 		}
-
-		//logique pour envoyer l'email
-		// Si succès, passer à l'étape suivante
-		setStep(2);
 	};
 
-	const handlePasswordReset = (e) => {
-		e.preventDefault();
+	const handlePasswordReset = async (e) => {
+    try {
+      e.preventDefault();
 
-		if (!validateForm()) {
-			return;
-		}
+      if (!validateForm()) {
+        return;
+      }
 
-		// logique pour réinitialiser le mot de passe
-		console.log("Mot de passe réinitialisé pour", formData.email);
+      setIsSubmitting(true);
+
+      const response = await resetPassword.reset({
+        token: resetToken,
+        email: resetEmail,
+        password,
+        password_confirmation: confirmPassword,
+      });
+
+      if (response.success) {
+        showSuccess("Mot de passe réinitialisé.", {
+          duration: 3000,
+          position: "top-center",
+        });
+        navigate("/login");
+      } else {
+        if (response.errors) {
+          const allErrors = Object.values(response.errors).flat().join(" ");
+          showError(allErrors, {
+            duration: 5000,
+            position: "top-center",
+          });
+        }
+      }
+
+      setIsSubmitting(false);
+      
+     } catch (err) {
+			const allErrors = Object.values(err.message);
+			showError(allErrors, {
+				duration: 5000,
+				position: "top-center",
+			});
+		 }
 	};
 
 	const validateForm = () => {
@@ -90,6 +178,16 @@ const PasswordResetFlow = () => {
 
 	return (
 		<>
+			<MessageNotification
+				message={notification.message}
+				type={notification.type}
+				isVisible={notification.isVisible}
+				onClose={hideNotification}
+				autoHide={true}
+				duration={5000}
+				position="top-center"
+				showProgressBar={true}
+			/>
 			{step === 1 ? (
 				<div className="flex justify-center items-center h-screen">
 					<div className="flex-1 flex items-center justify-center px-8 py-6 md:py-12 overflow-y-auto">
@@ -118,7 +216,40 @@ const PasswordResetFlow = () => {
 										</div>
 									)}
 								</div>
-								<Button type="submit">Valider l'email</Button>
+								<div className="flex justify-center">
+									<Button
+										type="submit"
+										disabled={isSubmitting}
+									>
+										{isSubmitting ? (
+											<>
+												<svg
+													className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+													xmlns="http://www.w3.org/2000/svg"
+													fill="none"
+													viewBox="0 0 24 24"
+												>
+													<circle
+														className="opacity-25"
+														cx="12"
+														cy="12"
+														r="10"
+														stroke="currentColor"
+														strokeWidth="4"
+													></circle>
+													<path
+														className="opacity-75"
+														fill="currentColor"
+														d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+													></path>
+												</svg>
+												Envoi...
+											</>
+										) : (
+											"Valider l'email"
+										)}
+									</Button>
+								</div>
 							</form>
 						</div>
 					</div>
@@ -168,7 +299,38 @@ const PasswordResetFlow = () => {
 								</div>
 
 								<div className="flex justify-center">
-									<Button type="submit">Réinitialiser le mot de passe</Button>
+									<Button
+										type="submit"
+										disabled={isSubmitting}
+									>
+										{isSubmitting ? (
+											<>
+												<svg
+													className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+													xmlns="http://www.w3.org/2000/svg"
+													fill="none"
+													viewBox="0 0 24 24"
+												>
+													<circle
+														className="opacity-25"
+														cx="12"
+														cy="12"
+														r="10"
+														stroke="currentColor"
+														strokeWidth="4"
+													></circle>
+													<path
+														className="opacity-75"
+														fill="currentColor"
+														d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+													></path>
+												</svg>
+												Réinitialisation...
+											</>
+										) : (
+											"Réinitialiser votre mot de passe"
+										)}
+									</Button>
 								</div>
 							</form>
 						</div>
