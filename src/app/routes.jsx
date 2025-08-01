@@ -18,6 +18,8 @@ import EmailVerification from "./pages/EmailVerification";
 import PasswordResetFlow from "./pages/ResetPassword";
 import PolitiqueConfidentialite from "./pages/politiqueConfidentialite";
 import ConditionsUtilisation from "./pages/conditionsUtilisation";
+import NotFound from "./pages/404";
+
 
 const routes = [
 	/**
@@ -50,6 +52,13 @@ const routes = [
 	 * Réservées aux administrateurs
 	 */
 	// { path: "/admin", element: <Navigate to="/dashboard" replace />, admin: true },
+
+	/**
+	 * Pages d'erreur
+	 */
+	{ path: "*", element: <NotFound /> },
+
+	
 ];
 
 export default routes;
