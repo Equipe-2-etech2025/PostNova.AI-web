@@ -14,15 +14,14 @@
   Branche: `feature/EPA-43-theme-context`
   Commit: `EPA-43: update pages page and enhance components to adapt the theme management`
 
-- [EPA-38] Integration mot de passe oublié (Assigné à: Nathan Rakotoarimanana)
-  Branche: `feature/EPA-38-intg-mdp-reset`
-  Commit: `EPA-38: intégration réinitialiser mot de passe`
+- [EPA-47] Intégration dashboard
+  Branche: `feature/EPA-47-integration-dashboard`
+  Commit: `EPA-47: integration front dashboard`
 
 - [EPA-25] Création de test Unitaire et test fonctionnel pour les models (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-25-test`
   Commit: `EPA-25: config env test et implémenation de SocialTest`
   Commit: `EPA-25: fix nom ticket pour backlog.md`
-
 
 - [EPA-9] Création de .github/workflows(CI/CD) React (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche : `feature/EPA-9-workflows`  
@@ -47,6 +46,10 @@
 - [EPA-14] Creation de composant réutilisable (bouton, card, modal, ...) (Assigné à: Tahiry Houlder RATERAHAJA)
 
 ## Terminé(e)
+- [EPA-38] Integration mot de passe oublié (Assigné à: Nathan Rakotoarimanana)
+  Branche: `feature/EPA-38-intg-mdp-reset`
+  Commit: `EPA-38: intégration réinitialiser mot de passe`
+
 - [EPA-42] Création, organisation des dossiers (shared/, layout/, components/, ...) et gestion des importation des composants (Assigné à: Andhi Andrianina)
   Branche: `refactor/EPA-42-folder-structure-manage-import`
   Commit: `EPA-42: folder structure and import management`

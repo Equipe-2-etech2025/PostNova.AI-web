@@ -69,7 +69,7 @@ const PasswordResetFlow = () => {
 			setIsSubmitting(true);
 
 			const response = await resetPassword.sendResetPassword({
-				email,
+				email: formData.email,
 			});
 
 			if (response.success) {
@@ -110,8 +110,8 @@ const PasswordResetFlow = () => {
       const response = await resetPassword.reset({
         token: resetToken,
         email: resetEmail,
-        password,
-        password_confirmation: confirmPassword,
+        password: formData.password,
+        password_confirmation: formData.password_confirmation,
       });
 
       if (response.success) {

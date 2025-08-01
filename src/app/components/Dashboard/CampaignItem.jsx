@@ -2,7 +2,7 @@ import React from "react";
 import {
 	BsBoxArrowInUpRight,
 	BsCalendar,
-	BsCameraVideo,
+	BsGlobe2,
 	BsEye,
 	BsFileEarmarkText,
 	BsHeart,
@@ -19,7 +19,7 @@ const CampaignItem = ({
 	name,
 	status,
 	createdAt,
-	videoNumber,
+	publicationNumber,
 	imageNumber,
 	landingPageNumber,
 	views,
@@ -50,10 +50,10 @@ const CampaignItem = ({
 			<div className="bg-[var(--color-black)]/50 flex items-center justify-around text-sm p-4 mt-4 rounded-lg">
 				<div className="flex flex-col items-center gap-2">
 					<div className="flex items-center">
-						<BsCameraVideo size={16} className="text-red-400" />
-						<span className="ml-1">{videoNumber}</span>
+						<BsGlobe2 size={16} className="text-red-400" />
+						<span className="ml-1">{publicationNumber}</span>
 					</div>
-					<span className="text-sm text-gray-400">Videos</span>
+					<span className="text-sm text-gray-400">Publications</span>
 				</div>
 				<div className="flex flex-col items-center gap-2">
 					<div className="flex items-center">

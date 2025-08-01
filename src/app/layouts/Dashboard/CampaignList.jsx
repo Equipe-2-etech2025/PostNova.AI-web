@@ -26,21 +26,23 @@ const LastCampaignList = ({ campaigns = [], isLoading = true }) => {
 					<p className="text-gray-500">Chargement des campagnes...</p>
 				</div>
 			) : campaigns.length > 0 ? (
-				campaigns.map((campaign) => (
+				<div className="space-y-2">
+					{campaigns.map((campaign) => (
 					<CampaignItem
 						key={campaign.id}
 						id={campaign.id}
 						name={campaign.name}
 						status={campaign.status}
-						createdAt={campaign.createdAt}
-						videoNumber={campaign.videoNumber}
-						imageNumber={campaign.imageNumber}
-						landingPageNumber={campaign.landingPageNumber}
-						views={campaign.views}
-						likes={campaign.likes}
-						share={campaign.share}
+						createdAt={campaign.created_at}
+						publicationNumber={campaign.social_posts_count}
+						imageNumber={campaign.images_count}
+						landingPageNumber={campaign.landing_pages_count}
+						views={campaign.total_views}
+						likes={campaign.total_likes}
+						share={campaign.total_shares}
 					/>
-				))
+					))}
+				</div>
 			) : (
 				<div className="text-center text-gray-500 space-y-2 my-4">
 					<p>Aucune campagne trouvée.</p>

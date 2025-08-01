@@ -17,6 +17,10 @@ import { Card } from "@shared/Card";
 import Indicator from "@components/Dashboard/Indicator";
 import SectionBlock from "@components/Dashboard/SectionBlock";
 import LastCampaignList from "@layouts/Dashboard/CampaignList";
+import { campaignService } from "@services/campaignService";
+import { tarifUserService } from "@services/tarifUserService";
+import { promptService } from "@services/promptService";
+import { dashboardService } from "@services/dashboardService";
 
 const DashboardUser = () => {
 	const { user } = useAuth();
@@ -36,13 +40,13 @@ const DashboardUser = () => {
 			icon: <BsEye />,
 		},
 		{
-			key: "engagement",
-			title: "Engagement",
+			key: "totalLikes",
+			title: "Likes totales",
 			icon: <BsHeart />,
 		},
 		{
-			key: "conversions",
-			title: "Conversions",
+			key: "totalShares",
+			title: "Partages totales",
 			icon: <BsBullseye />,
 		},
 	];
@@ -61,6 +65,10 @@ const DashboardUser = () => {
 
 	const [loadingCampaigns, setLoadingCampaigns] = useState(true);
 
+	const [tarif, setTarif] = useState(null);
+
+	const [quotaPrompt, setQuotaPrompt] = useState(null);
+
 	useEffect(() => {
 		// Fetch user from token
 		const fetchUserInfo = async () => {
@@ -74,58 +82,113 @@ const DashboardUser = () => {
 		}, 1500);
 
 		// Fetch indicator
-		const fetchIndicator = () => {
-			// then
-			setIndicator((prev) =>
-				prev.map((item) => ({
-					...item,
-					number: (parseFloat(item.number ?? 0) + Math.random() * 10).toFixed(1),
-					information: `+${Math.floor(Math.random() * 10)}% ce mois`,
-				}))
-			);
-			// finally
+		const fetchIndicator = async () => {
+			if (!user?.id) return;
+
+			try {
+				const result = await dashboardService.getIndicators(user.id);
+				if (result.success && result.data) {
+					const data = result.data;
+
+					// Met à jour les données des indicateurs
+					setIndicator((prev) =>
+						prev.map((item) => {
+							switch (item.key) {
+								case "totalCampaigns":
+									return {
+										...item,
+										number: data.totalCampaigns,
+										information: "Campagnes",
+									};
+								case "totalViews":
+									return {
+										...item,
+										number: data.externalInteractions.views,
+										information: `Vues`,
+									};
+								case "totalLikes":
+									return {
+										...item,
+										number: data.externalInteractions.likes,
+										information: `Likes`,
+									};
+								case "totalShares":
+									return {
+										...item,
+										number: data.externalInteractions.shares,
+										information: "Partages",
+									};
+								default:
+									return item;
+							}
+						})
+					);
+				}
+			} catch (e) {
+				console.error("Erreur de chargement des indicateurs:", e);
+			}
 			setLoadingIndicator(false);
 		};
 		const intervalIndicator = setInterval(fetchIndicator, 2000);
 
 		// Fetch campaign list
-		const fetchCampaign = () => {
-			// then
-			setCampaigns([
-				{
-					id: 1,
-					name: "Lancement Produit SaaS B2B",
-					status: "Terminé",
-					createdAt: new Date().toLocaleString(),
-					videoNumber: 2,
-					imageNumber: 4,
-					landingPageNumber: 3,
-					views: 10,
-					likes: 4,
-					share: 2,
-				},
-				{
-					id: 2,
-					name: "Campagne Formation IA",
-					status: "Terminé",
-					createdAt: new Date().toLocaleString(),
-					videoNumber: 4,
-					imageNumber: 2,
-					landingPageNumber: 2,
-					views: 5,
-					likes: 1,
-					share: 1,
-				},
-			]);
-			// finally
+		const fetchCampaign = async () => {
+			setLoadingCampaigns(true);
+			const result = await campaignService.getAllCampaigns();
+			if (result.success) {
+				setCampaigns(result.data);
+			} else {
+				console.error(result.message);
+				setCampaigns([]);
+			}
+
 			setLoadingCampaigns(false);
 		};
 		const timeoutCampaign = setTimeout(fetchCampaign, 2000);
+
+		const fetchLatestTarif = async () => {
+			if (!user?.id) return;
+
+			try {
+				const result = await tarifUserService.getLatestByUserId(user.id);
+				if (result.success && result.data) {
+					console.log(result.data);
+					setTarif(result.data);
+				} else {
+					console.error("Erreur tarif:", result.message);
+					setTarif(null);
+				}
+			} catch (e) {
+				console.error("Erreur réseau:", e);
+				setTarif(null);
+			}
+		};
+		const timeoutTarif = setTimeout(fetchLatestTarif, 2000);
+
+		const fetchPromptQuota = async () => {
+			if (!user?.id) return;
+
+			try {
+				const result = await promptService.getQuotaByUserId(user.id);
+				if (result.success && result.data !== null) {
+					setQuotaPrompt(result.data);
+				} else {
+					console.error("Erreur quota prompt:", result.message);
+					setQuotaPrompt(null);
+				}
+			} catch (e) {
+				console.error("Erreur réseau (prompt quota):", e);
+				setQuotaPrompt(null);
+			}
+		};
+		const timeoutPromptQuota = setTimeout(fetchPromptQuota, 2000);
 
 		return () => {
 			clearTimeout(timeoutUserInfo);
 			clearInterval(intervalIndicator);
 			clearTimeout(timeoutCampaign);
+			clearTimeout(timeoutTarif);
+			clearTimeout(timeoutPromptQuota);
 			setUserInfo({ name: "" });
 			setIndicator((prev) =>
 				prev.map((item) => ({
@@ -144,12 +207,10 @@ const DashboardUser = () => {
 				<section>
 					<div className="flex items-center justify-between gap-6">
 						<div className="flex flex-col gap-2">
-							<h1 className="text-3xl font-bold">
-								Bonjour, {user?.name}
-							</h1>
+							<h1 className="text-3xl font-bold">Bonjour, {user?.name}</h1>
 							<p>
-								Créez des campagnes marketing complètes en moins d'une minute grâce à
-								l'IA
+								Créez ou gérez des campagnes marketing complètes en moins d'une minute
+								grâce à l'IA
 							</p>
 						</div>
 						<div>
@@ -185,17 +246,29 @@ const DashboardUser = () => {
 						<div className="col-span-2 grid grid-cols-1 gap-6">
 							<SectionBlock title={"Quota utilisé"} icon={<BsPieChart />}>
 								<div className="flex items-center justify-between gap-2">
-									<span>Campagnes</span>
-									<strong>2/5</strong>
+									<span>Quotas</span>
+									<strong>
+										{quotaPrompt ?? "..."}/{tarif?.tarif.max_limit ?? "..."}
+									</strong>
 								</div>
 								<div className="w-full bg-[var(--color-gray)] rounded-full h-2.5 mt-2">
 									<div
-										className={`bg-blue-600 h-2.5 rounded-full ${userInfo.name ? "w-1/2" : "w-0"} transition-all duration-1000`}
+										className="bg-blue-600 h-2.5 rounded-full transition-all duration-1000"
+										style={{
+											width:
+												tarif?.tarif?.max_limit != null && quotaPrompt != null
+													? `${Math.min((quotaPrompt / tarif.tarif.max_limit) * 100, 100)}%`
+													: "0%",
+										}}
 									></div>
 								</div>
 								<div className="mt-4">
 									<span>
-										Il vous reste {userInfo.name ? "3" : "0"} campagnes ce mois-ci.
+										Il vous reste{" "}
+										{tarif?.tarif?.max_limit != null && quotaPrompt != null
+											? tarif.tarif.max_limit - quotaPrompt
+											: "..."}{" "}
+										quotas aujourd'hui.
 									</span>
 								</div>
 							</SectionBlock>
