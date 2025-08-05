@@ -74,7 +74,7 @@ export const tarifUserService = {
 
 	async getLatestByUserId(userId) {
 		try {
-			const response = await api.get(`/tarif-users/latest/user/${userId}`);
+			const response = await api.get(`/tarif-users/users/${userId}/latest-tarif`);
 			return {
 				success: true,
 				data: response.data,

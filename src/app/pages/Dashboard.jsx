@@ -136,7 +136,7 @@ const DashboardUser = () => {
 			setLoadingCampaigns(true);
 			const result = await campaignService.getAllCampaigns();
 			if (result.success) {
-				setCampaigns(result.data);
+				setCampaigns(result.data.data);
 			} else {
 				console.error(result.message);
 				setCampaigns([]);
@@ -152,8 +152,7 @@ const DashboardUser = () => {
 			try {
 				const result = await tarifUserService.getLatestByUserId(user.id);
 				if (result.success && result.data) {
-					console.log(result.data);
-					setTarif(result.data);
+					setTarif(result.data.data);
 				} else {
 					console.error("Erreur tarif:", result.message);
 					setTarif(null);
@@ -171,7 +170,7 @@ const DashboardUser = () => {
 			try {
 				const result = await promptService.getQuotaByUserId(user.id);
 				if (result.success && result.data !== null) {
-					setQuotaPrompt(result.data);
+					setQuotaPrompt(result.data.data);
 				} else {
 					console.error("Erreur quota prompt:", result.message);
 					setQuotaPrompt(null);
@@ -248,7 +247,8 @@ const DashboardUser = () => {
 								<div className="flex items-center justify-between gap-2">
 									<span>Quotas</span>
 									<strong>
-										{quotaPrompt ?? "..."}/{tarif?.tarif.max_limit ?? "..."}
+										{quotaPrompt?.daily_quota_used ?? "..."}/
+										{tarif?.tarif?.max_limit ?? "..."}
 									</strong>
 								</div>
 								<div className="w-full bg-[var(--color-gray)] rounded-full h-2.5 mt-2">
@@ -256,8 +256,9 @@ const DashboardUser = () => {
 										className="bg-blue-600 h-2.5 rounded-full transition-all duration-1000"
 										style={{
 											width:
-												tarif?.tarif?.max_limit != null && quotaPrompt != null
-													? `${Math.min((quotaPrompt / tarif.tarif.max_limit) * 100, 100)}%`
+												tarif?.tarif?.max_limit != null &&
+												quotaPrompt?.daily_quota_used != null
+													? `${Math.min((quotaPrompt.daily_quota_used / tarif?.tarif?.max_limit) * 100, 100)}%`
 													: "0%",
 										}}
 									></div>
@@ -265,8 +266,8 @@ const DashboardUser = () => {
 								<div className="mt-4">
 									<span>
 										Il vous reste{" "}
-										{tarif?.tarif?.max_limit != null && quotaPrompt != null
-											? tarif.tarif.max_limit - quotaPrompt
+										{tarif?.tarif?.max_limit != null && quotaPrompt?.daily_quota_used != null
+											? tarif.tarif.max_limit - quotaPrompt.daily_quota_used
 											: "..."}{" "}
 										quotas aujourd'hui.
 									</span>
