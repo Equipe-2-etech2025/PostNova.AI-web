@@ -1,25 +1,18 @@
-import api from "./api.js";
+import api from "@configs/api";
 
 export const authService = {
 	async login(credentials) {
 		try {
-			console.log(
-				"Tentative de connexion avec:",
-				credentials.email
-			);
-			const response = await api.post(
-				"/auth/login",
-				credentials
-			);
+			console.log("Tentative de connexion avec:", credentials.email);
+			const response = await api.post("/auth/login", credentials);
 			console.log("Connexion réussie:", response.data);
+			localStorage.setItem("auth_token", response.data.data.token);
 			console.log(response.data.data.token);
 			return {
 				success: true,
 				token: response.data.data.token,
 				user: response.data.data.user,
-				message:
-					response.data.message ||
-					"Connexion réussie",
+				message: response.data.message || "Connexion réussie",
 			};
 		} catch (error) {
 			console.error("Erreur de connexion:", error);
@@ -27,46 +20,31 @@ export const authService = {
 			if (error.code === "ERR_NETWORK") {
 				return {
 					success: false,
-					message: "Impossible de se connecter au serveur. Vérifiez que l'API est démarrée.",
+					message:
+						"Impossible de se connecter au serveur. Vérifiez que l'API est démarrée.",
 					errors: {},
 				};
 			}
 
 			return {
 				success: false,
-				message:
-					error.response?.data
-						?.message ||
-					"Erreur de connexion",
-				errors:
-					error.response?.data
-						?.errors || {},
+				message: error.response?.data?.message || "Erreur de connexion",
+				errors: error.response?.data?.errors || {},
 			};
 		}
 	},
 
 	async register(userData) {
 		try {
-			console.log(
-				"Tentative d'inscription avec:",
-				userData.email
-			);
-			const response = await api.post(
-				"/auth/register",
-				userData
-			);
-			console.log(
-				"Inscription réussie:",
-				response.data
-			);
+			console.log("Tentative d'inscription avec:", userData.email);
+			const response = await api.post("/auth/register", userData);
+			console.log("Inscription réussie:", response.data);
 
 			return {
 				success: true,
 				token: response.data.data.token,
 				user: response.data.data.user,
-				message:
-					response.data.message ||
-					"Inscription réussie",
+				message: response.data.message || "Inscription réussie",
 				requiresEmailVerification: true,
 			};
 		} catch (error) {
@@ -75,20 +53,16 @@ export const authService = {
 			if (error.code === "ERR_NETWORK") {
 				return {
 					success: false,
-					message: "Impossible de se connecter au serveur. Vérifiez que l'API est démarrée.",
+					message:
+						"Impossible de se connecter au serveur. Vérifiez que l'API est démarrée.",
 					errors: {},
 				};
 			}
 
 			return {
 				success: false,
-				message:
-					error.response?.data
-						?.message ||
-					"Erreur d'inscription",
-				errors:
-					error.response?.data
-						?.errors || {},
+				message: error.response?.data?.message || "Erreur d'inscription",
+				errors: error.response?.data?.errors || {},
 			};
 		}
 	},
@@ -98,15 +72,10 @@ export const authService = {
 			const response = await api.post("/auth/logout");
 			return {
 				success: true,
-				message:
-					response.data.message ||
-					"Déconnexion réussie",
+				message: response.data.message || "Déconnexion réussie",
 			};
 		} catch (error) {
-			console.error(
-				"Erreur lors de la déconnexion:",
-				error
-			);
+			console.error("Erreur lors de la déconnexion:", error);
 			return {
 				success: false,
 				message: "Erreur lors de la déconnexion",
@@ -116,32 +85,20 @@ export const authService = {
 
 	async getCurrentUser() {
 		try {
-			console.log(
-				"Récupération de l'utilisateur actuel..."
-			);
+			console.log("Récupération de l'utilisateur actuel...");
 			const response = await api.get("/auth/me");
-			console.log(
-				"Utilisateur récupéré:",
-				response.data
-			);
+			console.log("Utilisateur récupéré:", response.data);
 			return response.data.data;
 		} catch (error) {
-			console.error(
-				"Erreur lors de la récupération de l'utilisateur:",
-				error
-			);
+			console.error("Erreur lors de la récupération de l'utilisateur:", error);
 
 			if (error.response?.status === 401) {
-				console.log(
-					"Utilisateur non authentifié (401)"
-				);
+				console.log("Utilisateur non authentifié (401)");
 				return null;
 			}
 
 			if (error.code === "ERR_NETWORK") {
-				console.warn(
-					"Serveur non disponible, utilisateur non connecté"
-				);
+				console.warn("Serveur non disponible, utilisateur non connecté");
 				return null;
 			}
 
@@ -158,10 +115,7 @@ export const authService = {
 				message: response.data.message,
 			};
 		} catch (error) {
-			console.error(
-				"Erreur lors du rafraîchissement du token:",
-				error
-			);
+			console.error("Erreur lors du rafraîchissement du token:", error);
 			return {
 				success: false,
 				message: "Erreur lors du rafraîchissement du token",

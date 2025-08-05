@@ -1,14 +1,13 @@
 import React from "react";
-import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import { Navigate } from "react-router-dom";
+import useAuth from "@hooks/useAuth";
 
 const ProtectedRoute = ({
 	children,
 	requireAdmin = false,
 	requireEmailVerification = true,
 }) => {
-	const { isAuthenticated, user, loading } = useAuth();
-	const location = useLocation();
+	const { user, loading } = useAuth();
 
 	if (loading) {
 		return (

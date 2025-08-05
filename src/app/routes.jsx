@@ -1,25 +1,15 @@
 import React from "react";
-import {
-	BrowserRouter,
-	Routes as Router,
-	Route,
-	Navigate,
-} from "react-router-dom";
-import { AuthProvider } from "../contexts/AuthContext";
-import ProtectedRoute from "../components/ProtectedRoute";
 
-// Pages
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/register";
-import NavBar from "../components/NavBar";
-import DashboardUser from "./pages/DashboardUser";
-import EmailVerification from "./pages/EmailVerification";
-import PasswordResetFlow from "./pages/ResetPassword";
-import PolitiqueConfidentialite from "./pages/politiqueConfidentialite";
-import ConditionsUtilisation from "./pages/conditionsUtilisation";
+import { Login, Register } from "@pages/auth";
 import NotFound from "./pages/404";
-
+import {
+	EmailVerification,
+	Home,
+	PrivacyPolicyPage,
+	ResetPassword,
+	TermsOfUse,
+} from "@pages/public";
+import Dashboard from "@pages/Dashboard";
 
 const routes = [
 	/**
@@ -27,9 +17,9 @@ const routes = [
 	 * Accessibles sans authentification
 	 */
 	{ path: "/", element: <Home />, public: true },
-	{ path: "/terms-of-use", element: <ConditionsUtilisation />, public: true },
-	{ path: "/privacy-policy", element: <PolitiqueConfidentialite />, public: true },
-	
+	{ path: "/terms-of-use", element: <TermsOfUse />, public: true },
+	{ path: "/privacy-policy", element: <PrivacyPolicyPage />, public: true },
+
 	// Authentification
 	{ path: "/login", element: <Login />, public: true },
 	{ path: "/register", element: <Register />, public: true },
@@ -38,14 +28,13 @@ const routes = [
 	{ path: "/email/verify", element: <EmailVerification />, public: true },
 
 	// Réinitialisation mot de passe
-	{ path: "/reset-password", element: <PasswordResetFlow />, public: true },
-
+	{ path: "/reset-password", element: <ResetPassword />, public: true },
 
 	/**
 	 * Routes protégées
 	 * Nécessitant une authentification d'utilisateur
 	 */
-	{ path: "/dashboard", element: <DashboardUser /> },
+	{ path: "/dashboard", element: <Dashboard /> },
 
 	/**
 	 * Routes administratives
