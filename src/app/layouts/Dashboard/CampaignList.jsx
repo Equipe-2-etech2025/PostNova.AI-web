@@ -33,7 +33,7 @@ const LastCampaignList = ({ campaigns = [], isLoading = true }) => {
 						id={campaign.id}
 						name={campaign.name}
 						status={campaign.status}
-						createdAt={campaign.created_at}
+						createdAt={campaign.dates.created_at}
 						publicationNumber={campaign.social_posts_count}
 						imageNumber={campaign.images_count}
 						landingPageNumber={campaign.landing_pages_count}
