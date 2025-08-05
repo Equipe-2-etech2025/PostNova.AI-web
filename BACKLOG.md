@@ -1,12 +1,12 @@
 # 📝 Backlog Jira Sync
 
 ## À faire
-- [EPA-28] Interface politique de confidentialité et règles d'utilisation (Assigné à: Tahiry Houlder RATERAHAJA)
-   Branche: feature/EPA-28-condition-politique
-   Commit: `EPA-28: creation de condition et politique de page'
+
+	
 
 
-- [EPA-27] Interface mot de passe oublié + vérification email* (Assigné à: Tahiry Houlder RATERAHAJA)
+
+
 - [EPA-26] Intégration mot de passe oublié + vérification email (Assigné à: Nathan Rakotoarimanana)
 
 ## En cours
@@ -46,6 +46,15 @@
 - [EPA-14] Creation de composant réutilisable (bouton, card, modal, ...) (Assigné à: Tahiry Houlder RATERAHAJA)
 
 ## Terminé(e)
+-[EPA-44]  Création Interface 404 (Assigné à: Tahiry Houlder RATERAHAJA)
+	Branch: feature/EPA-44:Inteface-404
+
+- [EPA-27] Interface mot de passe oublié + vérification email* (Assigné à: Tahiry Houlder RATERAHAJA)
+
+- [EPA-28] Interface politique de confidentialité et règles d'utilisation (Assigné à: Tahiry Houlder RATERAHAJA)
+   Branche: feature/EPA-28-condition-politique
+   Commit: `EPA-28: creation de condition et politique de page'
+   
 - [EPA-38] Integration mot de passe oublié (Assigné à: Nathan Rakotoarimanana)
   Branche: `feature/EPA-38-intg-mdp-reset`
   Commit: `EPA-38: intégration réinitialiser mot de passe`

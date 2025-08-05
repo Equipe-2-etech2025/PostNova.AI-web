@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Login, Register } from "@pages/auth";
+import NotFound from "./pages/404";
 import {
 	EmailVerification,
 	Home,
@@ -40,6 +41,13 @@ const routes = [
 	 * Réservées aux administrateurs
 	 */
 	// { path: "/admin", element: <Navigate to="/dashboard" replace />, admin: true },
+
+	/**
+	 * Pages d'erreur
+	 */
+	{ path: "*", element: <NotFound /> },
+
+	
 ];
 
 export default routes;
