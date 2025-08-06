@@ -1,9 +1,17 @@
 import React from "react";
-import { BsCheck, BsFileEarmarkText, BsGlobe, BsImage, BsX } from "react-icons/bs";
+import { Link } from "react-router";
+import {
+	BsCheck,
+	BsFileEarmarkText,
+	BsGlobe,
+	BsImage,
+	BsX,
+} from "react-icons/bs";
 import NavBar from "@layouts/NavBar";
-import { InputPrompt } from "@shared/Input";
+import { InputPrompt } from "@components/Home/InputPrompt";
 import { Card } from "@shared/Card";
 import Button from "@shared/Button";
+import PopularContent from "@components/Home/PopularContent";
 
 const Home = () => {
 	return (
@@ -11,9 +19,9 @@ const Home = () => {
 			<NavBar />
 			<section className="relative h-screen">
 				<div className="container flex flex-col items-center justify-center h-full mx-auto">
-					<h1 className="w-3/4 text-6xl text-center font-bold mb-4">
-						Transformez une <span className="text-[var(--color-blue)]">idée</span> en{" "}
-						<span className="text-[var(--color-blue)]">campagne</span> complète
+					<h1 className="text-6xl font-extrabold leading-tight text-center text-gray-900 dark:text-white">
+						Créez un <span className="text-purple-600">Post</span>, in
+						<span className="text-purple-600">Nova</span>nte
 					</h1>
 					<p className="text-xl text-center mb-8">
 						Une idée ? L’IA la transforme en campagne complète.
@@ -63,44 +71,7 @@ const Home = () => {
 					</div>
 				</div>
 			</section>
-			<section id="popular-content" className="py-32">
-				<div className="container mx-auto">
-					<div className="text-center mb-4">
-						<h2 className="text-5xl font-bold mb-4">Contenu Populaire</h2>
-						<p className="text-lg text-[var(--color-lightgray)] mb-12">
-							Plongez dans les tendances actuelles et découvrez le contenu qui fait le
-							buzz.
-						</p>
-					</div>
-					<div className="bg-gray-50 dark:bg-black/50 flex rounded-4xl shadow-lg overflow-hidden">
-						<div className="flex-1/2 bg-[var(--color-blue)]"></div>
-						<div className="flex-1/2 flex flex-col gap-8 shadow-lg p-24 z-10">
-							<div>
-								<h3 className="text-4xl font-bold mb-2">Lorem ipsum</h3>
-								<strong className="text-xl">
-									Landing page - <i>ITem</i>
-								</strong>
-								<p className="mt-8">
-									Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero
-									repudiandae veritatis nihil esse culpa quod, consectetur voluptas,
-									voluptates animi qui nisi fugiat officia ratione delectus! Facilis fuga
-									deleniti voluptas quae!
-								</p>
-							</div>
-							<div className="flex items-center gap-3 mt-8">
-								<div className="flex-1/2 flex flex-col items-center">
-									<strong className="text-5xl">140</strong>
-									<span className="text-center">J'aime</span>
-								</div>
-								<div className="flex-1/2 flex flex-col items-center">
-									<strong className="text-5xl">45</strong>
-									<span className="text-center">Temps de génération en seconde</span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</section>
+			<PopularContent />
 			<section id="our-offers" className="py-32">
 				<div className="container mx-auto text-center">
 					<h2 className="text-5xl font-bold mb-4">Nos Offres</h2>
@@ -112,34 +83,37 @@ const Home = () => {
 							<h3 className="text-4xl mb-3">
 								<strong>Plan gratuit</strong>
 							</h3>
-							<strong className="text-lg">$0 / mois</strong>
+							<strong className="text-lg">0€ / mois</strong>
 							<hr className="w-1/3 border-blue-50/25 m-auto my-5" />
 							<div className="flex flex-col gap-2">
 								<div className="flex items-start gap-2">
 									<BsCheck size={24} color={"var(--color-green)"} />
-									<p>Lorem ipsum dolor sit amet consectetur.</p>
+									<p>Jusqu'à 3 campagnes actives</p>
 								</div>
 								<div className="flex items-start gap-2">
 									<BsCheck size={24} color={"var(--color-green)"} />
-									<p>Lorem ipsum.</p>
+									<p>10 modèles de campagnes personnalisables</p>
 								</div>
 								<div className="flex items-start gap-2">
 									<BsX size={24} color={"var(--color-red)"} />
-									<p>Lorem ipsum ornare.</p>
+									<p>Support client prioritaire</p>
 								</div>
 								<div className="flex items-start gap-2">
 									<BsX size={24} color={"var(--color-red)"} />
-									<p>Lorem ipsum egestas quis.</p>
+									<p>Analyses avancées et rapports détaillés</p>
 								</div>
 								<div className="flex items-start gap-2">
 									<BsX size={24} color={"var(--color-red)"} />
-									<p>Lorem ipsum fames condimentum.</p>
+									<p>Intégrations API tierces</p>
 								</div>
 							</div>
 							<div className="text-center mt-8">
-								<Button>Tester gratuitement</Button>
+								<Link to="/register">
+									<Button>Tester gratuitement</Button>
+								</Link>
 							</div>
 						</div>
+
 						<div className="relative w-1/3 rounded-[3em] overflow-hidden">
 							<div className="absolute w-full h-full bg-linear-to-tr from-[var(--color-blue)] to-[var(--color-green)] opacity-50 -z-10"></div>
 							<div className="absolute w-full h-full bg-[var(--color-blue)] -z-20"></div>
@@ -147,32 +121,32 @@ const Home = () => {
 								<h3 className="text-4xl mb-3">
 									<strong>Professionnel</strong>
 								</h3>
-								<strong className="text-lg">$14.99 / mois</strong>
+								<strong className="text-lg">29,99€ / mois</strong>
 								<hr className="w-1/3 border-blue-50/25 m-auto my-5" />
 								<div className="flex flex-col gap-2">
 									<div className="flex items-start gap-2">
 										<BsCheck size={24} color={"var(--color-green)"} />
-										<p>Lorem ipsum dolor sit amet consectetur.</p>
+										<p>Campagnes illimitées</p>
 									</div>
 									<div className="flex items-start gap-2">
 										<BsCheck size={24} color={"var(--color-green)"} />
-										<p>Lorem ipsum.</p>
+										<p>Plus de 50 modèles personnalisables</p>
 									</div>
 									<div className="flex items-start gap-2">
 										<BsCheck size={24} color={"var(--color-green)"} />
-										<p>Lorem ipsum ornare.</p>
+										<p>Support client prioritaire 24/7</p>
 									</div>
 									<div className="flex items-start gap-2">
 										<BsCheck size={24} color={"var(--color-green)"} />
-										<p>Lorem ipsum egestas quis.</p>
+										<p>Analyses avancées et rapports personnalisés</p>
 									</div>
 									<div className="flex items-start gap-2">
 										<BsCheck size={24} color={"var(--color-green)"} />
-										<p>Lorem ipsum fames condimentum.</p>
+										<p>Intégrations API et CRM</p>
 									</div>
 									<div className="flex items-start gap-2">
 										<BsCheck size={24} color={"var(--color-green)"} />
-										<p>Sit amet consectetur.</p>
+										<p>Accès aux fonctionnalités beta exclusives</p>
 									</div>
 								</div>
 								<div className="text-center mt-8">

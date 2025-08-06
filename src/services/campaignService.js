@@ -22,7 +22,10 @@ export const campaignService = {
 				data: response.data,
 			};
 		} catch (error) {
-			return handleError(error, `Impossible de récupérer la campagne avec l'ID ${id}`);
+			return handleError(
+				error,
+				`Impossible de récupérer la campagne avec l'ID ${id}`
+			);
 		}
 	},
 
@@ -39,6 +42,22 @@ export const campaignService = {
 		}
 	},
 
+	async getPopularCampaigns() {
+		try {
+			const response = await api.get("/campaigns/popular/content");
+			return {
+				success: true,
+				data: response.data.data,
+				totals: response.data.totals,
+			};
+		} catch (error) {
+			return handleError(
+				error,
+				"Impossible de récupérer les campagnes populaires"
+			);
+		}
+	},
+
 	async updateCampaign(id, campaignData) {
 		try {
 			const response = await api.put(`/campaigns/${id}`, campaignData);
@@ -48,7 +67,10 @@ export const campaignService = {
 				message: "Campagne mise à jour avec succès",
 			};
 		} catch (error) {
-			return handleError(error, `Erreur lors de la mise à jour de la campagne ID ${id}`);
+			return handleError(
+				error,
+				`Erreur lors de la mise à jour de la campagne ID ${id}`
+			);
 		}
 	},
 
@@ -60,7 +82,10 @@ export const campaignService = {
 				message: response.data.message || "Campagne supprimée avec succès",
 			};
 		} catch (error) {
-			return handleError(error, `Erreur lors de la suppression de la campagne ID ${id}`);
+			return handleError(
+				error,
+				`Erreur lors de la suppression de la campagne ID ${id}`
+			);
 		}
 	},
 
@@ -72,7 +97,10 @@ export const campaignService = {
 				data: response.data,
 			};
 		} catch (error) {
-			return handleError(error, `Erreur lors de la récupération des campagnes de l'utilisateur ID ${userId}`);
+			return handleError(
+				error,
+				`Erreur lors de la récupération des campagnes de l'utilisateur ID ${userId}`
+			);
 		}
 	},
 
