@@ -8,6 +8,7 @@ import {
 	PrivacyPolicyPage,
 	ResetPassword,
 	TermsOfUse,
+	UserProfile,
 } from "@pages/public";
 import Dashboard from "@pages/Dashboard";
 
@@ -35,6 +36,8 @@ const routes = [
 	 * Nécessitant une authentification d'utilisateur
 	 */
 	{ path: "/dashboard", element: <Dashboard /> },
+
+	{ path: "/userProfile", element: <UserProfile /> },
 
 	/**
 	 * Routes administratives
