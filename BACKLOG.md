@@ -10,6 +10,11 @@
 - [EPA-26] Intégration mot de passe oublié + vérification email (Assigné à: Nathan Rakotoarimanana)
 
 ## En cours
+- [EPA-56] Intégration page d'acceuil
+  Branche : `feature/EPA-56-intg-page-accueil`
+  Commit: `EPA-56: integration page acceuil de base`
+  
+
 - [EPA-43] Implementation de theme sombre (Assigné à: Andhi Andrianina)
   Branche: `feature/EPA-43-theme-context`
   Commit: `EPA-43: update pages page and enhance components to adapt the theme management`
