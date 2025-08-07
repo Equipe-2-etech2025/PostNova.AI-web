@@ -3,8 +3,9 @@ import React from "react";
 import { Navigate } from "react-router";
 import * as Auth from "@pages/auth";
 import * as Public from "@pages/public";
-import Dashboard from "@pages/Dashboard";
 import * as Campaign from "@pages/campaign";
+import NotFound from "./pages/404";
+import Dashboard from "@pages/Dashboard";
 
 const routes = [
 	/**
@@ -35,11 +36,18 @@ const routes = [
 	{ path: "/campaign/:id", element: <Campaign.Detail /> },
 	{ path: "/campaign/:id/preview-page", element: <Campaign.PreviewPage /> },
 
+	{ path: "/userProfile", element: <UserProfile /> },
+
 	/**
 	 * Routes administratives
 	 * Réservées aux administrateurs
 	 */
-	{ path: "/admin", element: <Navigate to="/dashboard" replace />, admin: true },
+	// { path: "/admin", element: <Navigate to="/dashboard" replace />, admin: true },
+
+	/**
+	 * Pages d'erreur
+	 */
+	{ path: "*", element: <NotFound /> },
 ];
 
 export default routes;

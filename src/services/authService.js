@@ -6,6 +6,7 @@ export const authService = {
 			console.log("Tentative de connexion avec:", credentials.email);
 			const response = await api.post("/auth/login", credentials);
 			console.log("Connexion réussie:", response.data);
+			localStorage.setItem("auth_token", response.data.data.token);
 			console.log(response.data.data.token);
 			return {
 				success: true,
