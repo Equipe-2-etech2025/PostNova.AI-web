@@ -15,7 +15,7 @@ import NavBar from "@layouts/NavBar";
 import Button from "@shared/Button";
 import { Card } from "@shared/Card";
 import Indicator from "@components/Dashboard/Indicator";
-import SectionBlock from "@components/Dashboard/SectionBlock";
+import SectionBlock from "@layouts/SectionBlock";
 import LastCampaignList from "@layouts/Dashboard/CampaignList";
 
 const DashboardUser = () => {
@@ -144,9 +144,7 @@ const DashboardUser = () => {
 				<section>
 					<div className="flex items-center justify-between gap-6">
 						<div className="flex flex-col gap-2">
-							<h1 className="text-3xl font-bold">
-								Bonjour, {user?.name}
-							</h1>
+							<h1 className="text-3xl font-bold">Bonjour, {user?.name}</h1>
 							<p>
 								Créez des campagnes marketing complètes en moins d'une minute grâce à
 								l'IA

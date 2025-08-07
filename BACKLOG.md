@@ -10,9 +10,9 @@
 - [EPA-26] Intégration mot de passe oublié + vérification email (Assigné à: Nathan Rakotoarimanana)
 
 ## En cours
-- [EPA-43] Implementation de theme sombre (Assigné à: Andhi Andrianina)
-  Branche: `feature/EPA-43-theme-context`
-  Commit: `EPA-43: update pages page and enhance components to adapt the theme management`
+- [EPA-35] Réalisation de la page de détail et création de campagne (Assigné à: Andhi Andrianina)
+  Branche: `feature/EPA-35-ui-campaign`
+  Commit: `EPA-35: EPA-35 : Page (create & detail) campaign + modal per feature`
 
 - [EPA-38] Integration mot de passe oublié (Assigné à: Nathan Rakotoarimanana)
   Branche: `feature/EPA-38-intg-mdp-reset`
@@ -47,6 +47,10 @@
 - [EPA-14] Creation de composant réutilisable (bouton, card, modal, ...) (Assigné à: Tahiry Houlder RATERAHAJA)
 
 ## Terminé(e)
+- [EPA-43] Implementation de theme sombre (Assigné à: Andhi Andrianina)
+  Branche: `feature/EPA-43-theme-context`
+  Commit: `EPA-43: update pages page and enhance components to adapt the theme management`
+
 - [EPA-42] Création, organisation des dossiers (shared/, layout/, components/, ...) et gestion des importation des composants (Assigné à: Andhi Andrianina)
   Branche: `refactor/EPA-42-folder-structure-manage-import`
   Commit: `EPA-42: folder structure and import management`
