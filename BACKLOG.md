@@ -13,11 +13,6 @@
 - [EPA-56] Intégration page d'acceuil
   Branche : `feature/EPA-56-intg-page-accueil`
   Commit: `EPA-56: integration page acceuil de base`
-  
-
-- [EPA-43] Implementation de theme sombre (Assigné à: Andhi Andrianina)
-  Branche: `feature/EPA-43-theme-context`
-  Commit: `EPA-43: update pages page and enhance components to adapt the theme management`
 
 - [EPA-47] Intégration dashboard
   Branche: `feature/EPA-47-integration-dashboard`
@@ -51,6 +46,14 @@
 - [EPA-14] Creation de composant réutilisable (bouton, card, modal, ...) (Assigné à: Tahiry Houlder RATERAHAJA)
 
 ## Terminé(e)
+- [EPA-35] Réalisation de la page de détail et création de campagne (Assigné à: Andhi Andrianina)
+  Branche: `feature/EPA-35-ui-campaign`
+  Commit: `EPA-35: EPA-35 : Page (create & detail) campaign + modal per feature`
+  
+- [EPA-43] Implementation de theme sombre (Assigné à: Andhi Andrianina)
+  Branche: `feature/EPA-43-theme-context`
+  Commit: `EPA-43: update pages page and enhance components to adapt the theme management`
+  
 -[EPA-44]  Création Interface 404 (Assigné à: Tahiry Houlder RATERAHAJA)
 	Branch: feature/EPA-44:Inteface-404
 

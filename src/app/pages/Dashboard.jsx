@@ -15,7 +15,7 @@ import NavBar from "@layouts/NavBar";
 import Button from "@shared/Button";
 import { Card } from "@shared/Card";
 import Indicator from "@components/Dashboard/Indicator";
-import SectionBlock from "@components/Dashboard/SectionBlock";
+import SectionBlock from "@layouts/SectionBlock";
 import LastCampaignList from "@layouts/Dashboard/CampaignList";
 import { campaignService } from "@services/campaignService";
 import { tarifUserService } from "@services/tarifUserService";
