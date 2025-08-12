@@ -1,9 +1,9 @@
 import React from "react";
 
-import { Navigate } from "react-router";
 import * as Auth from "@pages/auth";
 import * as Public from "@pages/public";
 import * as Campaign from "@pages/campaign";
+import * as Admin from "@pages/admin";
 import NotFound from "./pages/404";
 import Dashboard from "@pages/Dashboard";
 
@@ -14,7 +14,11 @@ const routes = [
 	 */
 	{ path: "/", element: <Public.Home />, public: true },
 	{ path: "/terms-of-use", element: <Public.TermsOfUse />, public: true },
-	{ path: "/privacy-policy", element: <Public.PrivacyPolicyPage />, public: true },
+	{
+		path: "/privacy-policy",
+		element: <Public.PrivacyPolicyPage />,
+		public: true,
+	},
 
 	// Authentification
 	{ path: "/login", element: <Auth.Login />, public: true },
@@ -36,13 +40,11 @@ const routes = [
 	{ path: "/campaign/:id", element: <Campaign.Detail /> },
 	{ path: "/campaign/:id/preview-page", element: <Campaign.PreviewPage /> },
 
-	{ path: "/userProfile", element: <UserProfile /> },
-
 	/**
 	 * Routes administratives
 	 * Réservées aux administrateurs
 	 */
-	// { path: "/admin", element: <Navigate to="/dashboard" replace />, admin: true },
+	{ path: "/admin", element: <Admin.Dashboard />, admin: true },
 
 	/**
 	 * Pages d'erreur

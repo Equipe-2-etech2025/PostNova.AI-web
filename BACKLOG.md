@@ -30,6 +30,10 @@
 - [EPA-8] Creation de .github/workflows(CI/CD) Laravel (Assigné à: Mialisoa Lisa Rasoanirina)
 
 ## Terminé non testé
+- [EPA-60] Maquettage et réalisation de la page Admin Dashboard (Assigné à: Andhi Andrianina)
+  Branche: `feature/EPA-60-ui-admin-dashboard`
+  Commit: `EPA-60: Implement Admin Dashboard with User Management, Activity Feed, Revenue Chart, and Admin Tools`
+
 - [EPA-41] Modification des "routes" (Assigné à: Andhi Andrianina)
   Branche: `refactor/EPA-41-organize-routes`
   Commit: `EPA-41: routing structure`
