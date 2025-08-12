@@ -3,7 +3,7 @@ import { Card } from "@shared/Card";
 
 const SectionBlock = ({ children, title, icon, action }) => {
 	return (
-		<Card styles={"shadow-lg"}>
+		<Card shadow="md">
 			<div className="flex items-start justify-between">
 				<div className="flex items-start gap-3">
 					{icon &&
