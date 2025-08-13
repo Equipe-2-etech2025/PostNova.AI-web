@@ -5,7 +5,18 @@ import * as Public from "@pages/public";
 import * as Campaign from "@pages/campaign";
 import * as Admin from "@pages/admin";
 import NotFound from "./pages/404";
+import {
+	EmailVerification,
+	Home,
+	PrivacyPolicyPage,
+	ResetPassword,
+	TermsOfUse,
+} from "@pages/public";
 import Dashboard from "@pages/Dashboard";
+import UserProfile from "@pages/userProfile/UserProfile";
+import ChangePassword from "@pages/userProfile/ChangePassword";
+import TemplatesExplorer from "@pages/userProfile/TemplatesExplorer";
+import TemplatePreview from "@pages/userProfile/TemplatePreview";
 
 const routes = [
 	/**
@@ -39,6 +50,14 @@ const routes = [
 	{ path: "/campaign/new", element: <Campaign.New /> },
 	{ path: "/campaign/:id", element: <Campaign.Detail /> },
 	{ path: "/campaign/:id/preview-page", element: <Campaign.PreviewPage /> },
+  
+  { path: "/userProfile", element: <UserProfile /> },
+
+	{ path: "/changePassword", element: <ChangePassword /> },
+
+	{ path: "/templates", element: <TemplatesExplorer /> },
+
+	{ path: "/templates/:id/preview", element: <TemplatePreview /> },
 
 	/**
 	 * Routes administratives
