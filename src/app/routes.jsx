@@ -1,6 +1,9 @@
 import React from "react";
 
-import { Login, Register } from "@pages/auth";
+import * as Auth from "@pages/auth";
+import * as Public from "@pages/public";
+import * as Campaign from "@pages/campaign";
+import * as Admin from "@pages/admin";
 import NotFound from "./pages/404";
 import {
 	EmailVerification,
@@ -20,27 +23,35 @@ const routes = [
 	 * Routes publiques
 	 * Accessibles sans authentification
 	 */
-	{ path: "/", element: <Home />, public: true },
-	{ path: "/terms-of-use", element: <TermsOfUse />, public: true },
-	{ path: "/privacy-policy", element: <PrivacyPolicyPage />, public: true },
+	{ path: "/", element: <Public.Home />, public: true },
+	{ path: "/terms-of-use", element: <Public.TermsOfUse />, public: true },
+	{
+		path: "/privacy-policy",
+		element: <Public.PrivacyPolicyPage />,
+		public: true,
+	},
 
 	// Authentification
-	{ path: "/login", element: <Login />, public: true },
-	{ path: "/register", element: <Register />, public: true },
+	{ path: "/login", element: <Auth.Login />, public: true },
+	{ path: "/register", element: <Auth.Register />, public: true },
 
 	// Verification email
-	{ path: "/email/verify", element: <EmailVerification />, public: true },
+	{ path: "/email/verify", element: <Public.EmailVerification />, public: true },
 
 	// Réinitialisation mot de passe
-	{ path: "/reset-password", element: <ResetPassword />, public: true },
+	{ path: "/reset-password", element: <Public.ResetPassword />, public: true },
 
 	/**
 	 * Routes protégées
 	 * Nécessitant une authentification d'utilisateur
 	 */
 	{ path: "/dashboard", element: <Dashboard /> },
-
-	{ path: "/userProfile", element: <UserProfile /> },
+	// Campaign
+	{ path: "/campaign/new", element: <Campaign.New /> },
+	{ path: "/campaign/:id", element: <Campaign.Detail /> },
+	{ path: "/campaign/:id/preview-page", element: <Campaign.PreviewPage /> },
+  
+  { path: "/userProfile", element: <UserProfile /> },
 
 	{ path: "/changePassword", element: <ChangePassword /> },
 
@@ -52,7 +63,7 @@ const routes = [
 	 * Routes administratives
 	 * Réservées aux administrateurs
 	 */
-	// { path: "/admin", element: <Navigate to="/dashboard" replace />, admin: true },
+	{ path: "/admin", element: <Admin.Dashboard />, admin: true },
 
 	/**
 	 * Pages d'erreur

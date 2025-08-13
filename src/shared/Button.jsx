@@ -41,7 +41,7 @@ const Button = ({
 	};
 
 	const base =
-		"inline-flex items-center justify-center font-bold transition duration-150 cursor-pointer";
+		"inline-flex items-center justify-center font-bold hover:opacity-90 transition duration-150 cursor-pointer";
 	const shape = circle ? "rounded-full" : "rounded-xl";
 	const sizeClass = sizes[size] || sizes.md;
 
@@ -51,7 +51,7 @@ const Button = ({
 	} else if (variant === "outline") {
 		colorClass = outlineColors[color] || outlineColors.primary;
 	} else if (variant === "ghost") {
-		colorClass = `bg-transparent text-${color} dark:text-${color}`;
+		colorClass = `text-${color} dark:text-${color}`;
 	}
 
 	const disabledClass = disabled ? "opacity-50 cursor-not-allowed" : "";

@@ -1,7 +1,7 @@
 import React from "react";
 import { BsArrowUpRightCircleFill, BsClock, BsPlus } from "react-icons/bs";
 import CampaignItem from "@components/Dashboard/CampaignItem";
-import SectionBlock from "@components/Dashboard/SectionBlock";
+import SectionBlock from "@layouts/SectionBlock";
 import Button from "@shared/Button";
 
 const LastCampaignList = ({ campaigns = [], isLoading = true }) => {
