@@ -8,9 +8,12 @@ import {
 	PrivacyPolicyPage,
 	ResetPassword,
 	TermsOfUse,
-	UserProfile,
 } from "@pages/public";
 import Dashboard from "@pages/Dashboard";
+import UserProfile from "@pages/userProfile/UserProfile";
+import ChangePassword from "@pages/userProfile/ChangePassword";
+import TemplatesExplorer from "@pages/userProfile/TemplatesExplorer";
+import TemplatePreview from "@pages/userProfile/TemplatePreview";
 
 const routes = [
 	/**
@@ -39,6 +42,12 @@ const routes = [
 
 	{ path: "/userProfile", element: <UserProfile /> },
 
+	{ path: "/changePassword", element: <ChangePassword /> },
+
+	{ path: "/templates", element: <TemplatesExplorer /> },
+
+	{ path: "/templates/:id/preview", element: <TemplatePreview /> },
+
 	/**
 	 * Routes administratives
 	 * Réservées aux administrateurs
@@ -49,8 +58,6 @@ const routes = [
 	 * Pages d'erreur
 	 */
 	{ path: "*", element: <NotFound /> },
-
-	
 ];
 
 export default routes;
