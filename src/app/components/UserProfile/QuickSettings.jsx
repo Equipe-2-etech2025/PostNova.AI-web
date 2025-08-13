@@ -6,7 +6,7 @@ import {
 	BsMoonStarsFill,
 	BsSunriseFill,
 } from "react-icons/bs";
-import SectionBlock from "@components/Dashboard/SectionBlock";
+import SectionBlock from "@layouts/SectionBlock";
 import { Card } from "@shared/Card";
 import useTheme from "@hooks/useTheme";
 

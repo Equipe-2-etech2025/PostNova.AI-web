@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BsPersonCircle, BsRocket, BsPencil } from 'react-icons/bs';
-import SectionBlock from '@components/Dashboard/SectionBlock';
+import SectionBlock from "@layouts/SectionBlock";
 import Button from '@shared/Button';
 
 const ProfileInfo = ({ user, tarif, onSave }) => {

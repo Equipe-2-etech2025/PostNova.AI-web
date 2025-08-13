@@ -1,6 +1,6 @@
 import React from 'react';
 import { BsBarChartLine, BsPieChart, BsBullseye, BsHeartFill } from 'react-icons/bs';
-import SectionBlock from '@components/Dashboard/SectionBlock';
+import SectionBlock from "@layouts/SectionBlock";
 
 const StatsSection = ({ 
   userStats, 

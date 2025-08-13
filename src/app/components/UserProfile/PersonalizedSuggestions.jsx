@@ -11,7 +11,7 @@ import {
 	BsChevronDown,
 } from "react-icons/bs";
 import Spinner from "@components/Spinner";
-import SectionBlock from "@components/Dashboard/SectionBlock";
+import SectionBlock from "@layouts/SectionBlock";
 import { Card } from "@shared/Card";
 
 const iconMap = {

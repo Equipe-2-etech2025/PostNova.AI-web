@@ -1,6 +1,6 @@
 import React from "react";
 import { BsCalendar, BsChevronUp, BsChevronDown } from "react-icons/bs";
-import SectionBlock from "@components/Dashboard/SectionBlock";
+import SectionBlock from "@layouts/SectionBlock";
 import Spinner from "@components/Spinner";
 
 const ActivityTimeline = ({
