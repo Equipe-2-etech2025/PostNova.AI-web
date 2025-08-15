@@ -29,11 +29,11 @@ const AppRoutes = () => {
 function App() {
 	return (
 		<ThemeProvider>
-			<AuthProvider>
-				<BrowserRouter>
+			<BrowserRouter>
+				<AuthProvider>
 					<AppRoutes />
-				</BrowserRouter>
-			</AuthProvider>
+				</AuthProvider>
+			</BrowserRouter>
 		</ThemeProvider>
 	);
 }
