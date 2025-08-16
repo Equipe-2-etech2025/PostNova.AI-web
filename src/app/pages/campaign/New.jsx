@@ -36,7 +36,7 @@ const New = () => {
 				type_campaign_id: typeCampaign,
 				user_id: user.id,
 			});
-
+            console.log("Response from campaign creation:", response);
 			if (response.success) {
 				navigate(`/campaign/${response.campaign.id}`);
 			} else {
@@ -67,7 +67,7 @@ const New = () => {
 	return (
 		<div className="min-h-screen">
 			<NavBar />
-			<div className="container flex flex-col items-center justify-center min-h-[80vh] mx-auto">
+			<div className="container flex flex-col items-center justify-center min-h-[80vh] mx-auto px-4">
 				<h1 className="text-5xl font-bold mt-12 mb-2 text-center">
 					Créer une campagne
 				</h1>
@@ -76,46 +76,52 @@ const New = () => {
 					Décrivez votre campagne et choisissez son type.
 				</p>
 
-				<div className="w-full flex flex-col gap-6 max-w-3xl">
+				<div className="w-full max-w-3xl">
 					<InputPrompt
 						placeholder="Décrivez votre campagne"
 						value={description}
 						btnText={isCreating ? "Création..." : "Créer"}
-						btnDisabled={isCreating}
+						btnDisabled={isCreating || !description || !typeCampaign}
 						btnIcon={
 							isCreating ? <span className="mr-1">🪄</span> : <BsMagic size={16} />
 						}
 						onChange={(e) => setDescription(e.target.value)}
 						onSubmit={handleSubmit}
-						optionComponent={
-							<div className="w-full max-w-md mb-4">
-								<select
-									id="campaignType"
-									value={typeCampaign}
-									onChange={(e) => setTypeCampaign(e.target.value)}
-									className={`
-    w-full px-4 py-2 block text-sm font-medium rounded-md shadow-sm
-    gradient-select
-    ${isCreating ? "opacity-70 cursor-not-allowed" : "cursor-pointer"}
-  `}
-									disabled={isCreating}
-								>
-									<option value="" disabled className="text-gray-400">
-										Choisissez le type de campagne *
-									</option>
-									{campaignOptions.map((option) => (
-										<option
-											key={option.id}
-											value={option.id}
-											className="transition-colors duration-200"
-										>
-											{option.name}
-										</option>
-									))}
-								</select>
-							</div>
-						}
+						containerStyle="!px-6 !py-4 !rounded-lg !bg-white !border !border-gray-200"
+						inputStyle="!p-0 !bg-transparent text-lg min-h-[60px]"
+						btnPosition="right"
 					/>
+
+					<div className="mt-8 text-center">
+						<p className="text-sm text-gray-500 mb-4">Type de campagne *</p>
+						<div className="grid grid-cols-3 gap-3 max-w-xl mx-auto">
+							{campaignOptions.map((option) => (
+								<button
+									key={option.id}
+									type="button"
+									onClick={() => setTypeCampaign(option.id)}
+									className={`
+          px-4 py-3 text-sm font-medium rounded-lg shadow-sm
+          transition-all duration-200 whitespace-nowrap
+          bg-gradient-to-r from-purple-100 via-blue-100 to-pink-100
+          hover:from-purple-400 hover:via-blue-400 hover:to-pink-400
+          ${
+											typeCampaign === option.id
+												? "from-purple-500 via-blue-500 to-pink-500 text-white"
+												: "text-gray-800"
+										}
+          ${isCreating ? "opacity-70 cursor-not-allowed" : ""}
+          overflow-hidden text-ellipsis
+          flex items-center justify-center
+        `}
+									disabled={isCreating}
+									title={option.name}
+								>
+									<span className="truncate">{option.name}</span>
+								</button>
+							))}
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

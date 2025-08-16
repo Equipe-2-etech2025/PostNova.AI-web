@@ -1,6 +1,7 @@
 import React from "react";
 import { BsMagic } from "react-icons/bs";
 
+
 const InputPrompt = ({
 	placeholder,
 	containerStyle,
@@ -10,6 +11,7 @@ const InputPrompt = ({
 	btnDisabled = false,
 	btnIcon = <BsMagic size={16} />,
 	onChange,
+	btnPosition = "left",
 	onSubmit,
 	optionValue = "Option",
 	handleOption,
@@ -38,7 +40,7 @@ const InputPrompt = ({
 
 	return (
 		<form
-			className={`bg-blue-50/10 border border-gray-500/10 rounded-3xl shadow-lg px-5 py-4 backdrop-blur-2xl ${containerStyle}`}
+			className={`relative bg-blue-50/10 border border-gray-500/10 rounded-3xl shadow-lg px-5 py-4 backdrop-blur-2xl ${containerStyle}`}
 			onSubmit={handleSubmit}
 		>
 			<textarea
@@ -51,33 +53,25 @@ const InputPrompt = ({
 				{...props}
 			></textarea>
 
-			<div className="flex items-center justify-between my-2">
+			<div className="flex items-center justify-between my-1">
 				{optionComponent && <div className="mt-2">{optionComponent}</div>}
 
-				<div className="flex items-end justify-between my-1">
-					<div className="flex items-center gap-2">
-						{handleOption && (
-							<button
-								type="button"
-								className="text-gray-500 px-2 pt-1.5 pb-1 transition duration-200 text-sm font-semibold"
-								onClick={handleOption}
-							>
-								{optionValue}
-							</button>
-						)}
-					</div>
+				<div
+					className={`flex ${btnPosition === "right" ? "justify-end" : "justify-start"} w-full`}
+				>
 					<button
 						type="submit"
 						disabled={btnDisabled}
 						className={`
-    flex items-center gap-2 px-4 py-2 text-white rounded-lg font-medium
-    transition-all duration-300 transform
-    ${
-					btnDisabled
-						? "creating-animation btn-gradient opacity-90"
-						: "btn-gradient hover:scale-105"
-				}
-  `}
+                            flex items-center gap-2 px-4 py-2 text-white rounded-lg font-medium
+                            transition-all duration-300 transform
+                            ${
+																													btnDisabled
+																														? "creating-animation btn-gradient opacity-90"
+																														: "btn-gradient hover:scale-105"
+																												}
+                            ${btnPosition === "right" ? "ml-auto" : ""}
+                        `}
 					>
 						<span>{btnText}</span>
 						{btnIcon && (

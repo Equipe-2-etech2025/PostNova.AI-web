@@ -23,11 +23,14 @@ import * as Feature from "@components/Campaign/Features";
 import CampaignImageItem from "@components/Campaign/CampaignImageItem";
 import CampaignLandingPageItem from "@components/Campaign/CampaignLandingPageItem";
 import EditCampaign from "@layouts/Campaign/EditCampaign";
+import { campaignService } from "@services/campaignService";
+import { imageService } from "@services/imageService";
 
 const Detail = () => {
 	const location = useLocation();
 	const { isOpen, openModal, closeModal } = useModal();
 	const [isPreview, setIsPreview] = useState(false);
+	const [selectedImage, setSelectedImage] = useState(null);
 
 	const features = [
 		{
@@ -65,7 +68,84 @@ const Detail = () => {
 	const [loadingCampaignLandingPages, setLoadingCampaignLandingPages] =
 		useState(true);
 
+	const [campaignName, setCampaignName] = useState("");
+	const [campaignDescription, setCampaignDescription] = useState("");
+
+	const handleCampaignUpdateSuccess = () => {
+		closeModal();
+		fetchCampaignDetails();
+	};
+
+	const fetchCampaignDetails = async () => {
+		try {
+			const campaignId = location.pathname.split("/").pop();
+			const response = await campaignService.getCampaignById(campaignId);
+			console.log("Campaign details response:", response);
+			if (response.success) {
+				const { name, description } = response.data.data;
+				setCampaignName(name);
+				setCampaignDescription(description);
+			} else {
+				alert("Erreur lors de la récupération des détails de la campagne.");
+			}
+		} catch (error) {
+			console.error(
+				"Erreur lors de la récupération des détails de la campagne:",
+				error
+			);
+			alert(
+				"Une erreur est survenue lors de la récupération des détails de la campagne."
+			);
+		}
+	};
+
+	const [imageDetails, setImageDetails] = useState([]); // Initialisez comme tableau vide
+
+	const fetchImageDetails = async () => {
+		try {
+			setLoadingCampaignImages(true);
+			const campaignId = location.pathname.split("/").pop();
+			const response = await imageService.getAllImages();
+
+			console.log("Image details response:", response);
+			if (response.success) {
+				const campaignImages = response.data.data.filter(
+					(img) => img.campaign_id == campaignId
+				);
+				setImageDetails(campaignImages);
+			}
+		} catch (error) {
+			console.error("Erreur lors de la récupération des images:", error);
+		} finally {
+			setLoadingCampaignImages(false);
+		}
+	};
+
+	const formatDate = (dateString) => {
+		if (!dateString) return "Date inconnue";
+
+		const options = {
+			weekday: "long",
+			day: "numeric",
+			month: "long",
+			year: "numeric",
+		};
+		return new Date(dateString).toLocaleDateString("fr-FR", options);
+	};
+
 	useEffect(() => {
+		const fetchData = async () => {
+			await fetchCampaignDetails();
+			await fetchImageDetails();
+
+			setTimeout(() => {
+				setLoadingCampaignOverviews(false);
+			}, 2000);
+		};
+
+		fetchData();
+
+			
 		// Simulate fetching campaign prompts data
 		const fetchedCampaignOverviews = [
 			{
@@ -112,28 +192,6 @@ const Detail = () => {
 		setTimeout(() => {
 			setCampaignPosts(fetchedCampaignPosts);
 			setLoadingCampaignPosts(false);
-		}, 2000);
-
-		// Simulate fetching campaign image data
-		const fetchedCampaignImages = [
-			{
-				id: 1,
-				created_at: "2023-10-01T12:00:00Z",
-				social: "TikTok",
-				content:
-					"Iure necessitatibus deleniti, magni hic laboriosam sit, et architecto doloribus facere inventore quis, ea eaque eveniet magnam odio corporis rem tenetur libero.",
-			},
-			{
-				id: 2,
-				created_at: "2023-10-05T14:30:00Z",
-				social: "Facebook",
-				content:
-					"Nihil est tempore inventore, consectetur adipisicing elit et architecto ?",
-			},
-		];
-		setTimeout(() => {
-			setCampaignImages(fetchedCampaignImages);
-			setLoadingCampaignImages(false);
 		}, 2000);
 
 		// Simulate fetching campaign landing page data
@@ -201,26 +259,39 @@ const Detail = () => {
 						Aucune publication trouvée.
 					</p>
 				);
+
 			case 2:
-				return loadingCampaignImages ? (
-					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-						<CampaignImageItem campaignImage={[]} isLoading={loadingCampaignImages} />
-						<CampaignImageItem campaignImage={[]} isLoading={loadingCampaignImages} />
-					</div>
-				) : campaignImages.length > 0 ? (
-					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-						{campaignImages.map((campaignImage) => (
-							<CampaignImageItem
-								key={campaignImage.id}
-								campaignImage={campaignImage}
-								isLoading={loadingCampaignImages}
-								onClick={() => openModal("image")}
-							/>
-						))}
-					</div>
-				) : (
-					<p className="text-gray-500 text-center mt-4">Aucune image trouvée.</p>
-				);
+  return loadingCampaignImages ? (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {[...Array(3)].map((_, index) => (
+        <CampaignImageItem 
+          key={`loading-${index}`} 
+          isLoading={true} 
+        />
+      ))}
+    </div>
+  ) : imageDetails?.length > 0 ? (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {imageDetails.map((image) => (
+        <CampaignImageItem
+          key={image.id}
+          campaignImage={{
+            ...image,
+            content: image.path,
+            formattedDate: formatDate(image.created_at)
+          }}
+          onClick={() => {
+            setSelectedImage(image);
+            openModal("image");
+          }}
+        />
+      ))}
+    </div>
+  ) : (
+    <p className="text-gray-500 text-center mt-4">Aucune image trouvée.</p>
+  );
+
+
 			case 3:
 				return loadingCampaignLandingPages ? (
 					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -259,15 +330,15 @@ const Detail = () => {
 				<section className="py-4">
 					<div className="space-y-2">
 						<span className="flex items-center gap-4 text-3xl font-bold">
-							<h1>Nom de la Campagne</h1>
+							<h1>{campaignName}</h1>
 							<Tag color="red">En cours...</Tag>
 						</span>
 						<p className="text-gray-500">
-							Ici, vous pouvez voir les détails de votre campagne, y compris les
-							statistiques, les performances et les résultats.{" "}
+							{campaignDescription}{" "}
 							<Button
 								variant="ghost"
 								size="none"
+								className="text-gray-500 hover:text-purple-700"
 								onClick={() => openModal("edit-campaign")}
 							>
 								<BsPencilFill size={14} />
@@ -355,9 +426,13 @@ const Detail = () => {
 					</aside>
 				</section>
 
+				{/* ... modal pour modification de la campagne */}
 				<Modal isOpen={isOpen("edit-campaign")} onClose={closeModal} size="xl">
 					<Suspense fallback={<div>Chargement...</div>}>
-						<EditCampaign />
+						<EditCampaign
+							onSuccess={handleCampaignUpdateSuccess}
+							onCancel={closeModal}
+						/>
 					</Suspense>
 				</Modal>
 
@@ -385,14 +460,35 @@ const Detail = () => {
 						closeModal();
 						setIsPreview(false);
 					}}
-					size={isPreview ? "full" : "fit"}
+					size={isPreview ? "full" : "xl"}
 				>
-					<Suspense fallback={<div>Chargement image...</div>}>
-						<Feature.Image
-							previewActive={isPreview}
-							onTogglePreview={() => setIsPreview((prev) => !prev)}
-						/>
-					</Suspense>
+					{selectedImage && (
+						<div className="p-4">
+							<div className="flex justify-between items-center mb-4">
+								<h3 className="text-lg font-semibold">Détails de l'image</h3>
+								<Button onClick={() => setIsPreview(!isPreview)} variant="ghost">
+									{isPreview ? "Réduire" : "Plein écran"}
+								</Button>
+							</div>
+
+							<img
+								src={selectedImage.path}
+								alt={`Image ${selectedImage.id}`}
+								className={`rounded-lg ${isPreview ? "w-full h-[80vh] object-contain" : "w-full max-h-[70vh] object-contain"}`}
+							/>
+
+							<div className="mt-4 grid grid-cols-2 gap-4">
+								<div>
+									<p className="text-sm text-gray-500">Date de création</p>
+									<p>{new Date(selectedImage.created_at).toLocaleDateString()}</p>
+								</div>
+								<div>
+									<p className="text-sm text-gray-500">Statut</p>
+									<p>{selectedImage.is_published ? "Publiée" : "Non publiée"}</p>
+								</div>
+							</div>
+						</div>
+					)}
 				</Modal>
 
 				<Modal
