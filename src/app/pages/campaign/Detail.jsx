@@ -145,7 +145,6 @@ const Detail = () => {
 
 		fetchData();
 
-			
 		// Simulate fetching campaign prompts data
 		const fetchedCampaignOverviews = [
 			{
@@ -261,36 +260,32 @@ const Detail = () => {
 				);
 
 			case 2:
-  return loadingCampaignImages ? (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {[...Array(3)].map((_, index) => (
-        <CampaignImageItem 
-          key={`loading-${index}`} 
-          isLoading={true} 
-        />
-      ))}
-    </div>
-  ) : imageDetails?.length > 0 ? (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {imageDetails.map((image) => (
-        <CampaignImageItem
-          key={image.id}
-          campaignImage={{
-            ...image,
-            content: image.path,
-            formattedDate: formatDate(image.created_at)
-          }}
-          onClick={() => {
-            setSelectedImage(image);
-            openModal("image");
-          }}
-        />
-      ))}
-    </div>
-  ) : (
-    <p className="text-gray-500 text-center mt-4">Aucune image trouvée.</p>
-  );
-
+				return loadingCampaignImages ? (
+					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+						{[...Array(3)].map((_, index) => (
+							<CampaignImageItem key={`loading-${index}`} isLoading={true} />
+						))}
+					</div>
+				) : imageDetails?.length > 0 ? (
+					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+						{imageDetails.map((image) => (
+							<CampaignImageItem
+								key={image.id}
+								campaignImage={{
+									...image,
+									content: image.path,
+									formattedDate: formatDate(image.created_at),
+								}}
+								onClick={() => {
+									setSelectedImage(image);
+									openModal("image");
+								}}
+							/>
+						))}
+					</div>
+				) : (
+					<p className="text-gray-500 text-center mt-4">Aucune image trouvée.</p>
+				);
 
 			case 3:
 				return loadingCampaignLandingPages ? (

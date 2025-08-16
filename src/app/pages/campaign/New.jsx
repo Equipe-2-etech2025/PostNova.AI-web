@@ -36,7 +36,7 @@ const New = () => {
 				type_campaign_id: typeCampaign,
 				user_id: user.id,
 			});
-            console.log("Response from campaign creation:", response);
+			console.log("Response from campaign creation:", response);
 			if (response.success) {
 				navigate(`/campaign/${response.campaign.id}`);
 			} else {
