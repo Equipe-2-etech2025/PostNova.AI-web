@@ -17,13 +17,17 @@
   Commit: `EPA-62: chore: modification de placeholder de nom et description pour EditCampaign`
   Commit: `EPA-62: feat: integration de vue de campaign et api génération socials_posts`
 
-- [EPA-56] Intégration page d'acceuil
+- [EPA-56] Intégration page d'acceuil (Assigné à: Nathan Rakotoarimanana)
   Branche : `feature/EPA-56-intg-page-accueil`
   Commit: `EPA-56: integration page acceuil de base`
 
-- [EPA-47] Intégration dashboard
+- [EPA-47] Intégration dashboard (Assigné à: Nathan Rakotoarimanana)
   Branche: `feature/EPA-47-integration-dashboard`
   Commit: `EPA-47: integration front dashboard`
+
+- [EPA-57] Creation page et integration user profile (Assigné à: Nathan Rakotoarimanana)
+  Branche: `feature/EPA-57-creation-et-integration-user-profile ` 
+  Commit: `EPA-57: feature user profile`
 
 - [EPA-25] Création de test Unitaire et test fonctionnel pour les models (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-25-test`
