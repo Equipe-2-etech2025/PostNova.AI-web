@@ -1,8 +1,7 @@
 import React, { Suspense, useEffect, useState } from "react";
 import {
 	BsBarChartLine,
-	BsFacebook,
-	BsInstagram,
+	BsTwitterX,
 	BsLinkedin,
 	BsPencilFill,
 	BsPieChart,
@@ -17,17 +16,49 @@ import NewRequest from "@layouts/Campaign/NewRequest";
 import Tag from "@shared/Tag";
 import Button from "@shared/Button";
 import Modal from "@shared/Modal";
-import CampaignOverviewItem from "@components/Campaign/CampaignOverviewItem";
 import CampaignPostItem from "@components/Campaign/CampaignPostItem";
 import * as Feature from "@components/Campaign/Features";
 import CampaignImageItem from "@components/Campaign/CampaignImageItem";
 import CampaignLandingPageItem from "@components/Campaign/CampaignLandingPageItem";
 import EditCampaign from "@layouts/Campaign/EditCampaign";
+import { campaignService } from "@services/campaignService";
+import { imageService } from "@services/imageService";
+import { socialPostService } from "@services/socialPostService";
+import { campaignInteractionService } from "@services/campaignInteractionService";
+import ImagePreview from "@components/Campaign/Features/Image";
+import { Card } from "@shared/Card";
+import CampaignOverviewItem, {
+	CampaignOverviewItemSkeleton,
+} from "@components/Campaign/CampaignOverviewItem";
 
 const Detail = () => {
 	const location = useLocation();
 	const { isOpen, openModal, closeModal } = useModal();
 	const [isPreview, setIsPreview] = useState(false);
+	const [selectedImage, setSelectedImage] = useState(null);
+	const [selectedPostId, setSelectedPostId] = useState(null);
+
+	// States
+	const [campaignName, setCampaignName] = useState("");
+	const [campaignDescription, setCampaignDescription] = useState("");
+	const [campaignOverviews, setCampaignOverviews] = useState([]);
+	const [campaignPosts, setCampaignPosts] = useState([]);
+	const [imageDetails, setImageDetails] = useState([]);
+	const [campaignLandingPages, setCampaignLandingPages] = useState([]);
+	const [interactionStats, setInteractionStats] = useState({
+		likes: 0,
+		views: 0,
+		shares: 0,
+	});
+	const [loadingStats, setLoadingStats] = useState(true);
+
+	// Loading states
+	const [loadingCampaignOverviews, setLoadingCampaignOverviews] = useState(true);
+	const [loadingCampaignPosts, setLoadingCampaignPosts] = useState(true);
+	const [loadingCampaignImages, setLoadingCampaignImages] = useState(true);
+	const [loadingCampaignLandingPages, setLoadingCampaignLandingPages] =
+		useState(true);
+	const [activeTab, setActiveTab] = useState(0);
 
 	const features = [
 		{
@@ -50,113 +81,97 @@ const Detail = () => {
 
 	const [featuresMemo] = useState(features);
 
-	const [activeTab, setActiveTab] = useState(0);
+	const getSocialLink = (socialId) => {
+		switch (socialId) {
+			case 1:
+				return "https://www.tiktok.com";
+			case 2:
+				return "https://twitter.com";
+			case 3:
+				return "https://www.linkedin.com";
+			default:
+				return "#";
+		}
+	};
 
-	const [campaignOverviews, setCampaignOverviews] = useState([]);
-	const [loadingCampaignOverviews, setLoadingCampaignOverviews] = useState(true);
-
-	const [campaignPosts, setCampaignPosts] = useState([]);
-	const [loadingCampaignPosts, setLoadingCampaignPosts] = useState(true);
-
-	const [campaignImages, setCampaignImages] = useState([]);
-	const [loadingCampaignImages, setLoadingCampaignImages] = useState(true);
-
-	const [campaignLandingPages, setCampaignLandingPages] = useState([]);
-	const [loadingCampaignLandingPages, setLoadingCampaignLandingPages] =
-		useState(true);
+	const getSocialName = (socialId) => {
+		switch (socialId) {
+			case 1:
+				return "TikTok";
+			case 2:
+				return "X (Twitter)";
+			case 3:
+				return "LinkedIn";
+			default:
+				return "Réseau social";
+		}
+	};
 
 	useEffect(() => {
-		// Simulate fetching campaign prompts data
-		const fetchedCampaignOverviews = [
-			{
-				id: 1,
-				created_at: "2023-10-01T12:00:00Z",
-				prompt: "Lancement de la nouvelle fonctionnalité de mon produit",
-				tags: ["Images", "Facebook", "Landing"],
-			},
-			{
-				id: 2,
-				created_at: "2023-10-05T14:30:00Z",
-				prompt: "Campagne de sensibilisation de ce marque",
-				tags: ["Images", "Facebook", "Instagram", "Linkedin", "Landing"],
-			},
-			{
-				id: 3,
-				created_at: "2023-10-10T09:15:00Z",
-				prompt: "Promotion de la nouvelle fonctionnalité du produit",
-				tags: ["Images", "Facebook", "Linkedin", "Landing"],
-			},
-		];
-		setTimeout(() => {
-			setCampaignOverviews(fetchedCampaignOverviews);
-			setLoadingCampaignOverviews(false);
-		}, 2000);
+		const fetchAllData = async () => {
+			try {
+				const campaignId = location.pathname.split("/").pop();
 
-		// Simulate fetching campaign post data
-		const fetchedCampaignPosts = [
-			{
-				id: 1,
-				created_at: "2023-10-01T12:00:00Z",
-				social: "TikTok",
-				content:
-					"Iure necessitatibus deleniti, magni hic laboriosam sit, et architecto doloribus facere inventore quis, ea eaque eveniet magnam odio corporis rem tenetur libero.",
-			},
-			{
-				id: 2,
-				created_at: "2023-10-05T14:30:00Z",
-				social: "Facebook",
-				content:
-					"Nihil est tempore inventore, consectetur adipisicing elit et architecto ?",
-			},
-		];
-		setTimeout(() => {
-			setCampaignPosts(fetchedCampaignPosts);
-			setLoadingCampaignPosts(false);
-		}, 2000);
+				//Fetch stats
+				setLoadingStats(true);
+				const statsResponse =
+					await campaignInteractionService.getCampaignStats(campaignId);
+				if (statsResponse.success) {
+					setInteractionStats(statsResponse.data);
+				}
 
-		// Simulate fetching campaign image data
-		const fetchedCampaignImages = [
-			{
-				id: 1,
-				created_at: "2023-10-01T12:00:00Z",
-				social: "TikTok",
-				content:
-					"Iure necessitatibus deleniti, magni hic laboriosam sit, et architecto doloribus facere inventore quis, ea eaque eveniet magnam odio corporis rem tenetur libero.",
-			},
-			{
-				id: 2,
-				created_at: "2023-10-05T14:30:00Z",
-				social: "Facebook",
-				content:
-					"Nihil est tempore inventore, consectetur adipisicing elit et architecto ?",
-			},
-		];
-		setTimeout(() => {
-			setCampaignImages(fetchedCampaignImages);
-			setLoadingCampaignImages(false);
-		}, 2000);
+				// Fetch campaign details
+				const campaignResponse = await campaignService.getCampaignById(campaignId);
+				if (campaignResponse.success) {
+					const { name, description } = campaignResponse.data.data;
+					setCampaignName(name);
+					setCampaignDescription(description);
+				}
 
-		// Simulate fetching campaign landing page data
-		const fetchedCampaignLandingPages = [
-			{
-				id: 1,
-				created_at: "2023-10-01T12:00:00Z",
-				title: "Landing page 1",
-				content: "",
-			},
-			{
-				id: 2,
-				created_at: "2023-10-05T14:30:00Z",
-				title: "Landing page 2",
-				content: "",
-			},
-		];
-		setTimeout(() => {
-			setCampaignLandingPages(fetchedCampaignLandingPages);
-			setLoadingCampaignLandingPages(false);
-		}, 2000);
+				// Fetch images
+				setLoadingCampaignImages(true);
+				const imagesResponse = await imageService.getAllImages();
+				if (imagesResponse.success) {
+					const campaignImages = imagesResponse.data.data.filter(
+						(img) => img.campaign_id == campaignId
+					);
+					setImageDetails(campaignImages);
+				}
 
-		// Set active tab based on current location
+				// Fetch posts
+				setLoadingCampaignPosts(true);
+				const postsResponse = await socialPostService.getAllSocialPost({
+					campaign_id: campaignId,
+				});
+				if (postsResponse.success) {
+					const campaignPosts = postsResponse.data.data.filter(
+						(post) => post.campaign_id == campaignId
+					);
+					setCampaignPosts(campaignPosts);
+				}
+
+				const fetchedCampaignLandingPages = [
+					{
+						id: 1,
+						created_at: "2023-10-01T12:00:00Z",
+						title: "Landing page 1",
+						content: "",
+					},
+				];
+				setCampaignLandingPages(fetchedCampaignLandingPages);
+			} catch (error) {
+				console.error("Erreur lors de la récupération des données:", error);
+			} finally {
+				setLoadingCampaignOverviews(false);
+				setLoadingCampaignPosts(false);
+				setLoadingCampaignImages(false);
+				setLoadingCampaignLandingPages(false);
+				setLoadingStats(false);
+			}
+		};
+
+		fetchAllData();
+
 		const currentHash = location?.hash.replace("#", "");
 		const activeFeatureIndex = featuresMemo.findIndex(
 			(feature) => feature.link.replace("#", "") === currentHash
@@ -164,63 +179,223 @@ const Detail = () => {
 		setActiveTab(activeFeatureIndex >= 0 ? activeFeatureIndex : 0);
 	}, [featuresMemo, location]);
 
+	const handleCampaignUpdateSuccess = () => {
+		closeModal();
+		const campaignId = location.pathname.split("/").pop();
+		campaignService.getCampaignById(campaignId).then((response) => {
+			if (response.success) {
+				const { name, description } = response.data.data;
+				setCampaignName(name);
+				setCampaignDescription(description);
+			}
+		});
+	};
+
+	const formatDate = (dateString) => {
+		if (!dateString) return "Date inconnue";
+		const options = {
+			weekday: "long",
+			day: "numeric",
+			month: "long",
+			year: "numeric",
+		};
+		return new Date(dateString).toLocaleDateString("fr-FR", options);
+	};
+
 	const renderItemByTab = (tabIndex) => {
 		switch (tabIndex) {
 			case 0:
-				return loadingCampaignOverviews ? (
-					<CampaignOverviewItem
-						campaignOverview={[]}
-						isLoading={loadingCampaignOverviews}
-					/>
-				) : campaignOverviews.length > 0 ? (
-					campaignOverviews.map((campaignPrompt) => (
-						<CampaignOverviewItem
-							key={campaignPrompt.id}
-							campaignOverview={campaignPrompt}
-							isLoading={loadingCampaignOverviews}
-							onClick={() => openModal("overview")}
-						/>
-					))
+				return loadingCampaignOverviews ||
+					loadingCampaignPosts ||
+					loadingCampaignImages ||
+					loadingCampaignLandingPages ? (
+					<div className="space-y-4">
+						<CampaignOverviewItemSkeleton />
+						<CampaignOverviewItemSkeleton />
+						<CampaignOverviewItemSkeleton />
+					</div>
 				) : (
-					<p className="text-gray-500 text-center mt-4">Aucune requête trouvée.</p>
+					<div className="space-y-6 px-10 mt-6">
+						{/* Section Images */}
+						{imageDetails.length > 0 && (
+							<div className="mt-6">
+								<h3 className="text-xl font-bold mb-4 px-10">
+									Images générées ({imageDetails.length})
+								</h3>
+								<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+									{imageDetails.slice(0, 4).map((image) => (
+										<CampaignImageItem
+											key={image.id}
+											campaignImage={{
+												...image,
+												content: image.path,
+												formattedDate: formatDate(image.created_at),
+											}}
+											onClick={() => {
+												setSelectedImage(image);
+												openModal("image");
+											}}
+										/>
+									))}
+									{imageDetails.length > 4 && (
+										<div className="mt-2">
+											<Button
+												variant="ghost"
+												className="text-purple-600"
+												onClick={() => setActiveTab(2)}
+											>
+												Voir toutes les images ({imageDetails.length})
+											</Button>
+										</div>
+									)}
+								</div>
+							</div>
+						)}
+
+						{/* Section Posts Sociaux */}
+						{campaignPosts.length > 0 && (
+							<div className="mt-6">
+								<h3 className="text-xl font-bold mb-4 px-10">
+									Publications ({campaignPosts.length})
+								</h3>
+								<div className="space-y-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+									{campaignPosts.slice(0, 4).map((campaignPost) => {
+										const cleanedContent = campaignPost.content
+											? campaignPost.content.replace(/<br\s*\/?>/gi, "\n")
+											: "";
+
+										return (
+											<CampaignPostItem
+												key={campaignPost.id}
+												campaignPost={{
+													...campaignPost,
+													content: cleanedContent,
+												}}
+												isLoading={false}
+												onClick={() => {
+													setSelectedPostId(campaignPost.id);
+													openModal("post");
+												}}
+												compactView={true}
+											/>
+										);
+									})}
+								</div>
+								{campaignPosts.length > 3 && (
+									<Button
+										variant="ghost"
+										className="mt-2 text-purple-600"
+										onClick={() => setActiveTab(1)}
+									>
+										Voir toutes les publications ({campaignPosts.length})
+									</Button>
+								)}
+							</div>
+						)}
+
+						{/* Section Landing Pages */}
+						{campaignLandingPages.length > 0 && (
+							<div className="mt-6">
+								<h3 className="text-xl font-bold mb-4 px-10">
+									Landing Pages ({campaignLandingPages.length})
+								</h3>
+								<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+									{campaignLandingPages.map((page) => (
+										<CampaignLandingPageItem
+											key={page.id}
+											campaignLandingPage={page}
+											isLoading={false}
+											onClick={() => {
+												setSelectedLandingPage(page);
+												openModal("landing-page");
+											}}
+											compactView={true}
+										/>
+									))}
+									{campaignLandingPages.length > 4 && (
+										<div className="mt-2">
+											<Button
+												variant="ghost"
+												className="text-purple-600"
+												onClick={() => setActiveTab(3)}
+											>
+												Voir tous les landing page ({campaignLandingPages.length})
+											</Button>
+										</div>
+									)}
+								</div>
+							</div>
+						)}
+
+						{/* Message si vide */}
+						{imageDetails.length === 0 &&
+							campaignPosts.length === 0 &&
+							campaignLandingPages.length === 0 && (
+								<p className="text-gray-500 text-center py-8">
+									Aucun contenu généré pour cette campagne
+								</p>
+							)}
+					</div>
 				);
+
 			case 1:
 				return loadingCampaignPosts ? (
 					<CampaignPostItem campaignPost={[]} isLoading={loadingCampaignPosts} />
 				) : campaignPosts.length > 0 ? (
-					campaignPosts.map((campaignPost) => (
-						<CampaignPostItem
-							key={campaignPost.id}
-							campaignPost={campaignPost}
-							isLoading={loadingCampaignPosts}
-							onClick={() => openModal("post")}
-						/>
-					))
+					campaignPosts.map((campaignPost) => {
+						const cleanedContent = campaignPost.content
+							? campaignPost.content.replace(/<br\s*\/?>/gi, "\n")
+							: "";
+
+						return (
+							<CampaignPostItem
+								key={campaignPost.id}
+								campaignPost={{
+									...campaignPost,
+									content: cleanedContent,
+								}}
+								isLoading={loadingCampaignPosts}
+								onClick={() => {
+									setSelectedPostId(campaignPost.id);
+									openModal("post");
+								}}
+							/>
+						);
+					})
 				) : (
 					<p className="text-gray-500 text-center mt-4">
 						Aucune publication trouvée.
 					</p>
 				);
+
 			case 2:
 				return loadingCampaignImages ? (
 					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-						<CampaignImageItem campaignImage={[]} isLoading={loadingCampaignImages} />
-						<CampaignImageItem campaignImage={[]} isLoading={loadingCampaignImages} />
+						{[...Array(3)].map((_, index) => (
+							<CampaignImageItem key={`loading-${index}`} isLoading={true} />
+						))}
 					</div>
-				) : campaignImages.length > 0 ? (
+				) : imageDetails?.length > 0 ? (
 					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-						{campaignImages.map((campaignImage) => (
+						{imageDetails.map((image) => (
 							<CampaignImageItem
-								key={campaignImage.id}
-								campaignImage={campaignImage}
-								isLoading={loadingCampaignImages}
-								onClick={() => openModal("image")}
+								key={image.id}
+								campaignImage={{
+									...image,
+									content: image.path,
+									formattedDate: formatDate(image.created_at),
+								}}
+								onClick={() => {
+									setSelectedImage(image);
+									openModal("image");
+								}}
 							/>
 						))}
 					</div>
 				) : (
 					<p className="text-gray-500 text-center mt-4">Aucune image trouvée.</p>
 				);
+
 			case 3:
 				return loadingCampaignLandingPages ? (
 					<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -259,15 +434,15 @@ const Detail = () => {
 				<section className="py-4">
 					<div className="space-y-2">
 						<span className="flex items-center gap-4 text-3xl font-bold">
-							<h1>Nom de la Campagne</h1>
+							<h1>{campaignName}</h1>
 							<Tag color="red">En cours...</Tag>
 						</span>
 						<p className="text-gray-500">
-							Ici, vous pouvez voir les détails de votre campagne, y compris les
-							statistiques, les performances et les résultats.{" "}
+							{campaignDescription}{" "}
 							<Button
 								variant="ghost"
 								size="none"
+								className="text-gray-500 hover:text-purple-700"
 								onClick={() => openModal("edit-campaign")}
 							>
 								<BsPencilFill size={14} />
@@ -314,26 +489,75 @@ const Detail = () => {
 									Les réseaux sociaux utilisés
 								</span>
 								<div className="flex flex-wrap items-center gap-2 my-2">
-									{[<BsFacebook />, <BsInstagram />, <BsTiktok />, <BsLinkedin />].map(
-										(icon, index) => (
-											<Button
-												key={index}
-												variant="outline"
-												circle
-												size="none"
-												className="p-2"
+									{Array.from(new Set(campaignPosts.map((post) => post.social_id)))
+										.filter((socialId) => socialId)
+										.map((socialId) => (
+											<a
+												key={socialId}
+												href={getSocialLink(socialId)}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="inline-flex"
+												title={`Visiter ${getSocialName(socialId)}`}
 											>
-												{React.cloneElement(icon, { size: 20 })}
-											</Button>
-										)
-									)}
+												<Button
+													variant="outline"
+													circle
+													size="none"
+													className="p-2 hover:scale-105 transition-transform"
+												>
+													{(() => {
+														switch (socialId) {
+															case 1:
+																return <BsTiktok size={20} />;
+															case 2:
+																return <BsTwitterX size={20} />;
+															case 3:
+																return <BsLinkedin size={20} />;
+															default:
+																return null;
+														}
+													})()}
+												</Button>
+											</a>
+										))}
 								</div>
 							</div>
 							<div className="my-2">
 								<span className="text-sm font-semibold">Mentions j'aime</span>
 								<div className="my-2">
 									<div className="table bg-linear-0 from-gray-500/10 to-transparent rounded-xl px-4 py-2">
-										<strong className="text-2xl">2</strong>
+										<strong className="text-2xl">
+											{loadingStats ? (
+												<span className="inline-block h-6 w-6 animate-pulse rounded-full bg-gray-300"></span>
+											) : (
+												interactionStats.likes
+											)}
+										</strong>
+									</div>
+								</div>
+								<span className="text-sm font-semibold">Nombre de vues</span>
+								<div className="my-2">
+									<div className="table bg-linear-0 from-gray-500/10 to-transparent rounded-xl px-4 py-2">
+										<strong className="text-2xl">
+											{loadingStats ? (
+												<span className="inline-block h-6 w-6 animate-pulse rounded-full bg-gray-300"></span>
+											) : (
+												interactionStats.views
+											)}
+										</strong>
+									</div>
+								</div>
+								<span className="text-sm font-semibold">Partages</span>
+								<div className="my-2">
+									<div className="table bg-linear-0 from-gray-500/10 to-transparent rounded-xl px-4 py-2">
+										<strong className="text-2xl">
+											{loadingStats ? (
+												<span className="inline-block h-6 w-6 animate-pulse rounded-full bg-gray-300"></span>
+											) : (
+												interactionStats.shares
+											)}
+										</strong>
 									</div>
 								</div>
 							</div>
@@ -355,9 +579,15 @@ const Detail = () => {
 					</aside>
 				</section>
 
+				{/* ... modal pour modification de la campagne */}
 				<Modal isOpen={isOpen("edit-campaign")} onClose={closeModal} size="xl">
 					<Suspense fallback={<div>Chargement...</div>}>
-						<EditCampaign />
+						<EditCampaign
+							campaignName={campaignName}
+							campaignDescription={campaignDescription}
+							onSuccess={handleCampaignUpdateSuccess}
+							onCancel={closeModal}
+						/>
 					</Suspense>
 				</Modal>
 
@@ -375,7 +605,11 @@ const Detail = () => {
 
 				<Modal isOpen={isOpen("post")} onClose={closeModal} size="xl">
 					<Suspense fallback={<div>Chargement...</div>}>
-						<Feature.Post />
+						{campaignPosts.length > 0 && (
+							<Feature.Post
+								postData={campaignPosts.find((post) => post.id === selectedPostId)}
+							/>
+						)}
 					</Suspense>
 				</Modal>
 
@@ -385,14 +619,18 @@ const Detail = () => {
 						closeModal();
 						setIsPreview(false);
 					}}
-					size={isPreview ? "full" : "fit"}
+					size={isPreview ? "full" : "xl"}
 				>
-					<Suspense fallback={<div>Chargement image...</div>}>
-						<Feature.Image
+					{selectedImage && (
+						<ImagePreview
 							previewActive={isPreview}
-							onTogglePreview={() => setIsPreview((prev) => !prev)}
+							onTogglePreview={() => setIsPreview(!isPreview)}
+							imageSrc={selectedImage.path}
+							imageAlt={`Image ${selectedImage.id}`}
+							creationDate={new Date(selectedImage.created_at).toLocaleDateString()}
+							status={selectedImage.is_published ? "Publiée" : "Non publiée"}
 						/>
-					</Suspense>
+					)}
 				</Modal>
 
 				<Modal

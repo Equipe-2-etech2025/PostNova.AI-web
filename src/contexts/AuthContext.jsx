@@ -1,9 +1,11 @@
 import React, { createContext, useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router";
 import { authService } from "@services/authService";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
+	const navigate = useNavigate();
 	const [user, setUser] = useState(null);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [loading, setLoading] = useState(true);
@@ -36,12 +38,14 @@ const AuthProvider = ({ children }) => {
 					localStorage.removeItem("token");
 					setUser(null);
 					setIsAuthenticated(false);
+					navigate("/login");
 					console.log("Token invalide, utilisateur déconnecté");
 				}
 			} else {
 				console.log("Aucun token trouvé");
 				setUser(null);
 				setIsAuthenticated(false);
+				navigate("/login");
 			}
 		} catch (error) {
 			console.error(

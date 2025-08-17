@@ -1,16 +1,21 @@
 import React from "react";
 import { BsMagic } from "react-icons/bs";
-import Button from "@shared/Button";
+
 
 const InputPrompt = ({
 	placeholder,
 	containerStyle,
 	inputStyle,
 	value,
+	btnText = "Générer",
+	btnDisabled = false,
+	btnIcon = <BsMagic size={16} />,
 	onChange,
+	btnPosition = "left",
 	onSubmit,
 	optionValue = "Option",
 	handleOption,
+	optionComponent,
 	...props
 }) => {
 	const handleSubmit = (e) => {
@@ -26,7 +31,6 @@ const InputPrompt = ({
 		}
 	};
 
-	// Handle "Enter" key to Submit
 	const onKeyDown = (e) => {
 		if (e.key === "Enter" && !e.shiftKey) {
 			e.preventDefault();
@@ -36,7 +40,7 @@ const InputPrompt = ({
 
 	return (
 		<form
-			className={`bg-blue-50/10 border border-gray-500/10 rounded-3xl shadow-lg px-5 py-4 backdrop-blur-2xl ${containerStyle}`}
+			className={`relative bg-blue-50/10 border border-gray-500/10 rounded-3xl shadow-lg px-5 py-4 backdrop-blur-2xl ${containerStyle}`}
 			onSubmit={handleSubmit}
 		>
 			<textarea
@@ -48,29 +52,43 @@ const InputPrompt = ({
 				onKeyDown={onKeyDown}
 				{...props}
 			></textarea>
-			<div className="flex items-end justify-between my-1">
-				<div className="flex items-center gap-2">
-					{handleOption && (
-						<Button
-							variant="outline"
-							color="tertiary"
-							size="none"
-							className="text-gray-500 px-2 pt-1.5 pb-1 transition duration-200"
-							onClick={handleOption}
-						>
-							<span className="text-sm font-semibold">{optionValue}</span>
-						</Button>
-					)}
+
+			<div className="flex items-center justify-between my-1">
+				{optionComponent && <div className="mt-2">{optionComponent}</div>}
+
+				<div
+					className={`flex ${btnPosition === "right" ? "justify-end" : "justify-start"} w-full`}
+				>
+					<button
+						type="submit"
+						disabled={btnDisabled}
+						className={`
+                            flex items-center gap-2 px-4 py-2 text-white rounded-lg font-medium
+                            transition-all duration-300 transform
+                            ${
+																													btnDisabled
+																														? "creating-animation btn-gradient opacity-90"
+																														: "btn-gradient hover:scale-105"
+																												}
+                            ${btnPosition === "right" ? "ml-auto" : ""}
+                        `}
+					>
+						<span>{btnText}</span>
+						{btnIcon && (
+							<span
+								className={`transition-transform ${btnDisabled ? "animate-pulse" : ""}`}
+							>
+								{btnIcon}
+							</span>
+						)}
+					</button>
 				</div>
-				<Button type="submit" color="primary" className="flex items-center gap-2">
-					<span>Créer</span>
-					<BsMagic size={16} />
-				</Button>
 			</div>
 		</form>
 	);
 };
 
+export default InputPrompt;
 const InputForm = ({
 	isPassword = false,
 	hasError = false,

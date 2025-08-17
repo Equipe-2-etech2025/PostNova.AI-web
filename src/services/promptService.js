@@ -89,20 +89,4 @@ export const promptService = {
 	},
 };
 
-function handleError(error, defaultMsg) {
-	console.error(defaultMsg, error);
 
-	if (error.code === "ERR_NETWORK") {
-		return {
-			success: false,
-			message: "Impossible de se connecter au serveur.",
-			errors: {},
-		};
-	}
-
-	return {
-		success: false,
-		message: error.response?.data?.message || defaultMsg,
-		errors: error.response?.data?.errors || {},
-	};
-}
