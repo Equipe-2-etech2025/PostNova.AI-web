@@ -425,6 +425,8 @@ const Detail = () => {
 				<Modal isOpen={isOpen("edit-campaign")} onClose={closeModal} size="xl">
 					<Suspense fallback={<div>Chargement...</div>}>
 						<EditCampaign
+						    campaignName={campaignName}
+      						campaignDescription={campaignDescription}
 							onSuccess={handleCampaignUpdateSuccess}
 							onCancel={closeModal}
 						/>

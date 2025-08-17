@@ -1,32 +1,41 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { InputForm, TextareaForm } from "@shared/Input";
 import Button from "@shared/Button";
-import { BsMagic } from "react-icons/bs";
 import { campaignService } from "@services/campaignService";
 import { useParams } from "react-router";
 
-const EditCampaign = ({ campaignId, onSuccess, onCancel }) => {
-	const [name, setName] = useState("");
-	const [description, setDescription] = useState("");
-	const [loading, setLoading] = useState(false);
-	const { id } = useParams();
+const EditCampaign = ({ campaignName: initialName, campaignDescription: initialDescription, onSuccess, onCancel }) => {
+  const [name, setName] = useState(initialName || "");
+  const [description, setDescription] = useState(initialDescription || "");
+  const [loading, setLoading] = useState(false);
+  const { id } = useParams();
 
-		const handleSubmit = async (e) => {
-			e.preventDefault();
-			try {
-				const response = await campaignService.updateCampaign(id, {
-					name,
-					description,
-				});
-				if (response.success) {
-					alert(" Campagne mise à jour !");
-					onSuccess();
-				} else {
-					alert("alert" + response.message);
-				}
-			} catch (err) {
-				console.error(err);
+  // Mise à jour des états si les props changent
+  useEffect(() => {
+    setName(initialName || "");
+    setDescription(initialDescription || "");
+  }, [initialName, initialDescription]);
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		setLoading(true);
+		try {
+			const response = await campaignService.updateCampaign(id, {
+				name,
+				description,
+			});
+			if (response.success) {
+				alert(" Campagne mise à jour !");
+				onSuccess();
+			} else {
+				alert("alert" + response.message);
 			}
+		} catch (err) {
+			console.error(err);
+			alert("Une erreur est survenue lors de la mise à jour de la campagne.");
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -36,20 +45,26 @@ const EditCampaign = ({ campaignId, onSuccess, onCancel }) => {
 			</h1>
 			<form className="space-y-6" onSubmit={handleSubmit}>
 				<div>
-					<label className="block font-semibold mb-1">Nom :</label>
+					<label className="block font-semibold mb-1 text-gray-700">Nom :</label>
 					<InputForm
-						placeholder="Nom de la campagne"
+						placeholder={initialName || "Nom de la campagne"}
 						value={name}
 						onChange={(e) => setName(e.target.value)}
+						style={{
+    '--tw-placeholder-opacity': '1',
+    '--tw-placeholder-color': 'rgb(156 163 175)'
+  }}
+  className="placeholder-[var(--tw-placeholder-color)]"
 					/>
 				</div>
 				<div>
-					<label className="block font-semibold mb-1">Description :</label>
+					<label className="block font-semibold mb-1 text-gray-700">Description :</label>
 					<TextareaForm
-						placeholder="Description de la campagne"
+						placeholder={initialDescription || "Description de la campagne"}
 						rows={4}
 						value={description}
 						onChange={(e) => setDescription(e.target.value)}
+						
 					/>
 				</div>
 				<div className="flex justify-end gap-2">

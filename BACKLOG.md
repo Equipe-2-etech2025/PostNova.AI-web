@@ -14,6 +14,7 @@
   Branche: `feature/EPA-62-campaign-image`
   Commit: `EPA-62: integration de campaign pour génération de name-campaigne, ajout de couleur gradiant dans index.css et responsive interface auth`
   Commit: `EPA-62: integration de campaign pour la details de la campaign`
+  Commit: `EPA-62: chore: modification de placeholder de nom et description pour EditCampaign`
 
 - [EPA-56] Intégration page d'acceuil
   Branche : `feature/EPA-56-intg-page-accueil`
