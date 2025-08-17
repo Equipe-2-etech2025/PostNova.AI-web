@@ -120,6 +120,8 @@ export const campaignService = {
 	generateNameAndCreate: (data) =>
     api.post("/campaigns/generate-name", data).then(res => res.data),
 
+	
+
 };
 
 function handleError(error, defaultMsg) {
