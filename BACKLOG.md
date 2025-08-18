@@ -41,6 +41,10 @@
 - [EPA-8] Creation de .github/workflows(CI/CD) Laravel (Assigné à: Mialisoa Lisa Rasoanirina)
 
 ## Terminé non testé
+- [EPA-66] Gestion d'autorisation et redirection (Assigné à: Andhi Andrianina)
+  Branche: `refactor/EPA-66-authorization-redirection`
+  Commit: `EPA-66: Manage authorization and redirect user to safe page`
+
 - [EPA-60] Maquettage et réalisation de la page Admin Dashboard (Assigné à: Andhi Andrianina)
   Branche: `feature/EPA-60-ui-admin-dashboard`
   Commit: `EPA-60: Implement Admin Dashboard with User Management, Activity Feed, Revenue Chart, and Admin Tools`

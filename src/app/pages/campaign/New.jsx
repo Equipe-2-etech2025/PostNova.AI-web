@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "@hooks/useAuth";
@@ -66,8 +67,8 @@ const New = () => {
 
 	return (
 		<div className="min-h-screen">
-			<NavBar />
-			<div className="container flex flex-col items-center justify-center min-h-[80vh] mx-auto px-4">
+			<div className="container flex flex-col items-center justify-center min-h-[80vh] mx-auto">
+
 				<h1 className="text-5xl font-bold mt-12 mb-2 text-center">
 					Créer une campagne
 				</h1>

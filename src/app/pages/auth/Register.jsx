@@ -166,12 +166,14 @@ const Register = () => {
 				<div className="flex-1 flex items-center justify-center px-8 py-6 md:py-12 overflow-y-auto">
 					<div className="w-full max-w-md my-auto">
 						<div className="text-center mb-2">
-							<div className="flex items-center justify-center gap-2 mb-10">
-								<img src={logo} className="size-15" alt="" />
-								<h1 className="text-2xl font-bold cursor-pointer">
-									<strong>PostNova</strong>
-								</h1>
-							</div>
+							<Link to={"/"}>
+								<div className="flex items-center justify-center gap-2 mb-10">
+									<img src={logo} className="size-15" alt="" />
+									<h1 className="text-2xl font-bold cursor-pointer">
+										<strong>PostNova</strong>
+									</h1>
+								</div>
+							</Link>
 							<h2 className="text-3xl md:text-2xl font-bold mb-4 text-center animate-fade-in">
 								S'inscrire
 							</h2>

@@ -146,13 +146,15 @@ const Login = () => {
 				<div className="flex-1 flex items-center justify-center pt-12 md:pt-0 p-6 md:p-12 overflow-y-auto">
 					<div className="w-full max-w-md space-y-6 mt-4 md:mt-0">
 						<div className="text-center space-y-2">
-							<div className="flex items-center justify-center gap-2 mb-10 md:mb-20">
-								<img src={logo} className="size-10 md:size-15" alt="PostNova Logo" />
-								<h1 className="text-xl md:text-2xl font-bold cursor-pointer">
-									<strong>PostNova</strong>
-								</h1>
-							</div>
-							<h2 className="text-2xl md:text-3xl font-bold animate-fade-in">
+							<Link to={"/"}>
+								<div className="flex items-center justify-center gap-2 mb-20">
+									<img src={logo} className="size-15" alt="" />
+									<h1 className="text-2xl font-bold cursor-pointer">
+										<strong>PostNova</strong>
+									</h1>
+								</div>
+							</Link>
+							<h2 className="text-3xl md:text-2xl font-bold animate-fade-in">
 								Se connecter
 							</h2>
 							<p className="text-sm text-gray-700">
