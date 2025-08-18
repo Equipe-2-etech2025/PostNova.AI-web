@@ -11,7 +11,6 @@ import {
 } from "react-icons/bs";
 import { Link, useLocation } from "react-router";
 import useModal from "@hooks/useModal";
-import NavBar from "@layouts/NavBar";
 import SectionBlock from "@layouts/SectionBlock";
 import NewRequest from "@layouts/Campaign/NewRequest";
 import Tag from "@shared/Tag";
@@ -254,7 +253,6 @@ const Detail = () => {
 
 	return (
 		<>
-			<NavBar />
 			<div className="container mx-auto">
 				<section className="py-4">
 					<div className="space-y-2">

@@ -1,11 +1,13 @@
 import React, { createContext, useState, useEffect, useRef } from "react";
 import { authService } from "@services/authService";
+import { useNavigate } from "react-router";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
+	const navigate = useNavigate();
 	const [user, setUser] = useState(null);
-	const [isAuthenticated, setIsAuthenticated] = useState(false);
+	const [isAuthenticated, setIsAuthenticated] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const initialCheckDone = useRef(false);
 
@@ -130,6 +132,9 @@ const AuthProvider = ({ children }) => {
 	const logout = async () => {
 		try {
 			await authService.logout();
+			setUser(null);
+			setIsAuthenticated(false);
+			navigate("/login");
 		} catch (error) {
 			console.error("Erreur lors de la déconnexion:", error);
 		} finally {

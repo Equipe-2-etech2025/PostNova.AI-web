@@ -15,7 +15,6 @@ import {
 } from "react-icons/bs";
 import useAuth from "@hooks/useAuth";
 import { useNotification } from "@hooks/useNotification";
-import NavBar from "@layouts/NavBar";
 import SectionBlock from "@layouts/SectionBlock";
 import Button from "@shared/Button";
 import { Card } from "@shared/Card";
@@ -234,8 +233,6 @@ const AdminDashboard = () => {
 				position="top-center"
 				showProgressBar={true}
 			/>
-
-			<NavBar />
 
 			<div className="container flex flex-col gap-6 mx-auto my-4">
 				<section>

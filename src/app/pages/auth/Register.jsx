@@ -159,12 +159,14 @@ const Register = () => {
 				<div className="flex-1 flex items-center justify-center px-8 py-6 md:py-12 overflow-y-auto">
 					<div className="w-full max-w-md my-auto">
 						<div className="text-center mb-2">
-							<div className="flex items-center justify-center gap-2 mb-10">
-								<img src={logo} className="size-15" alt="" />
-								<h1 className="text-2xl font-bold cursor-pointer">
-									<strong>PostNova</strong>
-								</h1>
-							</div>
+							<Link to={"/"}>
+								<div className="flex items-center justify-center gap-2 mb-10">
+									<img src={logo} className="size-15" alt="" />
+									<h1 className="text-2xl font-bold cursor-pointer">
+										<strong>PostNova</strong>
+									</h1>
+								</div>
+							</Link>
 							<h2 className="text-3xl md:text-2xl font-bold mb-4 text-center animate-fade-in">
 								S'inscrire
 							</h2>
@@ -250,17 +252,17 @@ const Register = () => {
 							<div className="text-start space-y-2">
 								<div className="flex items-start">
 									<label className="flex items-start cursor-pointer transition-colors">
-									<input
-										id="acceptTerms"
-										type="checkbox"
-										name="acceptTerms"
-										checked={formData.acceptTerms}
-										onChange={handleChange}
-										className={`mr-3 mt-1 rounded bg-[#2e2d3b] border-gray-600 text-[#4335C4] focus:ring-[#4335C4] focus:ring-offset-0 ${
-											errors.acceptTerms ? "border-red-500" : ""
-										}`}
-										disabled={isSubmitting || loading}
-									/>
+										<input
+											id="acceptTerms"
+											type="checkbox"
+											name="acceptTerms"
+											checked={formData.acceptTerms}
+											onChange={handleChange}
+											className={`mr-3 mt-1 rounded bg-[#2e2d3b] border-gray-600 text-[#4335C4] focus:ring-[#4335C4] focus:ring-offset-0 ${
+												errors.acceptTerms ? "border-red-500" : ""
+											}`}
+											disabled={isSubmitting || loading}
+										/>
 										<span className="text-sm text-gray-600 leading-relaxed">
 											J'accepte les{" "}
 											<Link
