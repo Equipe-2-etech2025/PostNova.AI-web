@@ -3,11 +3,8 @@ import api from "@configs/api";
 export const authService = {
 	async login(credentials) {
 		try {
-			console.log("Tentative de connexion avec:", credentials.email);
 			const response = await api.post("/auth/login", credentials);
-			console.log("Connexion réussie:", response.data);
 			localStorage.setItem("auth_token", response.data.data.token);
-			console.log(response.data.data.token);
 			return {
 				success: true,
 				token: response.data.data.token,
@@ -38,7 +35,6 @@ export const authService = {
 		try {
 			console.log("Tentative d'inscription avec:", userData.email);
 			const response = await api.post("/auth/register", userData);
-			console.log("Inscription réussie:", response.data);
 
 			return {
 				success: true,
@@ -85,9 +81,7 @@ export const authService = {
 
 	async getCurrentUser() {
 		try {
-			console.log("Récupération de l'utilisateur actuel...");
 			const response = await api.get("/auth/me");
-			console.log("Utilisateur récupéré:", response.data);
 			return response.data.data;
 		} catch (error) {
 			console.error("Erreur lors de la récupération de l'utilisateur:", error);

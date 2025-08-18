@@ -9,6 +9,7 @@ import galaxy from "@assets/galaxy.png";
 import logo from "@assets/logo.png";
 import { InputForm } from "@shared/Input";
 import { BsExclamationCircleFill } from "react-icons/bs";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const Register = () => {
 	const navigate = useNavigate();
@@ -16,6 +17,12 @@ const Register = () => {
 	const { notification, showSuccess, showError, hideNotification } =
 		useNotification();
 	const [isSubmitting, setIsSubmitting] = useState(false);
+
+	// États pour afficher ou masquer le mot de passe
+	const [showPassword, setShowPassword] = useState(false);
+	const togglePasswordVisibility = () => {
+		setShowPassword((prev) => !prev);
+	};
 
 	const [formData, setFormData] = useState({
 		name: "",
@@ -212,9 +219,9 @@ const Register = () => {
 								)}
 							</div>
 
-							<div className="space-y-2">
+							<div className="space-y-2 relative">
 								<InputForm
-									type="password"
+									type={showPassword ? "text" : "password"}
 									name="password"
 									value={formData.password}
 									onChange={handleChange}
@@ -222,6 +229,17 @@ const Register = () => {
 									hasError={errors.password}
 									disabled={isSubmitting || loading}
 								/>
+								{/* Icône œil */}
+								<div
+									onClick={togglePasswordVisibility}
+									className="absolute right-3 top-2.5 cursor-pointer text-gray-500 hover:text-gray-700"
+								>
+									{showPassword ? (
+										<AiOutlineEyeInvisible size={20} />
+									) : (
+										<AiOutlineEye size={20} />
+									)}
+								</div>
 								{errors.password && (
 									<div className="flex items-center gap-2 text-red-400 text-sm animate-fade-in">
 										<BsExclamationCircleFill size={11} />
@@ -230,9 +248,9 @@ const Register = () => {
 								)}
 							</div>
 
-							<div className="space-y-2">
+							<div className="space-y-2 relative">
 								<InputForm
-									type="password"
+									type={showPassword ? "text" : "password"}
 									name="password_confirmation"
 									value={formData.password_confirmation}
 									onChange={handleChange}
@@ -240,6 +258,17 @@ const Register = () => {
 									hasError={errors.password_confirmation}
 									disabled={isSubmitting || loading}
 								/>
+								{/* Icône œil */}
+								<div
+									onClick={togglePasswordVisibility}
+									className="absolute right-3 top-2.5 cursor-pointer text-gray-500 hover:text-gray-700"
+								>
+									{showPassword ? (
+										<AiOutlineEyeInvisible size={20} />
+									) : (
+										<AiOutlineEye size={20} />
+									)}
+								</div>
 								{errors.password_confirmation && (
 									<div className="flex items-center gap-2 text-red-400 text-sm animate-fade-in">
 										<BsExclamationCircleFill size={11} />

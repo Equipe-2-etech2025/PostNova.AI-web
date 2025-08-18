@@ -32,7 +32,7 @@ const LastCampaignList = ({ campaigns = [], isLoading = true }) => {
 						key={campaign.id}
 						id={campaign.id}
 						name={campaign.name}
-						status={campaign.status}
+						status={campaign.status.label}
 						createdAt={campaign.dates.created_at}
 						publicationNumber={campaign.social_posts_count}
 						imageNumber={campaign.images_count}
