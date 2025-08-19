@@ -17,7 +17,7 @@ import UserProfile from "@pages/userProfile/UserProfile";
 import ChangePassword from "@pages/userProfile/ChangePassword";
 import TemplatesExplorer from "@pages/userProfile/TemplatesExplorer";
 import TemplatePreview from "@pages/userProfile/TemplatePreview";
-
+import PaymentForm from "@pages/payment/paymentForm";
 const routes = [
 	/**
 	 * Routes publiques
@@ -58,6 +58,10 @@ const routes = [
 	{ path: "/templates", element: <TemplatesExplorer /> },
 
 	{ path: "/templates/:id/preview", element: <TemplatePreview /> },
+
+	// Payment
+	{ path: "/payment", element: <PaymentForm /> },
+	
 
 	/**
 	 * Routes administratives
