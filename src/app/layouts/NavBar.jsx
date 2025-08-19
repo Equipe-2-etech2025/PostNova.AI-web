@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router-dom";
 import {
 	BsBoxArrowRight,
 	BsChevronDown,
@@ -21,16 +21,17 @@ const NavBar = () => {
 
 	const [userMenuOpen, setUserMenuOpen] = useState(false);
 	const [menuOpen, setMenuOpen] = useState(false);
+	const [loggingOut, setLoggingOut] = useState(false);
 
 	const menuRef = useRef(null);
+	const navigate = useNavigate();
 
-	// Close menu when clicking outside
+	// Fermer le menu utilisateur quand on clique à l'extérieur
 	useEffect(() => {
 		if (userMenuOpen) {
 			const handleClickOutside = (event) => {
 				if (menuRef.current && !menuRef.current.contains(event.target)) {
 					setUserMenuOpen(false);
-					console.log("Clicked outside");
 				}
 			};
 			document.addEventListener("mousedown", handleClickOutside);
@@ -40,6 +41,7 @@ const NavBar = () => {
 		}
 	}, [userMenuOpen]);
 
+	// Items de navigation
 	const navigationItems = () => {
 		const publicItems = [
 			{ label: "Nos services", href: "#our-services" },
@@ -77,13 +79,17 @@ const NavBar = () => {
 
 	const handleLogout = async () => {
 		try {
+			setLoggingOut(true);
 			await logout();
 			setUserMenuOpen(false);
+			navigate("/login");
 		} catch (err) {
 			console.error(err);
+			setLoggingOut(false);
 		}
 	};
 
+	// Menu utilisateur
 	const UserMenu = () => {
 		return (
 			<div className="relative" ref={menuRef}>
@@ -128,7 +134,7 @@ const NavBar = () => {
 							</Link>
 
 							<Link
-								to="/profile"
+								to="/userProfile"
 								className="flex items-center gap-2 rounded-sm px-3 py-2 text-sm hover:bg-gray-300/25 dark:hover:bg-gray-500/25 transition-colors"
 								onClick={() => setUserMenuOpen(false)}
 							>
@@ -140,10 +146,39 @@ const NavBar = () => {
 						<div className="border-t border-gray-500/25 py-1">
 							<button
 								onClick={handleLogout}
-								className="w-full flex items-center gap-2 rounded-sm px-3 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer"
+								disabled={loggingOut}
+								className="w-full flex items-center gap-2 rounded-sm px-3 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors cursor-pointer disabled:opacity-50"
 							>
-								<BsBoxArrowRight size={14} />
-								Se déconnecter
+								{loggingOut ? (
+									<span className="flex items-center gap-2">
+										<svg
+											className="animate-spin h-4 w-4 text-red-600"
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+										>
+											<circle
+												className="opacity-25"
+												cx="12"
+												cy="12"
+												r="10"
+												stroke="currentColor"
+												strokeWidth="4"
+											></circle>
+											<path
+												className="opacity-75"
+												fill="currentColor"
+												d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+											></path>
+										</svg>
+										Déconnexion...
+									</span>
+								) : (
+									<span className="flex items-center gap-2">
+										<BsBoxArrowRight size={14} />
+										Se déconnecter
+									</span>
+								)}
 							</button>
 						</div>
 					</div>
@@ -155,6 +190,7 @@ const NavBar = () => {
 	return (
 		<div className="sticky top-0 w-full backdrop-blur-lg z-40">
 			<div className="container flex items-center justify-between py-5 mx-auto">
+				{/* Logo */}
 				<div className="flex items-center gap-12">
 					<Link to={"/"} className="text-2xl font-bold">
 						<div className="flex items-center gap-2 py-1">
@@ -164,6 +200,8 @@ const NavBar = () => {
 							<strong>PostNova</strong>
 						</div>
 					</Link>
+
+					{/* Navigation */}
 					<nav>
 						<ul className="flex items-center gap-4">
 							{loading
@@ -195,6 +233,8 @@ const NavBar = () => {
 						</ul>
 					</nav>
 				</div>
+
+				{/* Actions */}
 				<div className="flex items-center gap-2">
 					{!loading && (
 						<>
@@ -206,7 +246,7 @@ const NavBar = () => {
 								className="p-3"
 								onClick={() => toggleTheme()}
 							>
-								{theme == "light" ? (
+								{theme === "light" ? (
 									<BsMoonStarsFill size={16} />
 								) : (
 									<BsSunriseFill size={16} />
@@ -238,8 +278,8 @@ const NavBar = () => {
 			{menuOpen && (
 				<div className="md:hidden bg-gray-500/90 dark:bg-gray-800/90 backdrop-blur-md p-5 space-y-4 animate-fade-in">
 					<nav className="flex flex-col gap-4">
-						<a href="#" onClick={() => setMenuOpen(false)}>
-							A propos
+						<a href="#about" onClick={() => setMenuOpen(false)}>
+							À propos
 						</a>
 						<a href="#our-services" onClick={() => setMenuOpen(false)}>
 							Nos services

@@ -20,7 +20,6 @@ import {
 	BsDownload,
 	BsArrowLeft,
 } from "react-icons/bs";
-import NavBar from "@layouts/NavBar";
 import Button from "@shared/Button";
 import { InputForm } from "@shared/Input";
 import { useNotification } from "@hooks/useNotification";
@@ -478,7 +477,6 @@ const TemplatesExplorer = () => {
 
 	return (
 		<>
-			<NavBar />
 			<MessageNotification
 				message={notification.message}
 				type={notification.type}
