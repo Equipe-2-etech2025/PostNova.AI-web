@@ -11,7 +11,6 @@ import {
 	BsPlus,
 } from "react-icons/bs";
 import useAuth from "@hooks/useAuth";
-import NavBar from "@layouts/NavBar";
 import Button from "@shared/Button";
 import { Card } from "@shared/Card";
 import Indicator from "@components/Dashboard/Indicator";
@@ -201,7 +200,6 @@ const DashboardUser = () => {
 
 	return (
 		<>
-			<NavBar />
 			<div className="container flex flex-col gap-6 mx-auto my-4">
 				<section>
 					<div className="flex items-center justify-between gap-6">

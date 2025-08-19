@@ -9,7 +9,6 @@ import {
 } from "react-icons/bs";
 import useAuth from "@hooks/useAuth";
 import { useNotification } from "@hooks/useNotification";
-import NavBar from "@layouts/NavBar";
 import Button from "@shared/Button";
 import MessageNotification from "@shared/MessageNotification";
 import { InputForm } from "@shared/Input";
@@ -183,7 +182,6 @@ const ChangePassword = () => {
 
 	return (
 		<>
-			<NavBar />
 			<MessageNotification
 				message={notification.message}
 				type={notification.type}

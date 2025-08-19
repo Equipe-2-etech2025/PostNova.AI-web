@@ -9,6 +9,7 @@ import galaxy from "@assets/galaxy.png";
 import logo from "@assets/logo.png";
 import { InputForm } from "@shared/Input";
 import { BsExclamationCircleFill } from "react-icons/bs";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const Register = () => {
 	const navigate = useNavigate();
@@ -16,6 +17,12 @@ const Register = () => {
 	const { notification, showSuccess, showError, hideNotification } =
 		useNotification();
 	const [isSubmitting, setIsSubmitting] = useState(false);
+
+	// États pour afficher ou masquer le mot de passe
+	const [showPassword, setShowPassword] = useState(false);
+	const togglePasswordVisibility = () => {
+		setShowPassword((prev) => !prev);
+	};
 
 	const [formData, setFormData] = useState({
 		name: "",
@@ -159,12 +166,14 @@ const Register = () => {
 				<div className="flex-1 flex items-center justify-center px-8 py-6 md:py-12 overflow-y-auto">
 					<div className="w-full max-w-md my-auto">
 						<div className="text-center mb-2">
-							<div className="flex items-center justify-center gap-2 mb-10">
-								<img src={logo} className="size-15" alt="" />
-								<h1 className="text-2xl font-bold cursor-pointer">
-									<strong>PostNova</strong>
-								</h1>
-							</div>
+							<Link to={"/"}>
+								<div className="flex items-center justify-center gap-2 mb-10">
+									<img src={logo} className="size-15" alt="" />
+									<h1 className="text-2xl font-bold cursor-pointer">
+										<strong>PostNova</strong>
+									</h1>
+								</div>
+							</Link>
 							<h2 className="text-3xl md:text-2xl font-bold mb-4 text-center animate-fade-in">
 								S'inscrire
 							</h2>
@@ -210,9 +219,9 @@ const Register = () => {
 								)}
 							</div>
 
-							<div className="space-y-2">
+							<div className="space-y-2 relative">
 								<InputForm
-									type="password"
+									type={showPassword ? "text" : "password"}
 									name="password"
 									value={formData.password}
 									onChange={handleChange}
@@ -220,6 +229,17 @@ const Register = () => {
 									hasError={errors.password}
 									disabled={isSubmitting || loading}
 								/>
+								{/* Icône œil */}
+								<div
+									onClick={togglePasswordVisibility}
+									className="absolute right-3 top-2.5 cursor-pointer text-gray-500 hover:text-gray-700"
+								>
+									{showPassword ? (
+										<AiOutlineEyeInvisible size={20} />
+									) : (
+										<AiOutlineEye size={20} />
+									)}
+								</div>
 								{errors.password && (
 									<div className="flex items-center gap-2 text-red-400 text-sm animate-fade-in">
 										<BsExclamationCircleFill size={11} />
@@ -228,9 +248,9 @@ const Register = () => {
 								)}
 							</div>
 
-							<div className="space-y-2">
+							<div className="space-y-2 relative">
 								<InputForm
-									type="password"
+									type={showPassword ? "text" : "password"}
 									name="password_confirmation"
 									value={formData.password_confirmation}
 									onChange={handleChange}
@@ -238,6 +258,17 @@ const Register = () => {
 									hasError={errors.password_confirmation}
 									disabled={isSubmitting || loading}
 								/>
+								{/* Icône œil */}
+								<div
+									onClick={togglePasswordVisibility}
+									className="absolute right-3 top-2.5 cursor-pointer text-gray-500 hover:text-gray-700"
+								>
+									{showPassword ? (
+										<AiOutlineEyeInvisible size={20} />
+									) : (
+										<AiOutlineEye size={20} />
+									)}
+								</div>
 								{errors.password_confirmation && (
 									<div className="flex items-center gap-2 text-red-400 text-sm animate-fade-in">
 										<BsExclamationCircleFill size={11} />
@@ -250,17 +281,17 @@ const Register = () => {
 							<div className="text-start space-y-2">
 								<div className="flex items-start">
 									<label className="flex items-start cursor-pointer transition-colors">
-									<input
-										id="acceptTerms"
-										type="checkbox"
-										name="acceptTerms"
-										checked={formData.acceptTerms}
-										onChange={handleChange}
-										className={`mr-3 mt-1 rounded bg-[#2e2d3b] border-gray-600 text-[#4335C4] focus:ring-[#4335C4] focus:ring-offset-0 ${
-											errors.acceptTerms ? "border-red-500" : ""
-										}`}
-										disabled={isSubmitting || loading}
-									/>
+										<input
+											id="acceptTerms"
+											type="checkbox"
+											name="acceptTerms"
+											checked={formData.acceptTerms}
+											onChange={handleChange}
+											className={`mr-3 mt-1 rounded bg-[#2e2d3b] border-gray-600 text-[#4335C4] focus:ring-[#4335C4] focus:ring-offset-0 ${
+												errors.acceptTerms ? "border-red-500" : ""
+											}`}
+											disabled={isSubmitting || loading}
+										/>
 										<span className="text-sm text-gray-600 leading-relaxed">
 											J'accepte les{" "}
 											<Link

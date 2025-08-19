@@ -116,6 +116,12 @@ export const campaignService = {
 			return handleError(error, "Erreur lors de la récupération par critères");
 		}
 	},
+
+	generateNameAndCreate: (data) =>
+    api.post("/campaigns/generate-name", data).then(res => res.data),
+
+	
+
 };
 
 function handleError(error, defaultMsg) {

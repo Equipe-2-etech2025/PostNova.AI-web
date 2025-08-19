@@ -9,12 +9,19 @@ import TypewriterText from "@components/Auth/TypewriterText";
 import galaxy from "@assets/galaxy.png";
 import logo from "@assets/logo.png";
 import { InputForm } from "@shared/Input";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const Login = () => {
 	const navigate = useNavigate();
 	const { login, loading } = useAuth();
 	const { notification, showSuccess, showError, showWarning, hideNotification } =
 		useNotification();
+
+	// États pour afficher ou masquer le mot de passe
+	const [showPassword, setShowPassword] = useState(false);
+	const togglePasswordVisibility = () => {
+		setShowPassword((prev) => !prev);
+	};
 
 	// États pour le formulaire
 	const [formData, setFormData] = useState({
@@ -122,7 +129,7 @@ const Login = () => {
 
 			<div className="relative h-screen w-full flex flex-col md:flex-row overflow-hidden">
 				{/*Left Section*/}
-				<div className="absolute top-10 left-1/4">
+				<div className="absolute top-10 left-6 md:left-1/4 md:-translate-x-1/2 transform">
 					<div className="flex items-center">
 						<Button
 							variant="outline"
@@ -136,16 +143,20 @@ const Login = () => {
 					</div>
 				</div>
 
-				<div className="flex-1 flex items-center justify-center p-6 md:p-12 overflow-y-auto">
-					<div className="w-full max-w-md space-y-6">
+				<div className="flex-1 flex items-center justify-center pt-12 md:pt-0 p-6 md:p-12 overflow-y-auto">
+					<div className="w-full max-w-md space-y-6 mt-4 md:mt-0">
 						<div className="text-center space-y-2">
-							<div className="flex items-center justify-center gap-2 mb-20">
-								<img src={logo} className="size-15" alt="" />
-								<h1 className="text-2xl font-bold cursor-pointer">
-									<strong>PostNova</strong>
-								</h1>
-							</div>
-							<h2 className="text-3xl md:text-2xl font-bold animate-fade-in">Se connecter</h2>
+							<Link to={"/"}>
+								<div className="flex items-center justify-center gap-2 mb-20">
+									<img src={logo} className="size-15" alt="" />
+									<h1 className="text-2xl font-bold cursor-pointer">
+										<strong>PostNova</strong>
+									</h1>
+								</div>
+							</Link>
+							<h2 className="text-3xl md:text-2xl font-bold animate-fade-in">
+								Se connecter
+							</h2>
 							<p className="text-sm text-gray-700">
 								Connectez-vous à votre compte PostNova.AI pour accéder à vos campagnes.
 							</p>
@@ -172,9 +183,9 @@ const Login = () => {
 							</div>
 
 							{/* Mot de passe */}
-							<div className="space-y-2">
+							<div className="space-y-2 relative">
 								<InputForm
-									type="password"
+									type={showPassword ? "text" : "password"}
 									name="password"
 									value={formData.password}
 									onChange={handleChange}
@@ -182,6 +193,17 @@ const Login = () => {
 									hasError={errors.password}
 									disabled={isSubmitting || loading}
 								/>
+								{/* Icône œil */}
+								<div
+									onClick={togglePasswordVisibility}
+									className="absolute right-3 top-2.5 cursor-pointer text-gray-500 hover:text-gray-700"
+								>
+									{showPassword ? (
+										<AiOutlineEyeInvisible size={20} />
+									) : (
+										<AiOutlineEye size={20} />
+									)}
+								</div>
 								{errors.password && (
 									<div className="flex items-center gap-2 text-red-400 text-sm animate-fade-in">
 										<BsExclamationCircleFill size={11} />
@@ -206,7 +228,6 @@ const Login = () => {
 								<Link
 									to="/reset-password"
 									className="hover:text-purple-600 transition-colors duration-300"
-
 								>
 									Mot de passe oublié ?
 								</Link>

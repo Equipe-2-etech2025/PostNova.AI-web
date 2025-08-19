@@ -10,6 +10,13 @@
 - [EPA-26] Intégration mot de passe oublié + vérification email (Assigné à: Nathan Rakotoarimanana)
 
 ## En cours
+- [EPA-62] Intégration campaign Image (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche: `feature/EPA-62-campaign-image`
+  Commit: `EPA-62: integration de campaign pour génération de name-campaigne, ajout de couleur gradiant dans index.css et responsive interface auth`
+  Commit: `EPA-62: integration de campaign pour la details de la campaign`
+  Commit: `EPA-62: chore: modification de placeholder de nom et description pour EditCampaign`
+  Commit: `EPA-62: feat: integration de vue de campaign et api génération socials_posts`
+
 - [EPA-56] Intégration page d'acceuil (Assigné à: Nathan Rakotoarimanana)
   Branche : `feature/EPA-56-intg-page-accueil`
   Commit: `EPA-56: integration page acceuil de base`
@@ -34,6 +41,10 @@
 - [EPA-8] Creation de .github/workflows(CI/CD) Laravel (Assigné à: Mialisoa Lisa Rasoanirina)
 
 ## Terminé non testé
+- [EPA-66] Gestion d'autorisation et redirection (Assigné à: Andhi Andrianina)
+  Branche: `refactor/EPA-66-authorization-redirection`
+  Commit: `EPA-66: Manage authorization and redirect user to safe page`
+
 - [EPA-60] Maquettage et réalisation de la page Admin Dashboard (Assigné à: Andhi Andrianina)
   Branche: `feature/EPA-60-ui-admin-dashboard`
   Commit: `EPA-60: Implement Admin Dashboard with User Management, Activity Feed, Revenue Chart, and Admin Tools`

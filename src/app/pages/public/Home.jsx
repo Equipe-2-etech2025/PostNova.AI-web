@@ -7,7 +7,6 @@ import {
 	BsImage,
 	BsX,
 } from "react-icons/bs";
-import NavBar from "@layouts/NavBar";
 import { InputPrompt } from "@components/Home/InputPrompt";
 import { Card } from "@shared/Card";
 import Button from "@shared/Button";
@@ -16,7 +15,6 @@ import PopularContent from "@components/Home/PopularContent";
 const Home = () => {
 	return (
 		<>
-			<NavBar />
 			<section className="relative h-screen">
 				<div className="container flex flex-col items-center justify-center h-full mx-auto">
 					<h1 className="text-6xl font-extrabold leading-tight text-center text-gray-900 dark:text-white">
@@ -157,26 +155,21 @@ const Home = () => {
 					</div>
 				</div>
 			</section>
-			<footer className="py-16 text-center">
-				<h2 className="text-3xl">
-					<a href="/">
-						<strong>PostNova</strong>
-					</a>
-				</h2>
-				<ul className="flex items-center justify-center gap-16 my-16">
-					<li>
-						<a href="#">A propos</a>
-					</li>
-					<li>
-						<a href="#our-services">Nos services</a>
-					</li>
-					<li>
-						<a href="#our-offers">Nos offres</a>
-					</li>
-				</ul>
-				<p className="text-sm text-[var(--color-lightgray)]">
-					© 2025 PostNova. Tous droits réservés.
-				</p>
+			<footer className="py-12">
+				<div className="flex flex-col gap-4 text-center text-sm">
+					<Link to={"/"}>
+						<span className="text-xl font-bold">PostNova</span>
+					</Link>
+					<div className="flex justify-center gap-6 my-6">
+						<Link to={"/"}>Accueil</Link>
+						<Link to={"/about"}>À propos</Link>
+						<Link to={"/our-offers"}>Nos offres</Link>
+					</div>
+					<p className="text-gray-400">
+						Copyright 2025 - Made with <span className="text-pink-500">❤️</span> by
+						Equipe 2
+					</p>
+				</div>
 			</footer>
 		</>
 	);

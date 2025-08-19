@@ -213,3 +213,136 @@ body {
 .char-appear {
 	animation: smooth-appear 0.1s ease-out;
 }
+
+/* Animation pour le bouton */
+.creating-animation {
+  animation: pulse 1.5s infinite;
+  transform-origin: center;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Style de base du bouton */
+button[type="submit"] {
+  transition: all 0.2s ease-in-out;
+}
+
+button[type="submit"]:disabled {
+  cursor: not-allowed;
+  opacity: 0.9;
+}
+
+/* Dégradé animé */
+.btn-gradient {
+  background: linear-gradient(90deg, 
+    #8b5cf6,  /* purple-500 */
+    #3b82f6,  /* blue-500 */
+    #ec4899,  /* pink-500 */
+    #8b5cf6   /* purple-500 pour bouclage */
+  );
+  background-size: 300% 100%;
+  transition: all 0.5s ease;
+}
+
+.btn-gradient:hover {
+  background-position: 100% 50%;
+  transform: scale(1.02);
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+}
+
+/* Animation pendant le chargement */
+.creating-animation {
+  animation: 
+    pulse 1.5s infinite,
+    gradientFlow 3s linear infinite;
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* Style pour le select avec dégradé */
+.gradient-select {
+  background: linear-gradient(90deg, 
+    rgba(139, 92, 246, 0.1),  /* purple-500 avec opacité */
+    rgba(59, 130, 246, 0.1),   /* blue-500 avec opacité */
+    rgba(236, 72, 153, 0.1)    /* pink-500 avec opacité */
+  );
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  transition: all 0.3s ease;
+}
+
+.gradient-select:hover {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 1px #8b5cf6;
+}
+
+.gradient-select:focus {
+  outline: none;
+  border-color: #8b5cf6;
+  box-shadow: 
+    0 0 0 2px rgba(139, 92, 246, 0.3),
+    inset 0 0 10px rgba(59, 130, 246, 0.2);
+}
+
+/* Style pour les options */
+.gradient-select option {
+  background: #ffffff !important;
+  color: #333 !important;
+}
+
+.gradient-select option:hover {
+  background: linear-gradient(90deg, #8b5cf6, #3b82f6, #ec4899) !important;
+  color: white !important;
+}
+
+/* Style personnalisé pour le select et ses options */
+.gradient-select {
+  background: linear-gradient(90deg, 
+    rgba(139, 92, 246, 0.1),  /* purple avec opacité */
+    rgba(59, 130, 246, 0.1),   /* blue avec opacité */
+    rgba(236, 72, 153, 0.1)    /* pink avec opacité */
+  ) !important;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: #4a5568; /* Couleur de texte gris foncé */
+}
+
+/* Style pour les options */
+.gradient-select option {
+  background: white !important;
+  color: #2d3748 !important; /* Texte foncé pour meilleure lisibilité */
+  padding: 8px !important;
+}
+
+/* Style au survol des options */
+.gradient-select option:hover {
+  background: linear-gradient(90deg, 
+    #8b5cf6,  /* purple */
+    #3b82f6,  /* blue */
+    #ec4899   /* pink */
+  ) !important;
+  color: white !important;
+}
+
+/* Style pour l'option sélectionnée */
+.gradient-select option:checked {
+  background: linear-gradient(90deg, 
+    #7c3aed,  /* purple plus foncé */
+    #2563eb,  /* blue plus foncé */
+    #db2777   /* pink plus foncé */
+  ) !important;
+  color: white !important;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(10px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+    .animate-fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+}
