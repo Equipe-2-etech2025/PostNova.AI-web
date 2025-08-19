@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import {
@@ -9,6 +8,7 @@ import {
 	BsSpeedometer2,
 	BsSunriseFill,
 } from "react-icons/bs";
+import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import useTheme from "@hooks/useTheme";
 import useAuth from "@hooks/useAuth";
 import Button from "@shared/Button";
@@ -20,6 +20,7 @@ const NavBar = () => {
 	const { user, isAuthenticated, logout, loading } = useAuth();
 
 	const [userMenuOpen, setUserMenuOpen] = useState(false);
+	const [menuOpen, setMenuOpen] = useState(false);
 
 	const menuRef = useRef(null);
 
