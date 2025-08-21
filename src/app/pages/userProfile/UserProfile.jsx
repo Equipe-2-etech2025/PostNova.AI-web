@@ -8,7 +8,6 @@ import {
 	BsPieChart,
 } from "react-icons/bs";
 import useAuth from "@hooks/useAuth";
-import NavBar from "@layouts/NavBar";
 import { dashboardService } from "@services/dashboardService";
 import { tarifUserService } from "@services/tarifUserService";
 import { promptService } from "@services/promptService";
@@ -233,7 +232,6 @@ const UserProfile = () => {
 
 	return (
 		<>
-			<NavBar />
 			<div className="min-h-screen bg-white text-black dark:bg-black dark:text-white transition-colors">
 				<div className="container mx-auto py-8 px-4">
 					<ProfileHeader

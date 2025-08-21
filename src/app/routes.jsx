@@ -12,7 +12,7 @@ import UserProfile from "@pages/userProfile/UserProfile";
 import ChangePassword from "@pages/userProfile/ChangePassword";
 import TemplatesExplorer from "@pages/userProfile/TemplatesExplorer";
 import TemplatePreview from "@pages/userProfile/TemplatePreview";
-
+import PaymentForm from "@pages/payment/paymentForm";
 const routes = [
 	/**
 	 * Main routes
@@ -48,6 +48,10 @@ const routes = [
 			{ path: "/admin", element: <Admin.Dashboard />, admin: true },
 		],
 	},
+
+	// Payment
+	{ path: "/payment", element: <PaymentForm /> },
+	
 
 	/**
 	 * Authentication and verification

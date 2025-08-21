@@ -20,7 +20,6 @@ import {
   BsBookmark,
   BsBookmarkFill,
 } from "react-icons/bs";
-import NavBar from "@layouts/NavBar";
 import Button from "@shared/Button";
 import MessageNotification from "@shared/MessageNotification";
 
@@ -179,9 +178,7 @@ const TemplatePreview = () => {
   };
 
   return (
-    <>
-      <NavBar />
-      
+    <> 
       <div className="min-h-screen bg-gray-50 dark:bg-black text-black dark:text-white">
         {/* Header */}
         <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
