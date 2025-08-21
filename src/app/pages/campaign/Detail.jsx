@@ -25,7 +25,6 @@ import { imageService } from "@services/imageService";
 import { socialPostService } from "@services/socialPostService";
 import { campaignInteractionService } from "@services/campaignInteractionService";
 import ImagePreview from "@components/Campaign/Features/Image";
-import { Card } from "@shared/Card";
 import CampaignOverviewItem, {
 	CampaignOverviewItemSkeleton,
 } from "@components/Campaign/CampaignOverviewItem";
@@ -305,7 +304,6 @@ const Detail = () => {
 											campaignLandingPage={page}
 											isLoading={false}
 											onClick={() => {
-												setSelectedLandingPage(page);
 												openModal("landing-page");
 											}}
 											compactView={true}

@@ -36,13 +36,13 @@ const routes = [
 			{ path: "/campaign/:id", element: <Campaign.Detail /> },
 			{ path: "/campaign/:id/preview-page", element: <Campaign.PreviewPage /> },
   
-      { path: "/userProfile", element: <UserProfile /> },
+			{ path: "/userProfile", element: <UserProfile /> },
 
-      { path: "/changePassword", element: <ChangePassword /> },
+			{ path: "/changePassword", element: <ChangePassword /> },
 
-      { path: "/templates", element: <TemplatesExplorer /> },
+			{ path: "/templates", element: <TemplatesExplorer /> },
 
-      { path: "/templates/:id/preview", element: <TemplatePreview /> },
+			{ path: "/templates/:id/preview", element: <TemplatePreview /> },
   
 			// Admin routes
 			{ path: "/admin", element: <Admin.Dashboard />, admin: true },
