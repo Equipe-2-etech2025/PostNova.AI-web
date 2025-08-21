@@ -1,7 +1,6 @@
-import React, { createContext, useState, useEffect, useRef } from "react";
+import React, { createContext, useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router";
 import { authService } from "@services/authService";
-import { useNavigate } from "react-router";
 
 const AuthContext = createContext();
 
@@ -12,20 +11,9 @@ const AuthProvider = ({ children }) => {
 	const [loading, setLoading] = useState(true);
 	const initialCheckDone = useRef(false);
 
-	useEffect(() => {
-		if (!initialCheckDone.current) {
-			initialCheckDone.current = true;
-			const currentPath = window.location.pathname;
-			if (!currentPath.includes("/email/verify")) {
-				checkAuthStatus();
-			} else {
-				setLoading(false);
-			}
-		}
-	}, []);
-
-	const checkAuthStatus = async () => {
+	const checkAuthStatus = useCallback(async () => {
 		try {
+			setLoading(true);
 			const token = localStorage.getItem("token");
 			if (token) {
 				console.log("Token trouvé, vérification de l'utilisateur...");
@@ -46,7 +34,6 @@ const AuthProvider = ({ children }) => {
 				console.log("Aucun token trouvé");
 				setUser(null);
 				setIsAuthenticated(false);
-				navigate("/login");
 			}
 		} catch (error) {
 			console.error(
@@ -66,11 +53,21 @@ const AuthProvider = ({ children }) => {
 		} finally {
 			setLoading(false);
 		}
-	};
+	}, [navigate]);
+
+	useEffect(() => {
+		if (!initialCheckDone.current) {
+			initialCheckDone.current = true;
+			const currentPath = window.location.pathname;
+			if (!currentPath.includes("/email/verify")) {
+				checkAuthStatus();
+			}
+			setLoading(false);
+		}
+	}, [checkAuthStatus]);
 
 	const login = async (credentials) => {
 		try {
-			setLoading(true);
 			const response = await authService.login(credentials);
 
 			if (response.success) {
@@ -96,14 +93,11 @@ const AuthProvider = ({ children }) => {
 				message: "Erreur de connexion",
 				errors: {},
 			};
-		} finally {
-			setLoading(false);
 		}
 	};
 
 	const register = async (userData) => {
 		try {
-			setLoading(true);
 			const response = await authService.register(userData);
 			if (response.success) {
 				localStorage.setItem("token", response.token);
@@ -127,8 +121,6 @@ const AuthProvider = ({ children }) => {
 				message: "Erreur d'inscription",
 				errors: {},
 			};
-		} finally {
-			setLoading(false);
 		}
 	};
 
