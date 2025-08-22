@@ -10,6 +10,10 @@
 - [EPA-26] Intégration mot de passe oublié + vérification email (Assigné à: Nathan Rakotoarimanana)
 
 ## En cours
+- [EPA-64] Run lint web (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche: `fix/EPA-64-lint`
+  Commit: `EPA-64: fix error et warning lint et mise à jour de makefile`
+
 - [EPA-62] Intégration campaign Image (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-62-campaign-image`
   Commit: `EPA-62: integration de campaign pour génération de name-campaigne, ajout de couleur gradiant dans index.css et responsive interface auth`

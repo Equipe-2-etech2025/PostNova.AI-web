@@ -2,7 +2,6 @@ import React from "react";
 import { BsHeart } from "react-icons/bs";
 import Button from "@shared/Button";
 import { Card } from "@shared/Card";
-import galaxy from "@assets/galaxy.png";
 
 const CampaignImageItemSkeleton = () => {
 	return (
