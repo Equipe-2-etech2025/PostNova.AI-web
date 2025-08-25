@@ -13,6 +13,7 @@ import ChangePassword from "@pages/userProfile/ChangePassword";
 import TemplatesExplorer from "@pages/userProfile/TemplatesExplorer";
 import TemplatePreview from "@pages/userProfile/TemplatePreview";
 import PaymentForm from "@pages/payment/paymentForm";
+import About from "@pages/public/About";
 const routes = [
 	/**
 	 * Main routes
@@ -29,6 +30,7 @@ const routes = [
 				element: <Public.PrivacyPolicyPage />,
 				public: true,
 			},
+			{ path: "/about", element: <About />, public: true },
 
 			// Private routes
 			{ path: "/dashboard", element: <Dashboard /> },
