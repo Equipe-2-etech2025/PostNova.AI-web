@@ -133,7 +133,7 @@ const DashboardUser = () => {
 		// Fetch campaign list
 		const fetchCampaign = async () => {
 			setLoadingCampaigns(true);
-			const result = await campaignService.getAllCampaigns();
+			const result = await campaignService.getCampaignsByUserId(user.id);
 			if (result.success) {
 				setCampaigns(result.data.data);
 			} else {
@@ -264,7 +264,8 @@ const DashboardUser = () => {
 								<div className="mt-4">
 									<span>
 										Il vous reste{" "}
-										{tarif?.tarif?.max_limit != null && quotaPrompt?.daily_quota_used != null
+										{tarif?.tarif?.max_limit != null &&
+										quotaPrompt?.daily_quota_used != null
 											? tarif.tarif.max_limit - quotaPrompt.daily_quota_used
 											: "..."}{" "}
 										quotas aujourd'hui.

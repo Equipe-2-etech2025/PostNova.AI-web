@@ -10,6 +10,11 @@
 - [EPA-26] Intégration mot de passe oublié + vérification email (Assigné à: Nathan Rakotoarimanana)
 
 ## En cours
+
+- [EPA-67] Voir tous les campagnes (Assigné à: Nathan Rakotoarimanana)
+  Branche: `feature/EPA-67-voir-all-campaings`
+  Commit: `EPA-67: page explorer + page prévisualisation template campagne`
+
 - [EPA-62] Intégration campaign Image (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-62-campaign-image`
   Commit: `EPA-62: integration de campaign pour génération de name-campaigne, ajout de couleur gradiant dans index.css et responsive interface auth`
