@@ -10,6 +10,11 @@
 - [EPA-26] Intégration mot de passe oublié + vérification email (Assigné à: Nathan Rakotoarimanana)
 
 ## En cours
+
+- [EPA-67] Voir tous les campagnes (Assigné à: Nathan Rakotoarimanana)
+  Branche: `feature/EPA-67-voir-all-campaings`
+  Commit: `EPA-67: page explorer + page prévisualisation template campagne`
+
 - [EPA-64] Run lint web (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `fix/EPA-64-lint`
   Commit: `EPA-64: fix error et warning lint et mise à jour de makefile`

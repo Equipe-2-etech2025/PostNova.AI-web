@@ -3,6 +3,7 @@ import { BsArrowUpRightCircleFill, BsClock, BsPlus } from "react-icons/bs";
 import CampaignItem from "@components/Dashboard/CampaignItem";
 import SectionBlock from "@layouts/SectionBlock";
 import Button from "@shared/Button";
+import { Link } from "react-router";
 
 const LastCampaignList = ({ campaigns = [], isLoading = true }) => {
 	return (
@@ -12,12 +13,14 @@ const LastCampaignList = ({ campaigns = [], isLoading = true }) => {
 			action={
 				!isLoading &&
 				campaigns.length > 1 && (
-					<Button circle>
-						<div className="flex items-center gap-2 px-2">
-							<span className="text-sm">Voir tout</span>
-							<BsArrowUpRightCircleFill size={16} />
-						</div>
-					</Button>
+					<Link to="/campaignsListPage">
+						<Button circle>
+							<div className="flex items-center gap-2 px-2">
+								<span className="text-sm">Voir tout</span>
+								<BsArrowUpRightCircleFill size={16} />
+							</div>
+						</Button>
+					</Link>
 				)
 			}
 		>
@@ -28,19 +31,19 @@ const LastCampaignList = ({ campaigns = [], isLoading = true }) => {
 			) : campaigns.length > 0 ? (
 				<div className="space-y-2">
 					{campaigns.map((campaign) => (
-					<CampaignItem
-						key={campaign.id}
-						id={campaign.id}
-						name={campaign.name}
-						status={campaign.status.label}
-						createdAt={campaign.dates.created_at}
-						publicationNumber={campaign.social_posts_count}
-						imageNumber={campaign.images_count}
-						landingPageNumber={campaign.landing_pages_count}
-						views={campaign.total_views}
-						likes={campaign.total_likes}
-						share={campaign.total_shares}
-					/>
+						<CampaignItem
+							key={campaign.id}
+							id={campaign.id}
+							name={campaign.name}
+							status={campaign.status.label}
+							createdAt={campaign.dates.created_at}
+							publicationNumber={campaign.social_posts_count}
+							imageNumber={campaign.images_count}
+							landingPageNumber={campaign.landing_pages_count}
+							views={campaign.total_views}
+							likes={campaign.total_likes}
+							share={campaign.total_shares}
+						/>
 					))}
 				</div>
 			) : (

@@ -1,257 +1,541 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
-  BsArrowLeft,
-  BsPlay,
-  BsDownload,
-  BsHeart,
-  BsHeartFill,
-  BsShare,
-  BsStarFill,
-  BsTag,
-  BsPeople,
-  BsBarChart,
-  BsGrid3X3Gap,
-  BsCheck,
-  BsEnvelope,
-  BsInstagram,
-  BsFacebook,
-  BsFileText,
-  BsBookmark,
-  BsBookmarkFill,
+	BsArrowLeft,
+	BsPlay,
+	BsDownload,
+	BsHeart,
+	BsHeartFill,
+	BsShare,
+	BsStar,
+	BsStarFill,
+	BsEye,
+	BsCalendar,
+	BsClock,
+	BsTag,
+	BsPeople,
+	BsBarChart,
+	BsBullseye,
+	BsMegaphone,
+	BsShop,
+	BsRocket,
+	BsStarHalf,
+	BsGrid,
+	BsList,
 } from "react-icons/bs";
 import Button from "@shared/Button";
-import MessageNotification from "@shared/MessageNotification";
+import { campaignTemplateService } from "@services/campaignTemplates";
+import { Card } from "@shared/Card";
 
 const TemplatePreview = () => {
-  const navigate = useNavigate();
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [activeTab, setActiveTab] = useState("preview");
+	const navigate = useNavigate();
+	const { id } = useParams();
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
+	const [liked, setLiked] = useState(false);
+	const [activeTab, setActiveTab] = useState("overview");
+	const [campaign, setCampaign] = useState(null);
+	const [userRating, setUserRating] = useState(0);
+	const [hasRated, setHasRated] = useState(false);
 
-  // Données statiques du template
-  const template = {
-    id: 1,
-    name: "Campagne Réseaux Sociaux Premium",
-    description: "Modèle complet pour gérer vos campagnes sur les réseaux sociaux avec des publications optimisées.",
-    category: { name: "Réseaux Sociaux", icon: BsPeople },
-    type: { name: "Marketing Digital" },
-    rating: 4.7,
-    uses: 1243,
-    author: "Équipe PostNova",
-    tags: ["social", "marketing", "campagne"],
-    isPremium: true,
-    createdAt: "2023-10-15",
-    updatedAt: "2023-11-20",
-    preview: "Ce modèle inclut des stratégies éprouvées pour augmenter votre engagement sur les réseaux sociaux.",
-    content: `
-      <h3>Structure recommandée</h3>
-      <ul>
-        <li>3 publications par semaine</li>
-        <li>Analyses hebdomadaires</li>
-        <li>Réponses aux commentaires</li>
-      </ul>
-      <h3>Conseils d'utilisation</h3>
-      <p>Personnalisez le contenu selon votre audience...</p>
-    `,
-    thumbnail: "https://source.unsplash.com/random/800x400/?social,marketing"
-  };
+	// Chargement des données du template
+	useEffect(() => {
+		const loadCampaignTemplate = async () => {
+			try {
+				setLoading(true);
+				setError(null);
 
-  // Tabs configuration
-  const tabs = [
-    { id: "preview", label: "Aperçu", icon: BsGrid3X3Gap },
-    { id: "details", label: "Détails", icon: BsFileText },
-    { id: "stats", label: "Statistiques", icon: BsBarChart },
-  ];
+				const result = await campaignTemplateService.getCampaignTemplateById(id);
+				console.log(result.data.data);
+				if (result.success) {
+					setCampaign(result.data.data);
+				} else {
+					setError(result.error || "Erreur lors du chargement du template");
+					console.error("Erreur:", result.error);
+				}
+			} catch (err) {
+				setError("Une erreur inattendue s'est produite");
+				console.error("Erreur inattendue:", err);
+			} finally {
+				setLoading(false);
+			}
+		};
 
-  const handleUseTemplate = () => {
-    navigate(`/campaigns/create?template=${template.id}`);
-  };
+		if (id) {
+			loadCampaignTemplate();
+		}
+	}, [id]);
 
-  const handleShare = () => {
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+	const iconComponents = {
+		BsShop,
+		BsRocket,
+		BsMegaphone,
+		BsBullseye,
+		BsPeople,
+		BsTag,
+	};
 
-  const toggleFavorite = () => setIsFavorite(!isFavorite);
-  const toggleBookmark = () => setIsBookmarked(!isBookmarked);
+	const handleUseCampaign = () => {
+		if (campaign) {
+			navigate(`/campaigns/create?template=${campaign.id}`);
+		}
+	};
 
-  const renderTabContent = () => {
-    switch (activeTab) {
-      case "preview":
-        return (
-          <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-            <div className="flex flex-col md:flex-row gap-8">
-              <div className="flex-1">
-                <h3 className="text-xl font-bold mb-4">Exemple de publication</h3>
-                <div className="bg-white rounded-lg shadow border p-4 mb-4">
-                  <div className="flex items-center gap-3 mb-3">
-                    <BsFacebook className="text-blue-600" size={20} />
-                    <div>
-                      <div className="font-semibold">Votre Entreprise</div>
-                      <div className="text-xs text-gray-500">Aujourd'hui à 14:30</div>
-                    </div>
-                  </div>
-                  <p className="text-gray-800 mb-3">{template.preview}</p>
-                  {template.thumbnail && (
-                    <img 
-                      src={template.thumbnail} 
-                      alt="Preview" 
-                      className="w-full h-48 object-cover rounded-lg"
-                    />
-                  )}
-                </div>
-              </div>
-              <div className="md:w-80">
-                <h3 className="text-xl font-bold mb-4">Instructions</h3>
-                <div 
-                  className="prose dark:prose-invert max-w-none"
-                  dangerouslySetInnerHTML={{ __html: template.content }}
-                />
-              </div>
-            </div>
-          </div>
-        );
+	const handleRate = async (star) => {
+		if (hasRated) return;
 
-      case "details":
-        return (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-white dark:bg-gray-800 rounded-lg border p-6">
-              <h3 className="text-lg font-semibold mb-4">Informations</h3>
-              <div className="space-y-4">
-                <div>
-                  <label className="text-sm text-gray-600 dark:text-gray-400">Nom</label>
-                  <p>{template.name}</p>
-                </div>
-                <div>
-                  <label className="text-sm text-gray-600 dark:text-gray-400">Description</label>
-                  <p>{template.description}</p>
-                </div>
-                <div>
-                  <label className="text-sm text-gray-600 dark:text-gray-400">Type</label>
-                  <p>{template.type.name}</p>
-                </div>
-              </div>
-            </div>
-            <div className="bg-white dark:bg-gray-800 rounded-lg border p-6">
-              <h3 className="text-lg font-semibold mb-4">Métadonnées</h3>
-              <div className="flex flex-wrap gap-2 mb-4">
-                {template.tags.map((tag, i) => (
-                  <span key={i} className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-sm">
-                    #{tag}
-                  </span>
-                ))}
-              </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
-                Créé le {new Date(template.createdAt).toLocaleDateString()}
-              </div>
-            </div>
-          </div>
-        );
+		setHasRated(true);
+		let newRating = star;
+		if (userRating === star) {
+			newRating = star - 1;
+		}
+		setUserRating(newRating);
 
-      case "stats":
-        return (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-white dark:bg-gray-800 rounded-lg border p-4 text-center">
-              <div className="text-2xl font-bold text-[#4335C4]">{template.uses}</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Utilisations</div>
-            </div>
-            <div className="bg-white dark:bg-gray-800 rounded-lg border p-4 text-center">
-              <div className="text-2xl font-bold text-yellow-500">{template.rating}/5</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Note moyenne</div>
-            </div>
-            <div className="bg-white dark:bg-gray-800 rounded-lg border p-4 text-center">
-              <div className="text-2xl font-bold text-green-500">87%</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Succès</div>
-            </div>
-            <div className="bg-white dark:bg-gray-800 rounded-lg border p-4 text-center">
-              <div className="text-2xl font-bold text-blue-500">642</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">Téléchargements</div>
-            </div>
-          </div>
-        );
+		if (campaign?.id) {
+			try {
+				const result = await campaignTemplateService.upsertRating(
+					campaign.id,
+					newRating
+				);
+				console.log(result.data);
+				if (!result.success) {
+					console.error(
+						"Erreur lors de l'enregistrement de la note :",
+						result.error
+					);
+				} else {
+					console.log("Note enregistrée avec succès !");
+				}
+			} catch (err) {
+				console.error(
+					"Erreur inattendue lors de l'enregistrement de la note :",
+					err
+				);
+			}
+		}
+	};
 
-      default:
-        return null;
-    }
-  };
+	if (loading) {
+		return (
+			<div className="min-h-screen bg-gray-50 dark:bg-black text-black dark:text-white flex items-center justify-center">
+				<div className="text-center">
+					<div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#4335C4] mx-auto mb-4"></div>
+					<p className="text-gray-600 dark:text-gray-400">
+						Chargement de la campagne...
+					</p>
+				</div>
+			</div>
+		);
+	}
 
-  return (
-    <> 
-      <div className="min-h-screen bg-gray-50 dark:bg-black text-black dark:text-white">
-        {/* Header */}
-        <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
-          <div className="container mx-auto px-4 py-6">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <Button
-                  variant="outline"
-                  circle
-                  onClick={() => navigate(-1)}
-                >
-                  <BsArrowLeft size={20} />
-                </Button>
-                <div>
-                  <h1 className="text-2xl font-bold">{template.name}</h1>
-                  <p className="text-gray-600 dark:text-gray-400">{template.description}</p>
-                </div>
-              </div>
+	if (error) {
+		return (
+			<div className="min-h-screen bg-gray-50 dark:bg-black text-black dark:text-white flex items-center justify-center">
+				<div className="text-center">
+					<div className="text-red-500 text-lg mb-4">⚠️</div>
+					<h2 className="text-xl font-semibold mb-2">Erreur</h2>
+					<p className="text-gray-600 dark:text-gray-400 mb-4">{error}</p>
+					<button
+						onClick={() => navigate(-1)}
+						className="bg-[#4335C4] text-white px-4 py-2 rounded-lg"
+					>
+						Retour
+					</button>
+				</div>
+			</div>
+		);
+	}
 
-              <div className="flex flex-wrap gap-2">
-                <Button
-                  variant="outline"
-                  onClick={handleShare}
-                  className="flex items-center gap-2"
-                >
-                  {copied ? <BsCheck /> : <BsShare />}
-                  {copied ? "Copié!" : "Partager"}
-                </Button>
-                <Button
-                  onClick={handleUseTemplate}
-                  className="flex items-center gap-2 bg-[#4335C4] hover:bg-[#6366f1]"
-                >
-                  <BsPlay />
-                  Utiliser
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
+	if (!campaign) {
+		return (
+			<div className="min-h-screen bg-gray-50 dark:bg-black text-black dark:text-white flex items-center justify-center">
+				<div className="text-center">
+					<div className="text-gray-400 text-lg mb-4">😢</div>
+					<h2 className="text-xl font-semibold mb-2">Template non trouvé</h2>
+					<p className="text-gray-600 dark:text-gray-400 mb-4">
+						Le template demandé n'existe pas ou a été supprimé.
+					</p>
+					<button
+						onClick={() => navigate(-1)}
+						className="bg-[#4335C4] text-white px-4 py-2 rounded-lg"
+					>
+						Retour
+					</button>
+				</div>
+			</div>
+		);
+	}
 
-        {/* Main Content */}
-        <div className="container mx-auto px-4 py-8">
-          {/* Tabs */}
-          <div className="flex space-x-1 bg-gray-100 dark:bg-gray-800 rounded-lg p-1 mb-6">
-            {tabs.map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium ${
-                  activeTab === tab.id
-                    ? "bg-white dark:bg-gray-700 text-[#4335C4]"
-                    : "text-gray-600 dark:text-gray-400"
-                }`}
-              >
-                <tab.icon size={16} />
-                {tab.label}
-              </button>
-            ))}
-          </div>
+	// Détermine l'icône de catégorie
+	const CategoryIcon = iconComponents[campaign.category?.icon] || BsTag;
 
-          {/* Tab Content */}
-          {renderTabContent()}
-        </div>
-      </div>
+	return (
+		<div className="min-h-screen bg-gray-50 dark:bg-black text-black dark:text-white transition-colors">
+			<div className="container mx-auto py-8 px-4">
+				{/* Header */}
+				<div className="flex flex-col md:flex-row items-start md:items-center mb-8 gap-4 md:gap-6 w-full">
+					{/* Bouton retour */}
+					<Button
+						variant="outline"
+						color="neutral"
+						circle
+						className="h-12 w-12 flex-shrink-0"
+						onClick={() => navigate(-1)}
+					>
+						<BsArrowLeft size={20} />
+					</Button>
 
-      <MessageNotification
-        message={isFavorite ? "Ajouté aux favoris" : isBookmarked ? "Ajouté aux signets" : ""}
-        type="success"
-        isVisible={isFavorite || isBookmarked}
-        onClose={() => {}}
-      />
-    </>
-  );
+					{/* Titre et description */}
+					<div className="flex-1 w-full md:w-auto">
+						<div className="flex flex-col sm:flex-row sm:items-center sm:gap-3 mb-2 flex-wrap">
+							<CategoryIcon className="text-[#4335C4]" size={24} />
+							<h1 className="text-2xl sm:text-3xl font-bold break-words">
+								{campaign.name}
+							</h1>
+							{campaign.isPremium && (
+								<span className="bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300 text-sm font-bold px-3 py-1 rounded-full mt-2 sm:mt-0">
+									PRO
+								</span>
+							)}
+						</div>
+						<p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">
+							{campaign.description}
+						</p>
+					</div>
+
+					{/* Évaluations et bouton */}
+					<div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full md:w-auto">
+						{/* Ratings */}
+						<div className="flex items-center gap-1">
+							{[1, 2, 3, 4, 5].map((star) => (
+								<button
+									key={star}
+									onClick={() => handleRate(star)}
+									className={`text-yellow-400 hover:text-yellow-500 transition-colors ${hasRated ? "cursor-not-allowed opacity-50" : ""}`}
+									disabled={hasRated}
+								>
+									{userRating >= star ? <BsStarFill /> : <BsStar />}
+								</button>
+							))}
+							<span className="ml-2 text-sm text-gray-600 dark:text-gray-400">
+								{userRating}/5
+							</span>
+						</div>
+
+						{/* Bouton utiliser */}
+						<Button
+							onClick={handleUseCampaign}
+							className="bg-[#4335C4] hover:bg-[#3730a3] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold flex items-center gap-2 transition-colors w-full sm:w-auto"
+						>
+							<BsPlay size={16} />
+							Utiliser ce modèle
+						</Button>
+					</div>
+				</div>
+
+				{/* Hero Image & Stats */}
+				<div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden mb-8">
+					<div className="relative h-64 lg:h-80">
+						<img
+							src={campaign.thumbnail}
+							alt={campaign.name}
+							className="w-full h-full object-cover"
+						/>
+						<div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+						<div className="absolute bottom-6 left-6 right-6">
+							<div className="flex items-center gap-4 text-white text-sm mb-4">
+								{campaign.category && (
+									<span className="bg-white/20 backdrop-blur px-3 py-1 rounded-full capitalize">
+										{campaign.category.name}
+									</span>
+								)}
+								{campaign.type && (
+									<span className="bg-white/20 backdrop-blur px-3 py-1 rounded-full">
+										{campaign.type.name}
+									</span>
+								)}
+							</div>
+							<div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+								<div className="bg-white/10 backdrop-blur p-3 rounded-lg">
+									<div className="flex items-center gap-2 text-white/80 text-xs mb-1">
+										<BsStarFill className="text-yellow-400" />
+										Note
+									</div>
+									<div className="text-white text-lg font-semibold">
+										{campaign.ratings_avg_rating || campaign.rating}/5
+									</div>
+								</div>
+								<div className="bg-white/10 backdrop-blur p-3 rounded-lg">
+									<div className="flex items-center gap-2 text-white/80 text-xs mb-1">
+										<BsDownload />
+										Utilisations
+									</div>
+									<div className="text-white text-lg font-semibold">
+										{campaign.uses_count || campaign.uses}
+									</div>
+								</div>
+								<div className="bg-white/10 backdrop-blur p-3 rounded-lg">
+									<div className="flex items-center gap-2 text-white/80 text-xs mb-1">
+										<BsPeople />
+										Auteur
+									</div>
+									<div className="text-white text-sm font-semibold">
+										{campaign.author}
+									</div>
+								</div>
+								<div className="bg-white/10 backdrop-blur p-3 rounded-lg">
+									<div className="flex items-center gap-2 text-white/80 text-xs mb-1">
+										<BsCalendar />
+										Créé le
+									</div>
+									<div className="text-white text-sm font-semibold">
+										{new Date(campaign.createdAt).toLocaleDateString("fr-FR")}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{/* Navigation tabs */}
+				<div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 mb-8">
+					<div className="flex border-b border-gray-200 dark:border-gray-800">
+						<button
+							onClick={() => setActiveTab("overview")}
+							className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${
+								activeTab === "overview"
+									? "text-[#4335C4] border-[#4335C4]"
+									: "text-gray-500 dark:text-gray-400 border-transparent hover:text-gray-700 dark:hover:text-gray-300"
+							}`}
+						>
+							Vue d'ensemble
+						</button>
+						<button
+							onClick={() => setActiveTab("details")}
+							className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${
+								activeTab === "details"
+									? "text-[#4335C4] border-[#4335C4]"
+									: "text-gray-500 dark:text-gray-400 border-transparent hover:text-gray-700 dark:hover:text-gray-300"
+							}`}
+						>
+							Détails
+						</button>
+					</div>
+
+					{/* Tab content */}
+					<div className="p-6 space-y-8">
+						{/* Vue d'ensemble */}
+						{activeTab === "overview" && (
+							<div className="space-y-8">
+								{/* Preview du contenu */}
+								<Card>
+									<h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-800 dark:text-gray-200">
+										<BsEye className="text-[#4335C4]" />
+										Aperçu du message principal
+									</h3>
+									<div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
+										<p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">
+											"{campaign.preview}"
+										</p>
+									</div>
+								</Card>
+
+								{/* Informations principales */}
+								<div className="grid lg:grid-cols-2 gap-6">
+									{/* Catégorie et Type */}
+									<Card>
+										<h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-800 dark:text-gray-200">
+											<BsTag className="text-[#4335C4]" />
+											Catégorie et Type
+										</h3>
+										<div className="space-y-4">
+											{campaign.category && (
+												<div className="flex items-center gap-3">
+													<CategoryIcon className="text-[#4335C4]" size={20} />
+													<div>
+														<span className="text-sm text-gray-500 dark:text-gray-400">
+															Catégorie:
+														</span>
+														<p className="font-semibold capitalize">
+															{campaign.category.name}
+														</p>
+													</div>
+												</div>
+											)}
+											{campaign.type && (
+												<div className="flex items-center gap-3">
+													<BsBullseye className="text-[#4335C4]" size={20} />
+													<div>
+														<span className="text-sm text-gray-500 dark:text-gray-400">
+															Type de campagne:
+														</span>
+														<p className="font-semibold">{campaign.type.name}</p>
+													</div>
+												</div>
+											)}
+										</div>
+									</Card>
+
+									{/* Statistiques */}
+									<Card>
+										<h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-800 dark:text-gray-200">
+											<BsBarChart className="text-[#4335C4]" />
+											Statistiques
+										</h3>
+										<div className="grid grid-cols-2 gap-4 w-full">
+											{/* Note */}
+											<div className="p-4 rounded-lg border border-gray-200 dark:border-gray-700 flex flex-col items-center justify-center">
+												<BsStarFill className="text-yellow-500 mb-1" size={20} />
+												<span className="text-sm text-gray-700 dark:text-gray-300 font-medium">
+													Note
+												</span>
+												<div className="text-xl font-bold text-gray-900 dark:text-gray-200 mt-1">
+													{campaign.ratings_avg_rating || campaign.rating}/5
+												</div>
+											</div>
+
+											{/* Utilisations */}
+											<div className="p-4 rounded-lg border border-gray-200 dark:border-gray-700 flex flex-col items-center justify-center">
+												<BsDownload className="text-green-600 mb-1" size={20} />
+												<span className="text-sm text-gray-700 dark:text-gray-300 font-medium">
+													Utilisations
+												</span>
+												<div className="text-xl font-bold text-gray-900 dark:text-gray-200 mt-1">
+													{campaign.uses_count || campaign.uses}
+												</div>
+											</div>
+										</div>
+									</Card>
+								</div>
+
+								{/* Tags */}
+								{campaign.tags && campaign.tags.length > 0 && (
+									<Card>
+										<h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-800 dark:text-gray-200">
+											<BsTag className="text-[#4335C4]" />
+											Tags associés
+										</h3>
+										<div className="flex flex-wrap gap-2">
+											{campaign.tags.map((tag, index) => (
+												<span
+													key={index}
+													className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 px-3 py-1 rounded-full text-sm border border-gray-200 dark:border-gray-700"
+												>
+													{typeof tag === "object" ? `#${tag.name}` : `#${tag}`}
+												</span>
+											))}
+										</div>
+									</Card>
+								)}
+							</div>
+						)}
+
+						{/* Détails */}
+						{activeTab === "details" && (
+							<div className="space-y-8">
+								{/* Auteur et dates */}
+								<Card>
+									<h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">
+										Créé par
+									</h3>
+									<div className="flex items-center gap-4">
+										<div className="w-16 h-16 bg-[#4335C4] rounded-full flex items-center justify-center text-white font-bold text-xl">
+											{campaign.author?.charAt(0).toUpperCase() || "U"}
+										</div>
+										<div>
+											<p className="font-semibold text-lg">
+												{campaign.author || "Utilisateur"}
+											</p>
+											<p className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-2">
+												<BsCalendar size={12} />
+												Créé le {new Date(campaign.createdAt).toLocaleDateString("fr-FR")}
+											</p>
+										</div>
+									</div>
+								</Card>
+
+								{/* Description complète */}
+								<Card>
+									<h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">
+										Description
+									</h3>
+									<p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+										{campaign.description}
+									</p>
+								</Card>
+
+								{/* Miniature */}
+								{campaign.thumbnail && (
+									<Card>
+										<h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">
+											Image de présentation
+										</h3>
+										<div className="max-w-md">
+											<img
+												src={campaign.thumbnail}
+												alt={campaign.name}
+												className="w-full rounded-lg border border-gray-200 dark:border-gray-700"
+											/>
+										</div>
+									</Card>
+								)}
+
+								{/* Exemples de posts sociaux */}
+								{campaign.socialPosts && campaign.socialPosts.length > 0 && (
+									<Card>
+										<h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-800 dark:text-gray-200">
+											<BsMegaphone className="text-[#4335C4]" />
+											Exemples de posts sociaux
+										</h3>
+										<div className="space-y-4">
+											{campaign.socialPosts.map((post) => (
+												<div
+													key={post.id}
+													className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700"
+												>
+													<div className="flex justify-between items-center mb-2">
+														<span className="text-sm text-gray-500 dark:text-gray-400">
+															{post.social?.name || "Réseau inconnu"}
+														</span>
+														<span className="text-xs text-gray-400">
+															{new Date(post.created_at).toLocaleDateString("fr-FR")}
+														</span>
+													</div>
+													<p className="text-gray-800 dark:text-gray-200">{post.content}</p>
+												</div>
+											))}
+										</div>
+									</Card>
+								)}
+							</div>
+						)}
+					</div>
+				</div>
+
+				{/* Actions en bas */}
+				<div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 p-6">
+					<div className="flex flex-col sm:flex-row gap-4 justify-between items-center">
+						<div>
+							<h3 className="font-semibold mb-2">Prêt à utiliser ce modèle ?</h3>
+							<p className="text-sm text-gray-600 dark:text-gray-400">
+								Personnalisez cette campagne selon vos besoins et lancez-la en quelques
+								clics.
+							</p>
+						</div>
+						<div className="flex gap-3">
+							<Button
+								onClick={handleUseCampaign}
+								className="bg-[#4335C4] hover:bg-[#3730a3] text-white px-6 py-2 rounded-lg font-semibold flex items-center gap-2 transition-colors"
+							>
+								<BsPlay size={16} />
+								Utiliser maintenant
+							</Button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 };
 
 export default TemplatePreview;
