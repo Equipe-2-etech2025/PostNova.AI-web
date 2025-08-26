@@ -10,6 +10,7 @@ import {
 	BsPieChart,
 	BsPlus,
 } from "react-icons/bs";
+import { Link } from "react-router";
 import useAuth from "@hooks/useAuth";
 import Button from "@shared/Button";
 import { Card } from "@shared/Card";
@@ -211,10 +212,10 @@ const DashboardUser = () => {
 							</p>
 						</div>
 						<div>
-							<Button color="blue">
-								<div className="flex items-center gap-4">
-									<BsPlus size={24} />
+							<Button as={Link} to={'/campaign/new'} className="pe-2">
+								<div className="flex items-center">
 									<span>Créer une campagne</span>
+									<BsPlus size={24} />
 								</div>
 							</Button>
 						</div>

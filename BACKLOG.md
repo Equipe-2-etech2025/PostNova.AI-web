@@ -15,6 +15,10 @@
   Branche: `feature/EPA-67-voir-all-campaings`
   Commit: `EPA-67: page explorer + page prévisualisation template campagne`
 
+- [EPA-64] Run lint web (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche: `fix/EPA-64-lint`
+  Commit: `EPA-64: fix error et warning lint et mise à jour de makefile`
+
 - [EPA-62] Intégration campaign Image (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `feature/EPA-62-campaign-image`
   Commit: `EPA-62: integration de campaign pour génération de name-campaigne, ajout de couleur gradiant dans index.css et responsive interface auth`
@@ -46,22 +50,14 @@
 - [EPA-8] Creation de .github/workflows(CI/CD) Laravel (Assigné à: Mialisoa Lisa Rasoanirina)
 
 ## Terminé non testé
+- [EPA-70] Amélioration de la fonctionnalité "Landing Page" (Assigné à: Andhi Andrianina)
+  Branche: `enhance/EPA-70-landing-page-editor`
+  Commit: `EPA-70: Enhancement landing page feature`
+
 - [EPA-66] Gestion d'autorisation et redirection (Assigné à: Andhi Andrianina)
   Branche: `refactor/EPA-66-authorization-redirection`
   Commit: `EPA-66: Manage authorization and redirect user to safe page`
 
-- [EPA-60] Maquettage et réalisation de la page Admin Dashboard (Assigné à: Andhi Andrianina)
-  Branche: `feature/EPA-60-ui-admin-dashboard`
-  Commit: `EPA-60: Implement Admin Dashboard with User Management, Activity Feed, Revenue Chart, and Admin Tools`
-
-- [EPA-41] Modification des "routes" (Assigné à: Andhi Andrianina)
-  Branche: `refactor/EPA-41-organize-routes`
-  Commit: `EPA-41: routing structure`
-  
-- [EPA-40] Création de fichier backlog.md pour le fronted (Assigné à: Andhi Andrianina)
-  Branche : `feature/EPA-40-formatting-codes`  
-  Commit : `EPA-40: format all codes`
-  Commit : `EPA-40: update BACKLOG.md`
 
 - [EPA-31] Création de fichier backlog.md pour le fronted (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche : `feature/EPA-31-backlog`  
@@ -70,6 +66,10 @@
 - [EPA-14] Creation de composant réutilisable (bouton, card, modal, ...) (Assigné à: Tahiry Houlder RATERAHAJA)
 
 ## Terminé(e)
+- [EPA-60] Maquettage et réalisation de la page Admin Dashboard (Assigné à: Andhi Andrianina)
+  Branche: `feature/EPA-60-ui-admin-dashboard`
+  Commit: `EPA-60: Implement Admin Dashboard with User Management, Activity Feed, Revenue Chart, and Admin Tools`
+
 - [EPA-35] Réalisation de la page de détail et création de campagne (Assigné à: Andhi Andrianina)
   Branche: `feature/EPA-35-ui-campaign`
   Commit: `EPA-35: EPA-35 : Page (create & detail) campaign + modal per feature`
@@ -82,6 +82,15 @@
 	Branch: feature/EPA-44:Inteface-404
 
 - [EPA-27] Interface mot de passe oublié + vérification email* (Assigné à: Tahiry Houlder RATERAHAJA)
+
+- [EPA-41] Modification des "routes" (Assigné à: Andhi Andrianina)
+  Branche: `refactor/EPA-41-organize-routes`
+  Commit: `EPA-41: routing structure`
+  
+- [EPA-40] Création de fichier backlog.md pour le fronted (Assigné à: Andhi Andrianina)
+  Branche : `feature/EPA-40-formatting-codes`  
+  Commit : `EPA-40: format all codes`
+  Commit : `EPA-40: update BACKLOG.md`
 
 - [EPA-28] Interface politique de confidentialité et règles d'utilisation (Assigné à: Tahiry Houlder RATERAHAJA)
    Branche: feature/EPA-28-condition-politique
