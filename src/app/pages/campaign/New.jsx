@@ -1,12 +1,12 @@
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuth from "@hooks/useAuth";
-import NavBar from "@layouts/NavBar";
-import { InputPrompt } from "@shared/Input";
+import InputPrompt from "@shared/Input";
 import { TypeCampaignService } from "@services/typeCampaignService";
 import { campaignService } from "@services/campaignService";
 import { BsMagic } from "react-icons/bs";
+import MessageNotification from "@shared/MessageNotification";
+import LoadingSpinnerNova from "@shared/LoadingSpinnerNova";
 
 const New = () => {
 	const { user } = useAuth();
@@ -16,16 +16,30 @@ const New = () => {
 	const [campaignOptions, setCampaignOptions] = useState([]);
 	const [isCreating, setIsCreating] = useState(false);
 
+	const [notification, setNotification] = useState({
+		message: "",
+		type: "info" /*"success", "error", "warning", "info"*/,
+		isVisible: false,
+	});
+
+	const showNotification = (message, type = "info") => {
+		setNotification({
+			message,
+			type,
+			isVisible: true,
+		});
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
 		if (!user) {
-			alert("Veuillez vous connecter");
+			showNotification("Veuillez vous connecter", "error");
 			return;
 		}
 
 		if (!description || !typeCampaign) {
-			alert("Veuillez remplir tous les champs.");
+			showNotification("Veuillez remplir tous les champs.", "warning");
 			return;
 		}
 
@@ -39,13 +53,19 @@ const New = () => {
 			});
 			console.log("Response from campaign creation:", response);
 			if (response.success) {
-				navigate(`/campaign/${response.campaign.id}`);
+				showNotification("Campagne créée avec succès !", "success");
+				setTimeout(() => {
+					navigate(`/campaign/${response.campaign.id}`);
+				}, 1500);
 			} else {
-				alert("Erreur lors de la création : " + response.message);
+				showNotification(
+					"Erreur lors de la création : " + response.message,
+					"error"
+				);
 			}
 		} catch (error) {
 			console.error("Erreur lors de la création :", error);
-			alert("Une erreur est survenue.");
+			showNotification("Une erreur est survenue lors de la création.", "error");
 		} finally {
 			setIsCreating(false);
 		}
@@ -60,6 +80,10 @@ const New = () => {
 				}
 			} catch (error) {
 				console.error("Erreur:", error);
+				showNotification(
+					"Erreur lors du chargement des types de campagne",
+					"error"
+				);
 			}
 		};
 		fetchTypeCampaigns();
@@ -67,35 +91,50 @@ const New = () => {
 
 	return (
 		<div className="min-h-screen">
-			<div className="container flex flex-col items-center justify-center min-h-[80vh] mx-auto">
+			{/* Notification */}
+			<MessageNotification
+				message={notification.message}
+				type={notification.type}
+				isVisible={notification.isVisible}
+				onClose={() => setNotification({ ...notification, isVisible: false })}
+				autoHide={true}
+				duration={5000}
+				position="top-center"
+				showProgressBar={true}
+			/>
 
+			<div className="container flex flex-col items-center justify-center min-h-[80vh] mx-auto">
 				<h1 className="text-5xl font-bold mt-12 mb-2 text-center">
-					Créer une campagne
+					Créer une nouvelle campagne
 				</h1>
 
 				<p className="mb-8 text-gray-400 text-center">
-					Décrivez votre campagne et choisissez son type.
+					Plus vous êtes précis, meilleur sera le résultat généré par Nova.
 				</p>
 
-				<div className="w-full max-w-3xl">
+				<div className="w-full max-w-3xl ">
 					<InputPrompt
 						placeholder="Décrivez votre campagne"
 						value={description}
 						btnText={isCreating ? "Création..." : "Créer"}
 						btnDisabled={isCreating || !description || !typeCampaign}
 						btnIcon={
-							isCreating ? <span className="mr-1">🪄</span> : <BsMagic size={16} />
+							<LoadingSpinnerNova
+								isLoading={isCreating}
+								iconSize={10}
+								spinnerSize={20}
+								showIdleGlow={true}
+							/>
 						}
 						onChange={(e) => setDescription(e.target.value)}
 						onSubmit={handleSubmit}
-						containerStyle="!px-6 !py-4 !rounded-lg !bg-white !border !border-gray-200"
+						containerStyle="!px-6 !py-4 !rounded-lg"
 						inputStyle="!p-0 !bg-transparent text-lg min-h-[60px]"
 						btnPosition="right"
 					/>
 
 					<div className="mt-8 text-center">
-						<p className="text-sm text-gray-500 mb-4">Type de campagne *</p>
-						<div className="grid grid-cols-3 gap-3 max-w-xl mx-auto">
+						<div className="grid grid-cols-3 gap-3 max-w-xl mx-auto mt-6">
 							{campaignOptions.map((option) => (
 								<button
 									key={option.id}
@@ -105,7 +144,8 @@ const New = () => {
           px-4 py-3 text-sm font-medium rounded-lg shadow-sm
           transition-all duration-200 whitespace-nowrap
           bg-gradient-to-r from-purple-100 via-blue-100 to-pink-100
-          hover:from-purple-400 hover:via-blue-400 hover:to-pink-400
+          hover:from-purple-400 hover:via-blue-400 	hover:to-pink-400
+		  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500
           ${
 											typeCampaign === option.id
 												? "from-purple-500 via-blue-500 to-pink-500 text-white"
