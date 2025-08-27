@@ -11,6 +11,14 @@
 
 ## En cours
 
+- [EPA-67] Voir tous les campagnes (Assigné à: Nathan Rakotoarimanana)
+  Branche: `feature/EPA-67-voir-all-campaings`
+  Commit: `EPA-67: page explorer + page prévisualisation template campagne`
+
+- [EPA-64] Run lint web (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche: `fix/EPA-64-lint`
+  Commit: `EPA-64: fix error et warning lint et mise à jour de makefile`
+
 - [EPA-73] Mise à jour d'integration SocialPost (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche : `chore/EPA-73-socialpost`
   Commit: `EPA-73: mise à jour d'integration de toutes les opérations lié aux socialPosts`

@@ -12,6 +12,7 @@ import UserProfile from "@pages/userProfile/UserProfile";
 import ChangePassword from "@pages/userProfile/ChangePassword";
 import TemplatesExplorer from "@pages/userProfile/TemplatesExplorer";
 import TemplatePreview from "@pages/userProfile/TemplatePreview";
+import CampaignsListPage from "@pages/campaign/CampaignsListPage";
 import PaymentForm from "@pages/payment/paymentForm";
 const routes = [
 	/**
@@ -35,7 +36,17 @@ const routes = [
 			{ path: "/campaign/new", element: <Campaign.New /> },
 			{ path: "/campaign/:id", element: <Campaign.Detail /> },
 			{ path: "/campaign/:id/preview-page", element: <Campaign.PreviewPage /> },
-  
+
+			{ path: "/userProfile", element: <UserProfile /> },
+
+			{ path: "/changePassword", element: <ChangePassword /> },
+
+			{ path: "/templates", element: <TemplatesExplorer /> },
+
+			{ path: "/explore", element: <CampaignsListPage /> },
+
+			{ path: "/templates/:id/preview", element: <TemplatePreview /> },
+
 			{ path: "/userProfile", element: <UserProfile /> },
 
 			{ path: "/changePassword", element: <ChangePassword /> },
