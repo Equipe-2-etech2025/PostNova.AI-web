@@ -1,5 +1,30 @@
 import api from "@configs/api";
 
+const handleError = (error, defaultMessage) => {
+  console.error("API Error:", error);
+  
+  if (error.response?.data) {
+    return {
+      success: false,
+      message: error.response.data.message || defaultMessage,
+      status: error.response.status,
+      ...error.response.data
+    };
+  } else if (error.request) {
+    return {
+      success: false,
+      message: "Erreur de connexion au serveur",
+      status: 0
+    };
+  } else {
+    return {
+      success: false,
+      message: defaultMessage || "Erreur inconnue",
+      status: 0
+    };
+  }
+};
+
 export const promptService = {
 	async getAll() {
 		try {
@@ -88,5 +113,3 @@ export const promptService = {
 		}
 	},
 };
-
-

@@ -71,7 +71,7 @@ const Modal = ({
 			onClick={handleOverlayClick}
 		>
 			<div
-				className={`relative bg-white dark:bg-[#111] rounded-2xl shadow-xl overflow-clip ${sizeClasses[size]}
+				className={`relative bg-white dark:bg-gray-900 rounded-2xl shadow-xl overflow-clip ${sizeClasses[size]}
 					transition-all duration-200 transform
 					${animateOpen ? "scale-100 opacity-100" : "scale-90 opacity-0"} 
 					${className}`}

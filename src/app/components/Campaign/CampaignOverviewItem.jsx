@@ -1,10 +1,8 @@
 import React from "react";
 import { Card } from "@shared/Card";
 import Button from "@shared/Button";
-import Tag from "@shared/Tag"; // Assurez-vous d'importer Tag si vous l'utilisez
-import { BsHeart, BsTiktok } from "react-icons/bs";
+import Tag from "@shared/Tag";
 
-// Composant Skeleton - doit être exporté si utilisé ailleurs
 const CampaignOverviewItemSkeleton = () => {
   return (
     <Card shadow="sm">
@@ -32,7 +30,6 @@ const CampaignOverviewItemSkeleton = () => {
   );
 };
 
-// Composant principal
 const CampaignOverviewItem = ({ campaignOverview, isLoading = true, onClick }) => {
   if (isLoading) {
     return <CampaignOverviewItemSkeleton />;

@@ -10,16 +10,10 @@
 - [EPA-26] Intégration mot de passe oublié + vérification email (Assigné à: Nathan Rakotoarimanana)
 
 ## En cours
-- [EPA-64] Run lint web (Assigné à: Mialisoa Lisa Rasoanirina)
-  Branche: `fix/EPA-64-lint`
-  Commit: `EPA-64: fix error et warning lint et mise à jour de makefile`
 
-- [EPA-62] Intégration campaign Image (Assigné à: Mialisoa Lisa Rasoanirina)
-  Branche: `feature/EPA-62-campaign-image`
-  Commit: `EPA-62: integration de campaign pour génération de name-campaigne, ajout de couleur gradiant dans index.css et responsive interface auth`
-  Commit: `EPA-62: integration de campaign pour la details de la campaign`
-  Commit: `EPA-62: chore: modification de placeholder de nom et description pour EditCampaign`
-  Commit: `EPA-62: feat: integration de vue de campaign et api génération socials_posts`
+- [EPA-73] Mise à jour d'integration SocialPost (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche : `chore/EPA-73-socialpost`
+  Commit: `EPA-73: mise à jour d'integration de toutes les opérations lié aux socialPosts`
 
 - [EPA-56] Intégration page d'acceuil (Assigné à: Nathan Rakotoarimanana)
   Branche : `feature/EPA-56-intg-page-accueil`
@@ -61,6 +55,18 @@
 - [EPA-14] Creation de composant réutilisable (bouton, card, modal, ...) (Assigné à: Tahiry Houlder RATERAHAJA)
 
 ## Terminé(e)
+
+- [EPA-64] Run lint web (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche: `fix/EPA-64-lint`
+  Commit: `EPA-64: fix error et warning lint et mise à jour de makefile`
+
+- [EPA-62] Intégration campaign SocialPost (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche: `feature/EPA-62-campaign-image`
+  Commit: `EPA-62: integration de campaign pour génération de name-campaigne, ajout de couleur gradiant dans index.css et responsive interface auth`
+  Commit: `EPA-62: integration de campaign pour la details de la campaign`
+  Commit: `EPA-62: chore: modification de placeholder de nom et description pour EditCampaign`
+  Commit: `EPA-62: feat: integration de vue de campaign et api génération socials_posts`
+
 - [EPA-60] Maquettage et réalisation de la page Admin Dashboard (Assigné à: Andhi Andrianina)
   Branche: `feature/EPA-60-ui-admin-dashboard`
   Commit: `EPA-60: Implement Admin Dashboard with User Management, Activity Feed, Revenue Chart, and Admin Tools`
