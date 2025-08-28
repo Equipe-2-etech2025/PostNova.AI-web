@@ -1,7 +1,7 @@
 # Makefile
 
 # Variables
-DOCKER_COMPOSE = docker-compose
+DOCKER_COMPOSE = docker compose
 DOCKER = docker
 NPM = $(DOCKER_COMPOSE) exec web npm
 

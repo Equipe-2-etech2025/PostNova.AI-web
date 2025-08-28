@@ -10,6 +10,7 @@ import {
 	BsPieChart,
 	BsPlus,
 } from "react-icons/bs";
+import { Link } from "react-router";
 import useAuth from "@hooks/useAuth";
 import Button from "@shared/Button";
 import { Card } from "@shared/Card";
@@ -133,7 +134,7 @@ const DashboardUser = () => {
 		// Fetch campaign list
 		const fetchCampaign = async () => {
 			setLoadingCampaigns(true);
-			const result = await campaignService.getAllCampaigns();
+			const result = await campaignService.getCampaignsByUserId(user.id);
 			if (result.success) {
 				setCampaigns(result.data.data);
 			} else {
@@ -211,10 +212,10 @@ const DashboardUser = () => {
 							</p>
 						</div>
 						<div>
-							<Button color="blue">
-								<div className="flex items-center gap-4">
-									<BsPlus size={24} />
+							<Button as={Link} to={'/campaign/new'} className="pe-2">
+								<div className="flex items-center">
 									<span>Créer une campagne</span>
+									<BsPlus size={24} />
 								</div>
 							</Button>
 						</div>
@@ -264,7 +265,8 @@ const DashboardUser = () => {
 								<div className="mt-4">
 									<span>
 										Il vous reste{" "}
-										{tarif?.tarif?.max_limit != null && quotaPrompt?.daily_quota_used != null
+										{tarif?.tarif?.max_limit != null &&
+										quotaPrompt?.daily_quota_used != null
 											? tarif.tarif.max_limit - quotaPrompt.daily_quota_used
 											: "..."}{" "}
 										quotas aujourd'hui.

@@ -8,7 +8,6 @@ import {
 	BsSpeedometer2,
 	BsSunriseFill,
 } from "react-icons/bs";
-import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import useTheme from "@hooks/useTheme";
 import useAuth from "@hooks/useAuth";
 import Button from "@shared/Button";
@@ -262,52 +261,7 @@ const NavBar = () => {
 						</>
 					)}
 				</div>
-
-				{/* Bouton menu mobile */}
-				<div className="md:hidden">
-					<button
-						onClick={() => setMenuOpen(!menuOpen)}
-						className="text-gray-700 dark:text-gray-200"
-					>
-						{menuOpen ? <HiOutlineX size={28} /> : <HiOutlineMenu size={28} />}
-					</button>
-				</div>
 			</div>
-
-			{/* Menu mobile */}
-			{menuOpen && (
-				<div className="md:hidden bg-gray-500/90 dark:bg-gray-800/90 backdrop-blur-md p-5 space-y-4 animate-fade-in">
-					<nav className="flex flex-col gap-4">
-						<a href="#about" onClick={() => setMenuOpen(false)}>
-							À propos
-						</a>
-						<a href="#our-services" onClick={() => setMenuOpen(false)}>
-							Nos services
-						</a>
-						<a href="#our-offers" onClick={() => setMenuOpen(false)}>
-							Nos offres
-						</a>
-					</nav>
-					<div className="flex items-center gap-2 pt-4 border-t border-gray-400/30">
-						<Button
-							variant="outline"
-							color="tertiary"
-							circle
-							className="px-4 py-3"
-							onClick={toggleTheme}
-						>
-							{theme === "light" ? (
-								<BsMoonStarsFill size={16} />
-							) : (
-								<BsSunriseFill size={16} />
-							)}
-						</Button>
-						<Button as={Link} to="/login" circle variant="solid" color="neutral">
-							Se connecter
-						</Button>
-					</div>
-				</div>
-			)}
 		</div>
 	);
 };
