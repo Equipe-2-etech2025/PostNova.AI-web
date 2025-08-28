@@ -11,6 +11,10 @@
 
 ## En cours
 
+-[EPA-76] Page mes campagnes (Assigné à: Nathan Rakotoarimanana)
+  Branche: `feature/EPA-76-mes-campagnes`
+  Commit: `EPA-76: Page mes campagnes`
+
 - [EPA-67] Voir tous les campagnes (Assigné à: Nathan Rakotoarimanana)
   Branche: `feature/EPA-67-voir-all-campaings`
   Commit: `EPA-67: page explorer + page prévisualisation template campagne`

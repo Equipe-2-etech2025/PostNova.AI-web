@@ -133,6 +133,8 @@ const DashboardUser = () => {
 
 		// Fetch campaign list
 		const fetchCampaign = async () => {
+			if (!user?.id) return;
+
 			setLoadingCampaigns(true);
 			const result = await campaignService.getCampaignsByUserId(user.id);
 			if (result.success) {
@@ -212,7 +214,7 @@ const DashboardUser = () => {
 							</p>
 						</div>
 						<div>
-							<Button as={Link} to={'/campaign/new'} className="pe-2">
+							<Button as={Link} to={"/campaign/new"} className="pe-2">
 								<div className="flex items-center">
 									<span>Créer une campagne</span>
 									<BsPlus size={24} />

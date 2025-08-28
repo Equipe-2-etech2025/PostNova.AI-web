@@ -13,7 +13,7 @@ const LastCampaignList = ({ campaigns = [], isLoading = true }) => {
 			action={
 				!isLoading &&
 				campaigns.length > 1 && (
-					<Link to="/campaignsListPage">
+					<Link to="/campaign/list">
 						<Button circle>
 							<div className="flex items-center gap-2 px-2">
 								<span className="text-sm">Voir tout</span>
