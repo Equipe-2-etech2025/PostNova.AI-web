@@ -1,28 +1,28 @@
 import api from "@configs/api";
 
 const handleError = (error, defaultMessage) => {
-  console.error("API Error:", error);
-  
-  if (error.response?.data) {
-    return {
-      success: false,
-      message: error.response.data.message || defaultMessage,
-      status: error.response.status,
-      ...error.response.data
-    };
-  } else if (error.request) {
-    return {
-      success: false,
-      message: "Erreur de connexion au serveur",
-      status: 0
-    };
-  } else {
-    return {
-      success: false,
-      message: defaultMessage || "Erreur inconnue",
-      status: 0
-    };
-  }
+	console.error("API Error:", error);
+
+	if (error.response?.data) {
+		return {
+			success: false,
+			message: error.response.data.message || defaultMessage,
+			status: error.response.status,
+			...error.response.data,
+		};
+	} else if (error.request) {
+		return {
+			success: false,
+			message: "Erreur de connexion au serveur",
+			status: 0,
+		};
+	} else {
+		return {
+			success: false,
+			message: defaultMessage || "Erreur inconnue",
+			status: 0,
+		};
+	}
 };
 
 export const promptService = {
@@ -46,7 +46,10 @@ export const promptService = {
 				data: response.data,
 			};
 		} catch (error) {
-			return handleError(error, `Erreur lors de la récupération du prompt ID ${id}`);
+			return handleError(
+				error,
+				`Erreur lors de la récupération du prompt ID ${id}`
+			);
 		}
 	},
 
@@ -72,7 +75,10 @@ export const promptService = {
 				message: "Prompt mis à jour avec succès",
 			};
 		} catch (error) {
-			return handleError(error, `Erreur lors de la mise à jour du prompt ID ${id}`);
+			return handleError(
+				error,
+				`Erreur lors de la mise à jour du prompt ID ${id}`
+			);
 		}
 	},
 
@@ -84,7 +90,10 @@ export const promptService = {
 				message: response.data.message || "Prompt supprimé avec succès",
 			};
 		} catch (error) {
-			return handleError(error, `Erreur lors de la suppression du prompt ID ${id}`);
+			return handleError(
+				error,
+				`Erreur lors de la suppression du prompt ID ${id}`
+			);
 		}
 	},
 
@@ -109,7 +118,10 @@ export const promptService = {
 				data: response.data,
 			};
 		} catch (error) {
-			return handleError(error, `Erreur lors de la récupération du quota pour l'utilisateur ID ${userId}`);
+			return handleError(
+				error,
+				`Erreur lors de la récupération du quota pour l'utilisateur ID ${userId}`
+			);
 		}
 	},
 };
