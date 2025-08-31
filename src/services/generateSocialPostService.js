@@ -12,18 +12,16 @@ import api from "@configs/api";
  *  - target_audience: string (optionnel)
  *  - is_published: boolean (optionnel)
  */
-export const generateSocialPostService = async (params) => {
+export const generateSocialPostService = async (data) => {
   try {
-    const response = await api.post(`/social-posts/generate`, params);
+    const response = await api.post('/social-posts/generate', data);
     return response.data;
   } catch (error) {
-    console.error("Failed to generate social posts:", error);
     return {
       success: false,
-      message: error?.response?.data?.message || "Erreur réseau",
-      error: error?.response?.data?.error || error.message,
-      posts: [],
-      count: 0
+      message: error.response?.data?.message || "Erreur lors de la génération des posts",
+      type: error.response?.data?.type || "api_error",
+      error: error.response?.data || error.message
     };
   }
 };

@@ -10,10 +10,8 @@ const CampaignHeader = ({
 	originalStatus,
 	loading,
 	onEdit,
-	onShare
+	onShare,
 }) => {
-	const [showShareModal, setShowShareModal] = useState(false);
-
 	const getStatusColor = (englishStatus) => {
 		const statusColorMap = {
 			created: "blue",
@@ -37,12 +35,6 @@ const CampaignHeader = ({
 	}
 
 	const statusColor = getStatusColor(originalStatus);
-
-	{/* API pour le partage de campagne dans explorer*/}
-	const handleShare = async () => {
-		console.log("Appel API de partage (à implémenter ici)");
-		setShowShareModal(false);
-	};
 
 	return (
 		<section className="py-4">
@@ -74,63 +66,18 @@ const CampaignHeader = ({
 					>
 						<BsPencilFill
 							size={18}
-							className="transition-all duration-300 
-									   group-hover:text-purple-700 dark:group-hover:text-purple-400 
-									   group-hover:rotate-12"
+							className="transition-all duration-300 group-hover:text-purple-700 dark:group-hover:text-purple-400 group-hover:rotate-12"
 						/>
 					</Button>
-
-					{/* <Button
-						variant="solid"
-						className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium
-              text-white bg-gradient-to-r from-purple-500 to-pink-500
-              hover:from-purple-600 hover:to-pink-600
-              transition-all duration-300 transform 
-              hover:scale-105
-              active:scale-95
-              disabled:opacity-60 disabled:cursor-not-allowed
-              relative overflow-hidden border-none"
-						onClick={() => setShowShareModal(true)}
-					>
-						Partager
-					</Button> */}
-
 					<Button
 						variant="solid"
-						className="bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg px-4 py-2"
+						className="bg-purple-600 hover:bg-gradient-to-r from-blue-700 via-purple-600 to-pink-600 border-none text-white font-semibold rounded-lg px-4 py-2"
 						onClick={onShare}
 					>
 						Partager
 					</Button>
 				</div>
 			</div>
-
-			{/* Modale de confirmation
-			{showShareModal && (
-				<div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-					<div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl w-[400px]">
-						<h2 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4">
-							Voulez-vous vraiment partager vos campagnes aux réseaux Nova ?
-						</h2>
-						<div className="flex justify-end gap-3">
-							<Button
-								variant="ghost"
-								className="bg-gray-200 text-gray-800 hover:bg-gray-300 px-4 py-2 rounded-lg"
-								onClick={() => setShowShareModal(false)}
-							>
-								Non
-							</Button>
-							<Button
-								variant="solid"
-								className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg"
-								onClick={handleShare}
-							>
-								Oui
-							</Button>
-						</div>
-					</div>
-				</div>
-			)} */}
 		</section>
 	);
 };
