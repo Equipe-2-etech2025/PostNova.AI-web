@@ -87,18 +87,6 @@ const CampaignImageItem = ({ campaignImage, isLoading = false, onClick }) => {
 								e.target.className = "w-full h-full object-contain bg-gray-100 p-4";
 							}}
 						/>
-
-						{/* Badge de statut */}
-						{campaignImage.is_published && (
-							<span className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full z-10">
-								Publiée
-							</span>
-						)}
-						{!campaignImage.is_published && (
-							<span className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full z-10">
-								Non publiée
-							</span>
-						)}
 					</div>
 
 					{/* Overlay réduit avec disposition en row */}

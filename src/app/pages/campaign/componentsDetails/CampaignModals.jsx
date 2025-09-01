@@ -15,6 +15,7 @@ const CampaignModals = ({
 	posts,
 	campaignName,
 	campaignDescription,
+	onCampaignUpdateSuccess,
 	onContentRefresh,
 	campaignId,
 	isShareModalOpen,
@@ -128,7 +129,17 @@ const CampaignModals = ({
 					/>
 				)}
 			</Modal>
-
+      
+      <Modal isOpen={isOpen("image-marketing")} onClose={closeModal} size="xl">
+				<Suspense fallback={<div>Chargement...</div>}>
+					<Feature.ImageMarketing
+						campaignId={campaignId}
+						onSuccess={handleCloseAndRefresh}
+						onContentGenerated={handleContentGenerated}
+					/>
+				</Suspense>
+			</Modal>
+      
 			{/* Modal Landing Page */}
 			<Modal
 				isOpen={isOpen("landing-page")}

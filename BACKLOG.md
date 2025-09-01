@@ -11,6 +11,10 @@
 
 ## En cours
 
+-[EPA-81] Creation image
+  Branche: `feature/EPA-81-creation-image`
+  Commit:  `EPA-81: creation-image`
+
 - [EPA-80] Mise à jour de génération social post WEB (Assigné à: Mialisoa Lisa Rasoanirina)
   Branch: `chore/EPA-80-socialpost-generation`
   Commit: `EPA-80: chore: mise à jour d'intégration socialPost`
