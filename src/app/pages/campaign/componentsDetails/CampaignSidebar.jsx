@@ -16,6 +16,7 @@ const CampaignSidebar = ({
 	quotaPrompt,
 	tarif,
 	loadingQuota,
+	oneContentRefresh,
 }) => {
 	const dailyQuotaUsed = quotaPrompt;
 	const maxLimit = tarif;
@@ -61,7 +62,11 @@ const CampaignSidebar = ({
 			</SectionBlock>
 
 			{/* Section Quota intégrée*/}
-			<SectionBlock title="Quota utilisé" icon={<BsPieChart />}>
+			<SectionBlock
+				oneContentRefresh={oneContentRefresh}
+				title="Quota utilisé"
+				icon={<BsPieChart />}
+			>
 				<div className="flex items-center justify-between gap-2">
 					<span>Quotas utilisés</span>
 					<strong>

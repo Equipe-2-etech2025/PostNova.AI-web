@@ -11,6 +11,10 @@
 
 ## En cours
 
+-[EPA-84] Ajout d'une fonction supprimer post (Assigné à: Mialisoa Lisa Rasoanirina)
+ Branche: `feature/EPA-84-deletedPost`
+ Commit: `EPA-84: suppression post social`
+
 -[EPA-81] Creation image (Assigné à: Nathan Rakotoarimanana)
   Branche: `feature/EPA-81-creation-image`
   Commit:  `EPA-81: creation-image`

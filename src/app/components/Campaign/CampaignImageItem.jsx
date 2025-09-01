@@ -67,7 +67,10 @@ const CampaignImageItem = ({ campaignImage, isLoading = false, onClick }) => {
 	}
 
 	return (
-		<CardImage shadow="lg" className="overflow-hidden  rounded-t-xl rounded-b-none">
+		<CardImage
+			shadow="lg"
+			className="overflow-hidden  rounded-t-xl rounded-b-none"
+		>
 			<div className="relative">
 				{/* Image en plein écran */}
 				<Button
@@ -93,7 +96,7 @@ const CampaignImageItem = ({ campaignImage, isLoading = false, onClick }) => {
 					<div
 						className="absolute bottom-0 left-0 right-0 
                     bg-gradient-to-t from-black/80 via-black/50 to-transparent 
-                    p-3 backdrop-blur-sm h-16"
+                    p-3 backdrop-blur-sm h-9"
 					>
 						<div className="flex justify-between items-center h-full">
 							{/* Date */}
