@@ -49,24 +49,6 @@ const NotFound = () => {
 					/>
 				</div>
 			</main>
-
-			{/* Footer */}
-			<footer className="bg-[#101010] py-6 text-center text-sm border-t border-blue-500">
-				<div className="flex flex-col gap-4 text-center text-sm">
-					<Link to={"/"}>
-						<span className="text-xl font-bold">PostNova</span>
-					</Link>
-					<div className="flex justify-center gap-6 my-6">
-						<Link to={"/"}>Accueil</Link>
-						<Link to={"/about"}>À propos</Link>
-						<Link to={"/our-offers"}>Nos offres</Link>
-					</div>
-					<p className="text-gray-400">
-						Copyright 2025 - Made with <span className="text-pink-500">❤️</span> by
-						Equipe 2
-					</p>
-				</div>
-			</footer>
 		</div>
 	);
 };

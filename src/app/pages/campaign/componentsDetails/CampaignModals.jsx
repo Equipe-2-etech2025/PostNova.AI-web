@@ -4,6 +4,7 @@ import EditCampaign from "@layouts/Campaign/EditCampaign";
 import NewRequest from "@layouts/Campaign/NewRequest";
 import ImagePreview from "@components/Campaign/Features/Image";
 import * as Feature from "@components/Campaign/Features";
+import { Loader2 } from "lucide-react"; // icône spinner (si tu utilises lucide-react)
 
 const CampaignModals = ({
 	isOpen,
@@ -23,6 +24,7 @@ const CampaignModals = ({
 	onShareCampaign,
 }) => {
 	const [newRequestModalSize, setNewRequestModalSize] = useState("3xl");
+	const [isSharing, setIsSharing] = useState(false);
 
 	const handleContentGenerated = (size = "5xl") => {
 		setNewRequestModalSize(size);
@@ -39,6 +41,15 @@ const CampaignModals = ({
 		}
 	};
 
+	const handleShare = async () => {
+		try {
+			setIsSharing(true);
+			await onShareCampaign();
+		} finally {
+			setIsSharing(false);
+		}
+	};
+
 	return (
 		<>
 			{/* Modal Share Confirmation */}
@@ -51,18 +62,30 @@ const CampaignModals = ({
 						<button
 							className="bg-gray-200 text-gray-800 hover:bg-gray-300 px-4 py-2 rounded-lg"
 							onClick={onCloseShareModal}
+							disabled={isSharing}
 						>
 							Non
 						</button>
 						<button
-							className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg"
-							onClick={onShareCampaign}
+							className={`flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg ${
+								isSharing ? "opacity-70 cursor-not-allowed" : ""
+							}`}
+							onClick={handleShare}
+							disabled={isSharing}
 						>
-							Oui
+							{isSharing ? (
+								<>
+									<Loader2 className="h-4 w-4 animate-spin" />
+									Partage en cours...
+								</>
+							) : (
+								"Oui"
+							)}
 						</button>
 					</div>
 				</div>
 			</Modal>
+
 			{/* Modal Edit Campaign */}
 			<Modal isOpen={isOpen("edit-campaign")} onClose={closeModal} size="xl">
 				<Suspense fallback={<div>Chargement...</div>}>
@@ -129,8 +152,8 @@ const CampaignModals = ({
 					/>
 				)}
 			</Modal>
-      
-      <Modal isOpen={isOpen("image-marketing")} onClose={closeModal} size="xl">
+
+			<Modal isOpen={isOpen("image-marketing")} onClose={closeModal} size="xl">
 				<Suspense fallback={<div>Chargement...</div>}>
 					<Feature.ImageMarketing
 						campaignId={campaignId}
@@ -139,7 +162,7 @@ const CampaignModals = ({
 					/>
 				</Suspense>
 			</Modal>
-      
+
 			{/* Modal Landing Page */}
 			<Modal
 				isOpen={isOpen("landing-page")}
