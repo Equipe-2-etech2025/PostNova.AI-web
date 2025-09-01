@@ -1,48 +1,72 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import Button from "@shared/Button";
 
 const Pagination = ({ currentPage, totalItems, itemsPerPage, onPageChange }) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-  if (totalPages === 0) return null;
+  if (totalPages <= 1) return null;
 
-  const renderPageButton = (page) => (
-    <button
-      key={page}
-      onClick={() => onPageChange(page)}
-      className={`px-4 py-2 rounded-lg border transition-colors duration-200 ${
-        page === currentPage
-          ? "bg-[#4335C4] text-white border-[#4335C4] shadow-md"
-          : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-300 dark:border-gray-700 hover:bg-[#f0f0ff] dark:hover:bg-gray-700"
-      }`}
-    >
-      {page}
-    </button>
-  );
+  const getVisiblePages = () => {
+    if (totalPages <= 5) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+    if (currentPage <= 3) {
+      return [1, 2, 3, 4, 5];
+    }
+    if (currentPage >= totalPages - 2) {
+      return [totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+    }
+    return [currentPage - 2, currentPage - 1, currentPage, currentPage + 1, currentPage + 2];
+  };
 
   return (
-    <div className="flex flex-wrap items-center justify-center gap-2 mt-4">
-      {/* Précédent */}
-      <button
-        onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-        className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#f0f0ff] dark:hover:bg-gray-700 transition-colors flex items-center justify-center"
-      >
-        <BsChevronLeft size={18} className="text-[#4335C4] dark:text-white" />
-      </button>
+    <div className="mt-8 flex justify-center">
+      <div className="flex items-center gap-1 bg-white dark:bg-gray-800 rounded-full p-1 shadow-md border border-gray-200 dark:border-gray-700">
+        
+        {/* Précédent */}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => onPageChange(Math.max(1, currentPage - 1))}
+          disabled={currentPage === 1}
+          className="rounded-full w-10 h-10 p-0 dark:text-gray-300 dark:hover:bg-gray-700"
+        >
+          <FiChevronLeft size={16} />
+        </Button>
 
-      {/* Pages */}
-      {Array.from({ length: totalPages }, (_, i) => i + 1).map(renderPageButton)}
+        {/* Pages */}
+        {getVisiblePages().map((pageNum) => {
+          const isActive = currentPage === pageNum;
+          return (
+            <Button
+              key={pageNum}
+              variant={isActive ? "primary" : "ghost"}
+              size="sm"
+              onClick={() => onPageChange(pageNum)}
+              className={`rounded-full w-10 h-10 p-0 text-sm font-medium ${
+                isActive
+                  ? "bg-purple-500 text-white hover:bg-purple-600 dark:bg-purple-600 dark:hover:bg-purple-700"
+                  : "text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+              }`}
+            >
+              {pageNum}
+            </Button>
+          );
+        })}
 
-      {/* Suivant */}
-      <button
-        onClick={() => onPageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
-        className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[#f0f0ff] dark:hover:bg-gray-700 transition-colors flex items-center justify-center"
-      >
-        <BsChevronRight size={18} className="text-[#4335C4] dark:text-white" />
-      </button>
+        {/* Suivant */}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
+          disabled={currentPage === totalPages}
+          className="rounded-full w-10 h-10 p-0 dark:text-gray-300 dark:hover:bg-gray-700"
+        >
+          <FiChevronRight size={16} />
+        </Button>
+      </div>
     </div>
   );
 };

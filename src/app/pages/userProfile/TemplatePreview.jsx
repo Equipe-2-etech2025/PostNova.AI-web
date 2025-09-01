@@ -25,6 +25,7 @@ import {
 } from "react-icons/bs";
 import Button from "@shared/Button";
 import { campaignTemplateService } from "@services/campaignTemplates";
+import LoadingCampaignsState from "@components/allCampaigns/LoadingCampaignsState";
 import { Card } from "@shared/Card";
 
 const TemplatePreview = () => {
@@ -116,16 +117,7 @@ const TemplatePreview = () => {
 	};
 
 	if (loading) {
-		return (
-			<div className="min-h-screen bg-gray-50 dark:bg-black text-black dark:text-white flex items-center justify-center">
-				<div className="text-center">
-					<div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#4335C4] mx-auto mb-4"></div>
-					<p className="text-gray-600 dark:text-gray-400">
-						Chargement de la campagne...
-					</p>
-				</div>
-			</div>
-		);
+		return <LoadingCampaignsState />;
 	}
 
 	if (error) {
@@ -137,7 +129,7 @@ const TemplatePreview = () => {
 					<p className="text-gray-600 dark:text-gray-400 mb-4">{error}</p>
 					<button
 						onClick={() => navigate(-1)}
-						className="bg-[#4335C4] text-white px-4 py-2 rounded-lg"
+						className="bg-[#a142d1] text-white px-4 py-2 rounded-lg"
 					>
 						Retour
 					</button>
@@ -157,7 +149,7 @@ const TemplatePreview = () => {
 					</p>
 					<button
 						onClick={() => navigate(-1)}
-						className="bg-[#4335C4] text-white px-4 py-2 rounded-lg"
+						className="bg-[#a142d1] text-white px-4 py-2 rounded-lg"
 					>
 						Retour
 					</button>
@@ -188,7 +180,7 @@ const TemplatePreview = () => {
 					{/* Titre et description */}
 					<div className="flex-1 w-full md:w-auto">
 						<div className="flex flex-col sm:flex-row sm:items-center sm:gap-3 mb-2 flex-wrap">
-							<CategoryIcon className="text-[#4335C4]" size={24} />
+							<CategoryIcon className="text-[#a142d1]" size={24} />
 							<h1 className="text-2xl sm:text-3xl font-bold break-words">
 								{campaign.name}
 							</h1>
@@ -225,7 +217,7 @@ const TemplatePreview = () => {
 						{/* Bouton utiliser */}
 						<Button
 							onClick={handleUseCampaign}
-							className="bg-[#4335C4] hover:bg-[#3730a3] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold flex items-center gap-2 transition-colors w-full sm:w-auto"
+							className="bg-[#a142d1] hover:bg-[#3730a3] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold flex items-center gap-2 transition-colors w-full sm:w-auto"
 						>
 							<BsPlay size={16} />
 							Utiliser ce modèle
@@ -304,7 +296,7 @@ const TemplatePreview = () => {
 							onClick={() => setActiveTab("overview")}
 							className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${
 								activeTab === "overview"
-									? "text-[#4335C4] border-[#4335C4]"
+									? "text-[#a142d1] border-[#a142d1]"
 									: "text-gray-500 dark:text-gray-400 border-transparent hover:text-gray-700 dark:hover:text-gray-300"
 							}`}
 						>
@@ -314,7 +306,7 @@ const TemplatePreview = () => {
 							onClick={() => setActiveTab("details")}
 							className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${
 								activeTab === "details"
-									? "text-[#4335C4] border-[#4335C4]"
+									? "text-[#a142d1] border-[#a142d1]"
 									: "text-gray-500 dark:text-gray-400 border-transparent hover:text-gray-700 dark:hover:text-gray-300"
 							}`}
 						>
@@ -330,7 +322,7 @@ const TemplatePreview = () => {
 								{/* Preview du contenu */}
 								<Card>
 									<h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-800 dark:text-gray-200">
-										<BsEye className="text-[#4335C4]" />
+										<BsEye className="text-[#a142d1]" />
 										Aperçu du message principal
 									</h3>
 									<div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
@@ -345,13 +337,13 @@ const TemplatePreview = () => {
 									{/* Catégorie et Type */}
 									<Card>
 										<h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-800 dark:text-gray-200">
-											<BsTag className="text-[#4335C4]" />
+											<BsTag className="text-[#a142d1]" />
 											Catégorie et Type
 										</h3>
 										<div className="space-y-4">
 											{campaign.category && (
 												<div className="flex items-center gap-3">
-													<CategoryIcon className="text-[#4335C4]" size={20} />
+													<CategoryIcon className="text-[#a142d1]" size={20} />
 													<div>
 														<span className="text-sm text-gray-500 dark:text-gray-400">
 															Catégorie:
@@ -364,7 +356,7 @@ const TemplatePreview = () => {
 											)}
 											{campaign.type && (
 												<div className="flex items-center gap-3">
-													<BsBullseye className="text-[#4335C4]" size={20} />
+													<BsBullseye className="text-[#a142d1]" size={20} />
 													<div>
 														<span className="text-sm text-gray-500 dark:text-gray-400">
 															Type de campagne:
@@ -379,7 +371,7 @@ const TemplatePreview = () => {
 									{/* Statistiques */}
 									<Card>
 										<h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-800 dark:text-gray-200">
-											<BsBarChart className="text-[#4335C4]" />
+											<BsBarChart className="text-[#a142d1]" />
 											Statistiques
 										</h3>
 										<div className="grid grid-cols-2 gap-4 w-full">
@@ -412,7 +404,7 @@ const TemplatePreview = () => {
 								{campaign.tags && campaign.tags.length > 0 && (
 									<Card>
 										<h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-800 dark:text-gray-200">
-											<BsTag className="text-[#4335C4]" />
+											<BsTag className="text-[#a142d1]" />
 											Tags associés
 										</h3>
 										<div className="flex flex-wrap gap-2">
@@ -439,7 +431,7 @@ const TemplatePreview = () => {
 										Créé par
 									</h3>
 									<div className="flex items-center gap-4">
-										<div className="w-16 h-16 bg-[#4335C4] rounded-full flex items-center justify-center text-white font-bold text-xl">
+										<div className="w-16 h-16 bg-[#a142d1] rounded-full flex items-center justify-center text-white font-bold text-xl">
 											{campaign.author?.charAt(0).toUpperCase() || "U"}
 										</div>
 										<div>
@@ -484,7 +476,7 @@ const TemplatePreview = () => {
 								{campaign.socialPosts && campaign.socialPosts.length > 0 && (
 									<Card>
 										<h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-800 dark:text-gray-200">
-											<BsMegaphone className="text-[#4335C4]" />
+											<BsMegaphone className="text-[#a142d1]" />
 											Exemples de posts sociaux
 										</h3>
 										<div className="space-y-4">
@@ -525,7 +517,7 @@ const TemplatePreview = () => {
 						<div className="flex gap-3">
 							<Button
 								onClick={handleUseCampaign}
-								className="bg-[#4335C4] hover:bg-[#3730a3] text-white px-6 py-2 rounded-lg font-semibold flex items-center gap-2 transition-colors"
+								className="bg-[#a142d1] hover:bg-[#3730a3] text-white px-6 py-2 rounded-lg font-semibold flex items-center gap-2 transition-colors"
 							>
 								<BsPlay size={16} />
 								Utiliser maintenant

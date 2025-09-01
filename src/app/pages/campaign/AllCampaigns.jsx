@@ -24,6 +24,7 @@ import useAuth from "@hooks/useAuth";
 import Button from "@shared/Button";
 import { Card } from "@shared/Card";
 import { campaignService } from "@services/campaignService";
+import CampaignsPagination from "@components/allCampaigns/CampaignsPagination";
 import LoadingCampaignsState from "@components/allCampaigns/LoadingCampaignsState";
 
 const AllCampaigns = () => {
@@ -554,50 +555,11 @@ const AllCampaigns = () => {
 						)}
 
 						{/* Pagination */}
-						{totalPages > 1 && (
-							<div className="flex items-center justify-center gap-2 mt-8">
-								<button
-									onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-									disabled={currentPage === 1}
-									className="p-2 rounded border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-purple-800"
-								>
-									<BsChevronLeft size={16} />
-								</button>
-
-								{Array.from({ length: totalPages }, (_, i) => i + 1)
-									.filter((page) => {
-										const distance = Math.abs(page - currentPage);
-										return (
-											distance === 0 || distance === 1 || page === 1 || page === totalPages
-										);
-									})
-									.map((page, index, array) => (
-										<React.Fragment key={page}>
-											{index > 0 && array[index - 1] !== page - 1 && (
-												<span className="px-2 py-1">...</span>
-											)}
-											<button
-												onClick={() => setCurrentPage(page)}
-												className={`px-3 py-2 rounded border ${
-													currentPage === page
-														? "bg-purple-500 text-white border-purple-500"
-														: "border-gray-300 hover:bg-gray-100 dark:hover:bg-purple-800"
-												}`}
-											>
-												{page}
-											</button>
-										</React.Fragment>
-									))}
-
-								<button
-									onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-									disabled={currentPage === totalPages}
-									className="p-2 rounded border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-100 dark:hover:bg-purple-800"
-								>
-									<BsChevronRight size={16} />
-								</button>
-							</div>
-						)}
+						<CampaignsPagination
+							currentPage={currentPage}
+							totalPages={totalPages}
+							setCurrentPage={setCurrentPage}
+						/>
 					</>
 				)}
 			</div>

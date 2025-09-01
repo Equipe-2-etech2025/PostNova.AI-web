@@ -263,7 +263,7 @@ const TemplatesExplorer = () => {
 				className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 overflow-hidden hover:shadow-lg transition-all duration-300 group"
 			>
 				{/* Thumbnail */}
-				<div className="relative h-32 bg-gradient-to-br from-[#4335C4] to-[#6366f1] overflow-hidden">
+				<div className="relative h-32 bg-gradient-to-br from-[#a142d1] to-[#6366f1] overflow-hidden">
 					{template.thumbnail ? (
 						<img
 							src={template.thumbnail}
@@ -297,10 +297,10 @@ const TemplatesExplorer = () => {
 				{/* Contenu */}
 				<div className="p-4">
 					<div className="flex items-start justify-between mb-2">
-						<h3 className="font-semibold text-lg group-hover:text-[#4335C4] transition-colors">
+						<h3 className="font-semibold text-lg group-hover:text-[#a142d1] transition-colors">
 							{template.name}
 						</h3>
-						<div className="text-[#4335C4]">
+						<div className="text-[#a142d1]">
 							<CategoryIcon size={16} />
 						</div>
 					</div>
@@ -389,7 +389,7 @@ const TemplatesExplorer = () => {
 			>
 				<div className="flex items-center gap-4">
 					{/* Thumbnail miniature */}
-					<div className="w-16 h-16 bg-gradient-to-br from-[#4335C4] to-[#6366f1] rounded-lg flex-shrink-0 overflow-hidden">
+					<div className="w-16 h-16 bg-gradient-to-br from-[#a142d1] to-[#6366f1] rounded-lg flex-shrink-0 overflow-hidden">
 						{template.thumbnail ? (
 							<img
 								src={template.thumbnail}
@@ -504,7 +504,7 @@ const TemplatesExplorer = () => {
 						</Button>
 						<div>
 							<h1 className="text-3xl font-bold flex items-center gap-3">
-								<BsGrid3X3Gap className="text-[#4335C4]" />
+								<BsGrid3X3Gap className="text-[#a142d1]" />
 								Explorer les modèles
 							</h1>
 							<p className="text-gray-600 dark:text-gray-400 mt-2">
@@ -539,7 +539,7 @@ const TemplatesExplorer = () => {
 								<select
 									value={selectedCategory}
 									onChange={(e) => setSelectedCategory(e.target.value)}
-									className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#4335C4] focus:border-transparent"
+									className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#a142d1] focus:border-transparent"
 									disabled={loadingFilters}
 								>
 									{loadingFilters ? (
@@ -556,7 +556,7 @@ const TemplatesExplorer = () => {
 								<select
 									value={selectedType}
 									onChange={(e) => setSelectedType(e.target.value)}
-									className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#4335C4] focus:border-transparent"
+									className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#a142d1] focus:border-transparent"
 									disabled={loadingFilters}
 								>
 									{loadingFilters ? (
@@ -573,7 +573,7 @@ const TemplatesExplorer = () => {
 								<select
 									value={sortBy}
 									onChange={(e) => setSortBy(e.target.value)}
-									className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#4335C4] focus:border-transparent"
+									className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-[#a142d1] focus:border-transparent"
 								>
 									<option value="popular">Plus populaires</option>
 									<option value="recent">Plus récents</option>

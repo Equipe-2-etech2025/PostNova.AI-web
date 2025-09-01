@@ -44,7 +44,7 @@ const CampaignsPagination = ({
 							onClick={() => setCurrentPage(pageNum)}
 							className={`rounded-full w-10 h-10 p-0 text-sm font-medium ${
 								isActive
-									? "bg-blue-500 text-white hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700"
+									? "bg-purple-500 text-white hover:bg-purple-600 dark:bg-purple-600 dark:hover:bg-purple-700"
 									: "text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
 							}`}
 						>
