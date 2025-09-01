@@ -1,11 +1,9 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import useModal from "@hooks/useModal";
-import useAuth from "@hooks/useAuth"; 
+import useAuth from "@hooks/useAuth";
 import { tarifUserService } from "@services/tarifUserService";
 import { promptService } from "@services/promptService";
-import { BsPieChart, BsBarChartLine } from "react-icons/bs";
-import SectionBlock from "@layouts/SectionBlock";
 
 import { imageService } from "@services/imageService";
 import { socialPostService } from "@services/socialPostService";
@@ -17,8 +15,12 @@ import CampaignTabs from "./componentsDetails/CampaignTabs";
 import CampaignContent from "./componentsDetails/CampaignContent";
 import CampaignModals from "./componentsDetails/CampaignModals";
 import CampaignChoiceSection from "./componentsDetails/CampaignChoiceSection";
+import CampaignSidebar from "./componentsDetails/CampaignSidebar";
 
 const Detail = () => {
+	{
+		/** Initialisations des hooks et des états **/
+	}
 	const location = useLocation();
 	const { isOpen, openModal, closeModal } = useModal();
 	const { user, loading: authLoading } = useAuth();
@@ -28,16 +30,15 @@ const Detail = () => {
 	const [activeTab, setActiveTab] = useState(0);
 	const [refreshTrigger, setRefreshTrigger] = useState(0);
 	const campaignId = location.pathname.split("/").pop();
-
+	const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 	const [campaignInfo, setCampaignInfo] = useState({
 		name: "",
 		description: "",
 		status: "",
 		originalStatus: "",
 		statusValue: "",
-		loading: true
+		loading: true,
 	});
-
 	const [campaignData, setCampaignData] = useState({
 		images: [],
 		posts: [],
@@ -54,7 +55,6 @@ const Detail = () => {
 	const [quotaPrompt, setQuotaPrompt] = useState(null);
 	const [tarif, setTarif] = useState(null);
 	const [loadingQuota, setLoadingQuota] = useState(false);
-
 	const [loading, setLoading] = useState({
 		stats: true,
 		images: true,
@@ -62,7 +62,33 @@ const Detail = () => {
 		landingPages: false,
 		all: true,
 	});
-	
+
+	{
+		/** Fonctions **/
+	}
+
+	{
+		/** Partager la campagne **/
+	}
+	const handleShareCampaign = async () => {
+		try {
+			const response = await campaignService.updateCampaign(campaignId, {
+				is_published: true,
+			});
+			if (response.success) {
+				setRefreshTrigger((prev) => prev + 1);
+				setIsShareModalOpen(false);
+			} else {
+				console.error("Erreur lors de la publication:", response.message);
+			}
+		} catch (error) {
+			console.error("Erreur API:", error);
+		}
+	};
+
+	{
+		/** Récupérer le quota de l'utilisateur **/
+	}
 	const fetchQuotaData = async (userId) => {
 		if (!userId) {
 			console.warn("Aucun userId pour récupérer le quota");
@@ -72,7 +98,7 @@ const Detail = () => {
 		try {
 			const [tarifResult, quotaResult] = await Promise.all([
 				tarifUserService.getLatestByUserId(userId),
-				promptService.getQuotaByUserId(userId)
+				promptService.getQuotaByUserId(userId),
 			]);
 
 			if (tarifResult.success && tarifResult.data) {
@@ -89,43 +115,52 @@ const Detail = () => {
 		}
 	};
 
+	{
+		/** Récupérer les détails de la campagne **/
+	}
 	const translateStatus = (englishStatus) => {
 		const statusTranslations = {
-			"created": "Créée",
-			"processing": "En traitement", 
-			"pending": "En attente",
-			"completed": "Terminée",
-			"failed": "Échouée"
+			created: "Créée",
+			processing: "En traitement",
+			pending: "En attente",
+			completed: "Terminée",
+			failed: "Échouée",
 		};
 		return statusTranslations[englishStatus] || englishStatus;
 	};
 
+	{
+		/** Récupérer les données de la campagne **/
+	}
 	const fetchCampaignDetails = async (campaignId) => {
 		try {
 			const response = await campaignService.getCampaignById(campaignId);
 			if (response.success) {
 				const { name, description, status } = response.data.data;
 				const translatedStatus = translateStatus(status.label);
-				
 				setCampaignInfo({
 					name,
 					description,
 					status: translatedStatus,
 					originalStatus: status.label,
 					statusValue: status.value,
-					loading: false
+					loading: false,
 				});
 			}
 		} catch (error) {
 			console.error("Erreur détails:", error);
-			setCampaignInfo(prev => ({ ...prev, loading: false }));
+			setCampaignInfo((prev) => ({ ...prev, loading: false }));
 		}
 	};
 
+	{
+		/** Récupérer les statistiques d'interaction **/
+	}
 	const fetchCampaignStats = async (campaignId) => {
 		setLoading((prev) => ({ ...prev, stats: true }));
 		try {
-			const response = await campaignInteractionService.getCampaignStats(campaignId);
+			const response =
+				await campaignInteractionService.getCampaignStats(campaignId);
 			if (response.success) {
 				setCampaignData((prev) => ({ ...prev, interactionStats: response.data }));
 			}
@@ -136,6 +171,9 @@ const Detail = () => {
 		}
 	};
 
+	{
+		/** Récupérer les images de la campagne **/
+	}
 	const fetchImages = async (campaignId) => {
 		setLoading((prev) => ({ ...prev, images: true }));
 		try {
@@ -153,6 +191,9 @@ const Detail = () => {
 		}
 	};
 
+	{
+		/** Récupérer les posts de la campagne **/
+	}
 	const fetchPosts = async (campaignId) => {
 		setLoading((prev) => ({ ...prev, posts: true }));
 		try {
@@ -171,12 +212,15 @@ const Detail = () => {
 			setLoading((prev) => ({ ...prev, posts: false }));
 		}
 	};
-	
+
+	{
+		/** Charger toutes les données de la campagne **/
+	}
 	useEffect(() => {
 		const fetchCampaignData = async () => {
 			try {
 				const campaignId = location.pathname.split("/").pop();
-				
+
 				await Promise.all([
 					fetchCampaignDetails(campaignId),
 					fetchCampaignStats(campaignId),
@@ -193,26 +237,21 @@ const Detail = () => {
 		fetchCampaignData();
 	}, [location.pathname, refreshTrigger]);
 
-	
+	{
+		/** Récupérer le quota lorsque l'utilisateur est chargé **/
+	}
 	useEffect(() => {
 		if (!authLoading && user?.id) {
 			fetchQuotaData(user.id);
 		}
 	}, [user?.id, authLoading]);
 
-	const handleCampaignUpdateSuccess = () => {
+	{
+		/** Gestion des succès de mise à jour de la campagne et du rafraîchissement du contenu **/
+	}
+	const handleContentRefresh = () => {
 		setRefreshTrigger((prev) => prev + 1);
 	};
-
-	const handleContentRefresh = () => {
-    setRefreshTrigger(prev => prev + 1);
-  };
-
-	const dailyQuotaUsed = quotaPrompt;
-	const maxLimit = tarif;
-	const remaining = Math.max(0, maxLimit - dailyQuotaUsed);
-	const percentage = maxLimit > 0 ? Math.min((dailyQuotaUsed / maxLimit) * 100, 100) : 0;
-	const progressBarColor = dailyQuotaUsed >= maxLimit ? "bg-red-600" : "bg-blue-600";
 
 	return (
 		<div className="container mx-auto">
@@ -223,7 +262,7 @@ const Detail = () => {
 				originalStatus={campaignInfo.originalStatus}
 				loading={campaignInfo.loading}
 				onEdit={() => openModal("edit-campaign")}
-				onShare={() => openModal("share-confirmation")} 
+				onShare={() => setIsShareModalOpen(true)}
 			/>
 
 			<CampaignChoiceSection
@@ -252,54 +291,14 @@ const Detail = () => {
 					/>
 				</div>
 
-				{/* Sidebar avec le quota intégré */}
-				<aside className="flex-1/4 space-y-4">
-					{/* Section Activités de la campagne */}
-					<SectionBlock title="Activités de la campagne" icon={<BsBarChartLine />}>
-						<div className="my-2">
-							<span className="text-sm font-semibold">Les réseaux sociaux utilisés</span>
-							<div className="text-sm text-gray-500 mt-1">Aucun réseau social utilisé</div>
-						</div>
-						<CampaignStats stats={campaignData.interactionStats} loading={loading.stats} />
-					</SectionBlock>
-					
-					{/* Section Quota intégrée directement */}
-					<SectionBlock title="Quota utilisé" icon={<BsPieChart />}>
-						<div className="flex items-center justify-between gap-2">
-							<span>Quotas utilisés</span>
-							<strong>
-								{loadingQuota || authLoading ? (
-									<span className="inline-block h-4 w-10 animate-pulse rounded bg-gray-300"></span>
-								) : (
-									`${dailyQuotaUsed}/${maxLimit}`
-								)}
-							</strong>
-						</div>
-						
-						<div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-							<div
-								className={`h-2.5 rounded-full transition-all duration-1000 ${progressBarColor}`}
-								style={{
-									width: `${percentage}%`
-								}}
-							></div>
-						</div>
-						
-						<div className="mt-4 text-sm">
-							{loadingQuota || authLoading ? (
-								<span className="inline-block h-4 w-40 animate-pulse rounded bg-gray-300"></span>
-							) : dailyQuotaUsed >= maxLimit ? (
-								<span className="text-red-600 font-semibold">
-									Quota dépassé ! Vous ne pouvez plus lancer de prompts aujourd'hui.
-								</span>
-							) : (
-								<span>
-									Il vous reste <strong>{remaining}</strong> quota{remaining !== 1 ? 's' : ''} aujourd'hui.
-								</span>
-							)}
-						</div>
-					</SectionBlock>
-				</aside>
+				<CampaignSidebar
+					posts={campaignData.posts}
+					stats={campaignData.interactionStats}
+					loadingStats={loading.stats}
+					quotaPrompt={quotaPrompt}
+					tarif={tarif}
+					loadingQuota={loadingQuota}
+				/>
 			</section>
 
 			<CampaignModals
@@ -312,49 +311,12 @@ const Detail = () => {
 				posts={campaignData.posts}
 				campaignName={campaignInfo.name}
 				campaignDescription={campaignInfo.description}
-				onCampaignUpdateSuccess={handleCampaignUpdateSuccess}
 				onContentRefresh={handleContentRefresh}
 				campaignId={campaignId}
+				isShareModalOpen={isShareModalOpen}
+				onCloseShareModal={() => setIsShareModalOpen(false)}
+				onShareCampaign={handleShareCampaign}
 			/>
-		</div>
-	);
-};
-
-const CampaignStats = ({ stats, loading }) => {
-	if (!stats && !loading) {
-		return (
-			<div className="my-2">
-				<div className="text-sm text-gray-500">Aucune statistique disponible</div>
-			</div>
-		);
-	}
-
-	const safeStats = stats || {};
-	const statValues = {
-		likes: safeStats.likes || 0,
-		views: safeStats.views || 0,
-		shares: safeStats.shares || 0
-	};
-
-	return (
-		<div className="my-2">
-			{["likes", "views", "shares"].map(stat => (
-				<div key={stat} className="my-2">
-					<span className="text-sm font-semibold capitalize">
-						{stat === "likes" ? "Mentions j'aime" : 
-						 stat === "views" ? "Nombre de vues" : "Partages"}
-					</span>
-					<div className="table bg-linear-0 from-gray-500/10 to-transparent rounded-xl px-4 py-2">
-						<strong className="text-2xl">
-							{loading ? (
-								<span className="inline-block h-6 w-6 animate-pulse rounded-full bg-gray-300"></span>
-							) : (
-								statValues[stat]
-							)}
-						</strong>
-					</div>
-				</div>
-			))}
 		</div>
 	);
 };

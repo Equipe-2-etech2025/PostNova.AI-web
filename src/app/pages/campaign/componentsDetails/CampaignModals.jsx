@@ -18,14 +18,11 @@ const CampaignModals = ({
 	onCampaignUpdateSuccess,
 	onContentRefresh,
 	campaignId,
+	isShareModalOpen,
+	onCloseShareModal,
+	onShareCampaign,
 }) => {
-	const [newRequestModalSize, setNewRequestModalSize] = useState("xl");
-
-	const handleSuccess = () => {
-		if (onContentRefresh) {
-			onContentRefresh();
-		}
-	};
+	const [newRequestModalSize, setNewRequestModalSize] = useState("3xl");
 
 	const handleContentGenerated = (size = "5xl") => {
 		setNewRequestModalSize(size);
@@ -37,14 +34,15 @@ const CampaignModals = ({
 	};
 
 	const handleCloseAndRefresh = () => {
-		handleSuccess();
-		closeModal();
+		if (onContentRefresh) {
+			onContentRefresh();
+		}
 	};
 
 	return (
 		<>
 			{/* Modal Share Confirmation */}
-			<Modal isOpen={isOpen("share-confirmation")} onClose={closeModal} size="sm">
+			<Modal isOpen={isShareModalOpen} onClose={onCloseShareModal} size="sm">
 				<div className="p-6 space-y-4">
 					<h2 className="text-lg font-bold text-gray-800 dark:text-gray-100">
 						Voulez-vous vraiment partager vos campagnes aux réseaux Nova ?
@@ -52,23 +50,19 @@ const CampaignModals = ({
 					<div className="flex justify-end gap-3">
 						<button
 							className="bg-gray-200 text-gray-800 hover:bg-gray-300 px-4 py-2 rounded-lg"
-							onClick={closeModal}
+							onClick={onCloseShareModal}
 						>
 							Non
 						</button>
 						<button
 							className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg"
-							onClick={() => {
-								console.log("Appel API de partage (à implémenter)");
-								closeModal();
-							}}
+							onClick={onShareCampaign}
 						>
 							Oui
 						</button>
 					</div>
 				</div>
 			</Modal>
-
 			{/* Modal Edit Campaign */}
 			<Modal isOpen={isOpen("edit-campaign")} onClose={closeModal} size="xl">
 				<Suspense fallback={<div>Chargement...</div>}>
@@ -76,7 +70,7 @@ const CampaignModals = ({
 						campaignName={campaignName}
 						campaignDescription={campaignDescription}
 						onSuccess={() => {
-							onCampaignUpdateSuccess();
+							onContentRefresh();
 							closeModal();
 						}}
 						onCancel={closeModal}
@@ -94,8 +88,10 @@ const CampaignModals = ({
 				<Suspense fallback={<div>Chargement...</div>}>
 					<NewRequest
 						campaignId={campaignId}
+						modalSize={newRequestModalSize}
 						onSuccess={handleCloseAndRefresh}
 						onContentGenerated={handleContentGenerated}
+						onContentRefresh={onContentRefresh}
 					/>
 				</Suspense>
 			</Modal>
@@ -133,8 +129,8 @@ const CampaignModals = ({
 					/>
 				)}
 			</Modal>
-
-			<Modal isOpen={isOpen("image-marketing")} onClose={closeModal} size="xl">
+      
+      <Modal isOpen={isOpen("image-marketing")} onClose={closeModal} size="xl">
 				<Suspense fallback={<div>Chargement...</div>}>
 					<Feature.ImageMarketing
 						campaignId={campaignId}
@@ -143,7 +139,7 @@ const CampaignModals = ({
 					/>
 				</Suspense>
 			</Modal>
-
+      
 			{/* Modal Landing Page */}
 			<Modal
 				isOpen={isOpen("landing-page")}

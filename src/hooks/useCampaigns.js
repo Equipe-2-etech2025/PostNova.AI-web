@@ -23,7 +23,7 @@ export const useCampaigns = () => {
 				setLoadingTypes(true);
 
 				// Charger les campagnes
-				const campaignsResult = await campaignService.getAllCampaigns();
+				const campaignsResult = await campaignService.getCampaignsByCriteria({is_published: true});
 				if (campaignsResult.success) {
 					setCampaigns(campaignsResult.data.data);
 				}
