@@ -62,10 +62,30 @@ const Detail = () => {
 		landingPages: false,
 		all: true,
 	});
+	const [deletedPost, setDeletePost] = useState(false);
+	const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+
 
 	{
 		/** Fonctions **/
 	}
+
+	{ /** supprimer la post en utilisant la serviceSocialPost delete */}
+	const handleDeletePost = async (postId) => {
+		try {
+			await new Promise(resolve => setTimeout(resolve, 1000));
+			const response = await socialPostService.deleteSocialPost(postId);
+			if (response.success) {
+				const updatedPosts = campaignData.posts.filter((post) => post.id !== postId);
+				setCampaignData((prev) => ({ ...prev, posts: updatedPosts }));
+				closeModal();
+			} else {
+				console.error("Erreur lors de la suppression du post:", response.message);
+			}
+		} catch (error) {
+			console.error("Erreur API:", error);
+		}
+	};
 
 	{
 		/** Partager la campagne **/
@@ -251,6 +271,9 @@ const Detail = () => {
 	}
 	const handleContentRefresh = () => {
 		setRefreshTrigger((prev) => prev + 1);
+		if (user?.id) {
+		fetchQuotaData(user.id);
+	}
 	};
 
 	return (
@@ -298,6 +321,7 @@ const Detail = () => {
 					quotaPrompt={quotaPrompt}
 					tarif={tarif}
 					loadingQuota={loadingQuota}
+					onContentRefresh={handleContentRefresh}
 				/>
 			</section>
 
@@ -316,6 +340,10 @@ const Detail = () => {
 				isShareModalOpen={isShareModalOpen}
 				onCloseShareModal={() => setIsShareModalOpen(false)}
 				onShareCampaign={handleShareCampaign}
+				onDeletePost={handleDeletePost}
+				deleteConfirmOpen={deleteConfirmOpen}
+				setDeleteConfirmOpen={setDeleteConfirmOpen}
+				setSelectedPostId={setSelectedPostId} 
 			/>
 		</div>
 	);

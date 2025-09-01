@@ -1,5 +1,11 @@
 import React from "react";
-import { BsHeart, BsTiktok, BsTwitterX, BsLinkedin } from "react-icons/bs";
+import {
+	BsHeart,
+	BsTiktok,
+	BsTwitterX,
+	BsLinkedin,
+	BsEye,
+} from "react-icons/bs";
 import Button from "@shared/Button";
 import { Card } from "@shared/Card";
 import { useContentFormatter } from "@hooks/useContentFormatter";
@@ -171,8 +177,7 @@ const CampaignPostItem = ({
 						</div>
 						<div className="flex justify-end">
 							<Button variant="ghost" size="sm" className="flex items-center gap-1">
-								<BsHeart size={16} />
-								<span>0</span>
+								<BsEye size={16} />
 							</Button>
 						</div>
 					</div>

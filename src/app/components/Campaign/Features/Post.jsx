@@ -9,7 +9,12 @@ import PostHeader from "./componentsPosts/PostHeader";
 import PostContent from "./componentsPosts/PostContent";
 import PostActions from "./componentsPosts/PostActions";
 
-const Post = ({ postData, onSuccess }) => {
+const Post = ({ 
+	postData, 
+  	onSuccess, 
+  	setSelectedPostId, 
+  	setDeleteConfirmOpen 
+	}) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [currentContent, setCurrentContent] = useState(postData?.content);
 	const [promptData, setPromptData] = useState(null);
@@ -100,7 +105,13 @@ const Post = ({ postData, onSuccess }) => {
 						onCancelEdit={handleCancelEdit}
 					/>
 
-					<PostActions content={currentContent} />
+					<PostActions
+        content={currentContent}
+        post={postData}
+        setSelectedPostId={setSelectedPostId}
+        setDeleteConfirmOpen={setDeleteConfirmOpen}
+      />
+
 				</div>
 
 				<div className="mt-6 space-y-4">

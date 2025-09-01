@@ -4,7 +4,8 @@ import EditCampaign from "@layouts/Campaign/EditCampaign";
 import NewRequest from "@layouts/Campaign/NewRequest";
 import ImagePreview from "@components/Campaign/Features/Image";
 import * as Feature from "@components/Campaign/Features";
-import { Loader2 } from "lucide-react"; // icône spinner (si tu utilises lucide-react)
+import { BsArrowRepeat } from "react-icons/bs";
+//import { Loader2 } from "lucide-react"; // icône spinner (si tu utilises lucide-react)
 
 const CampaignModals = ({
 	isOpen,
@@ -22,9 +23,14 @@ const CampaignModals = ({
 	isShareModalOpen,
 	onCloseShareModal,
 	onShareCampaign,
+	onDeletePost,
+	deleteConfirmOpen,
+	setDeleteConfirmOpen,
+	setSelectedPostId,
 }) => {
 	const [newRequestModalSize, setNewRequestModalSize] = useState("3xl");
 	const [isSharing, setIsSharing] = useState(false);
+	const [isDeleting, setIsDeleting] = useState(false);
 
 	const handleContentGenerated = (size = "5xl") => {
 		setNewRequestModalSize(size);
@@ -50,8 +56,56 @@ const CampaignModals = ({
 		}
 	};
 
+	const handleDeletePost = async () => {
+		try {
+			setIsDeleting(true);
+			await onDeletePost(selectedPostId);
+			setDeleteConfirmOpen(false);
+		} finally {
+			setIsDeleting(false);
+		}
+	};
+
 	return (
 		<>
+			{/* Modal Delete post confirmation */}
+			<Modal
+				isOpen={deleteConfirmOpen}
+				onClose={() => setDeleteConfirmOpen(false)}
+				size="sm"
+			>
+				<div className="p-6 space-y-4">
+					<h2 className="text-lg font-bold text-gray-800 dark:text-gray-100">
+						Voulez-vous vraiment supprimer ce post ? Cette action est irréversible.
+					</h2>
+					<div className="flex justify-end gap-3">
+						<button
+							className="bg-gray-200 text-gray-800 hover:bg-gray-300 px-4 py-2 rounded-lg"
+							onClick={() => setDeleteConfirmOpen(false)}
+							disabled={isDeleting}
+						>
+							Non
+						</button>
+						<button
+							className={`flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg ${
+								isDeleting ? "opacity-70 cursor-not-allowed" : ""
+							}`}
+							onClick={handleDeletePost}
+							disabled={isDeleting}
+						>
+							{isDeleting ? (
+								<>
+									<BsArrowRepeat className="animate-spin" size={16} />
+									Suppression en cours...
+								</>
+							) : (
+								"Oui"
+							)}
+						</button>
+					</div>
+				</div>
+			</Modal>
+
 			{/* Modal Share Confirmation */}
 			<Modal isOpen={isShareModalOpen} onClose={onCloseShareModal} size="sm">
 				<div className="p-6 space-y-4">
@@ -75,7 +129,7 @@ const CampaignModals = ({
 						>
 							{isSharing ? (
 								<>
-									<Loader2 className="h-4 w-4 animate-spin" />
+									<BsArrowRepeat className="h-4 w-4 animate-spin" />
 									Partage en cours...
 								</>
 							) : (
@@ -126,6 +180,8 @@ const CampaignModals = ({
 						<Feature.Post
 							postData={posts.find((post) => post.id === selectedPostId)}
 							onSuccess={handleCloseAndRefresh}
+							setSelectedPostId={setSelectedPostId}
+							setDeleteConfirmOpen={setDeleteConfirmOpen}
 						/>
 					)}
 				</Suspense>
