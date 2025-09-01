@@ -4,7 +4,6 @@ export const campaignService = {
 	async getAllCampaigns() {
 		try {
 			const response = await api.get("/campaigns/");
-			console.log(response.data);
 			return {
 				success: true,
 				data: response.data,
@@ -107,7 +106,7 @@ export const campaignService = {
 	async getCampaignsByCriteria(criteria = {}) {
 		try {
 			const queryString = new URLSearchParams(criteria).toString();
-			const response = await api.get(`/campaigns/criteria?${queryString}`);
+			const response = await api.get(`/campaigns/search?${queryString}`);
 			return {
 				success: true,
 				data: response.data,

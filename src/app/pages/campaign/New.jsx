@@ -51,7 +51,6 @@ const New = () => {
 				type_campaign_id: typeCampaign,
 				user_id: user.id,
 			});
-			console.log("Response from campaign creation:", response);
 			if (response.success) {
 				showNotification("Campagne créée avec succès !", "success");
 				setTimeout(() => {
@@ -134,7 +133,7 @@ const New = () => {
 					/>
 
 					<div className="mt-8 text-center">
-						<div className="grid grid-cols-3 gap-3 max-w-xl mx-auto mt-6">
+						<div className="grid grid-cols-4 gap-3 max-w-3xl mx-auto mt-6">
 							{campaignOptions.map((option) => (
 								<button
 									key={option.id}

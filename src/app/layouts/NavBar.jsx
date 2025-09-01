@@ -56,7 +56,7 @@ const NavBar = () => {
 
 		const userItems = [
 			{ label: "Dashboard", to: "/dashboard" },
-			{ label: "Mes Campagnes", to: "/campaigns" },
+			{ label: "Mes Campagnes", to: "/campaign/list" },
 			{ label: "Explorer", to: "/explore" },
 			{ label: "À propos", to: "/about" },
 		];

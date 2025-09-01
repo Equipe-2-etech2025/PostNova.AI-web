@@ -13,8 +13,9 @@ import ChangePassword from "@pages/userProfile/ChangePassword";
 import TemplatesExplorer from "@pages/userProfile/TemplatesExplorer";
 import TemplatePreview from "@pages/userProfile/TemplatePreview";
 import CampaignsListPage from "@pages/campaign/CampaignsListPage";
+import AllCampaigns from "@pages/campaign/AllCampaigns";
 import PaymentForm from "@pages/payment/paymentForm";
-import About from "@pages/public/About";
+// import About from "@pages/public/About";
 const routes = [
 	/**
 	 * Main routes
@@ -31,7 +32,7 @@ const routes = [
 				element: <Public.PrivacyPolicyPage />,
 				public: true,
 			},
-			{ path: "/about", element: <About />, public: true },
+			// { path: "/about", element: <About />, public: true },
 
 			// Private routes
 			{ path: "/dashboard", element: <Dashboard /> },
@@ -56,7 +57,9 @@ const routes = [
 			{ path: "/templates", element: <TemplatesExplorer /> },
 
 			{ path: "/templates/:id/preview", element: <TemplatePreview /> },
-  
+
+			{ path: "/campaign/list", element: <AllCampaigns /> },
+
 			// Admin routes
 			{ path: "/admin", element: <Admin.Dashboard />, admin: true },
 		],
@@ -64,7 +67,6 @@ const routes = [
 
 	// Payment
 	{ path: "/payment", element: <PaymentForm /> },
-	
 
 	/**
 	 * Authentication and verification

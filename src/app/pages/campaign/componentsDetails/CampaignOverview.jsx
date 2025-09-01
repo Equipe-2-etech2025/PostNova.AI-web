@@ -70,7 +70,7 @@ const CampaignOverview = ({
       {posts.length > 0 && (
         <div className="mt-6">
           <h3 className="text-xl font-bold mb-4 px-10">
-            Publications ({posts.length})
+            Publications générées ({posts.length})
           </h3>
           <div className="space-y-4 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4">
             {posts.slice(0, 4).map((post) => {

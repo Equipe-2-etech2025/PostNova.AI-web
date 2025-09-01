@@ -584,21 +584,21 @@ const TemplatesExplorer = () => {
 								<div className="flex border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden">
 									<button
 										onClick={() => setViewMode("grid")}
-										className={`p-2 ${
+										className={`p-2 transition-colors ${
 											viewMode === "grid"
-												? "bg-[#4335C4] text-white"
-												: "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400"
-										} hover:bg-[#4335C4] hover:text-white transition-colors`}
+												? "bg-purple-600 text-white"
+												: "text-purple-600 hover:bg-purple-100"
+										}`}
 									>
 										<BsGrid3X3Gap size={16} />
 									</button>
 									<button
 										onClick={() => setViewMode("list")}
-										className={`p-2 ${
+										className={`p-2 transition-colors ${
 											viewMode === "list"
-												? "bg-[#4335C4] text-white"
-												: "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400"
-										} hover:bg-[#4335C4] hover:text-white transition-colors`}
+												? "bg-purple-600 text-white"
+												: "text-purple-600 hover:bg-purple-100"
+										}`}
 									>
 										<BsList size={16} />
 									</button>

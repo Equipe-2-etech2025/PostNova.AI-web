@@ -8,12 +8,23 @@ const TopicInput = ({
 	showOption,
 	setShowOption,
 	handleGenerate,
+	handleRegenerate,
 	loading,
 	selectedPlatform,
 	isCreating,
 	isCollapsed = false,
 	hasGeneratedPosts = false,
+	postId = null,
 }) => {
+	const handleSubmit = () => {
+
+		if (hasGeneratedPosts && postId) {
+			handleRegenerate(postId, topic);
+		} else {
+			handleGenerate();
+		}
+	};
+
 	return (
 		<div
 			className={`transition-all duration-500 ease-in-out ${
@@ -30,23 +41,17 @@ const TopicInput = ({
 				btnText={
 					loading ? "Génération..." : hasGeneratedPosts ? "Regénérer" : "Générer"
 				}
-				btnDisabled={loading || !topic || !selectedPlatform}
+				btnDisabled={loading || !topic || (!hasGeneratedPosts && !selectedPlatform)}
 				btnIcon={
 					<LoadingSpinnerNova
 						isLoading={isCreating}
 						iconSize={10}
 						spinnerSize={20}
-						starColors={{
-							purple: "bg-purple-300",
-							blue: "bg-blue-300",
-							cyan: "bg-cyan-300",
-							pink: "bg-pink-300",
-						}}
 						showIdleGlow={true}
 					/>
 				}
 				onChange={(e) => setTopic(e.target.value)}
-				onSubmit={handleGenerate}
+				onSubmit={handleSubmit}
 				containerStyle={`transition-all duration-500 w-full ${
 					hasGeneratedPosts
 						? "!px-4 !py-3 !rounded-lg !h-12 !text-base"

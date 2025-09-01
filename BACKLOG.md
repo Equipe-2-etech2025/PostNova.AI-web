@@ -11,6 +11,14 @@
 
 ## En cours
 
+- [EPA-80] Mise à jour de génération social post WEB (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branch: `chore/EPA-80-socialpost-generation`
+  Commit: `EPA-80: chore: mise à jour d'intégration socialPost`
+
+- [EPA-76] Page mes campagnes (Assigné à: Nathan Rakotoarimanana)
+  Branche: `feature/EPA-76-mes-campagnes`
+  Commit: `EPA-76: Page mes campagnes`
+
 - [EPA-67] Voir tous les campagnes (Assigné à: Nathan Rakotoarimanana)
   Branche: `feature/EPA-67-voir-all-campaings`
   Commit: `EPA-67: page explorer + page prévisualisation template campagne`

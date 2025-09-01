@@ -12,27 +12,6 @@ import {
   CardTitle,
 } from "@components/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/components/ui/tabs";
-
-import { Switch } from "@components/components/ui/switch";
-import { Avatar, AvatarFallback, AvatarImage } from "@components/components/ui/avatar";
-
-// ---- Utility data ----
-const sampleImages = {
-  video: "https://images.unsplash.com/photo-1526378722484-bd91ca387e72?q=80&w=1600&auto=format&fit=crop",
-  reels: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1600&auto=format&fit=crop",
-  tiktok: "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1600&auto=format&fit=crop",
-  short: "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?q=80&w=1600&auto=format&fit=crop",
-  linkedin: "https://images.unsplash.com/photo-1551836022-4c4c79ecde51?q=80&w=1600&auto=format&fit=crop",
-  twitter: "https://images.unsplash.com/photo-1519241047957-be31d7379a5d?q=80&w=1600&auto=format&fit=crop",
-  landing: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1600&auto=format&fit=crop",
-};
-
-const brand = {
-  name: "Postnova.AI",
-  tagline:
-    "Transformez un simple prompt en une campagne complète – vidéos courtes, posts LinkedIn & X, et landing page – prêtes à publier en < 1 min.",
-};
-
 const featureBullets = [
   { icon: "🎬", title: "Clips courts auto-montés", text: "TikTok, Reels, Shorts en formats 9:16 avec sous-titres, découpes dynamiques et musique libre de droit." },
   { icon: "📝", title: "Posts percutants", text: "Accroches AIDA, variations de ton et hashtags pertinents pour LinkedIn et X (Twitter)." },
@@ -149,16 +128,6 @@ const Playground = () => {
     if (targets.landing) list.push({ type: "landing", title: "Landing ‘React Kickstart’", thumb: sampleImages.landing, meta: "Section héros + preuve sociale + FAQ" });
     return list;
   }, [done, targets]);
-
-  const handleGenerate = () => {
-    setLoading(true);
-    setDone(false);
-    setTimeout(() => {
-      setLoading(false);
-      setDone(true);
-    }, 1200);
-  };
-
   return (
     <section className="py-16 md:py-24" id="playground">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -270,33 +239,6 @@ const Pricing = () => (
     </div>
   </section>
 );
-
-const Testimonials = () => (
-  <section className="py-16 md:py-24">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="grid md:grid-cols-2 gap-6">
-        {testimonials.map((t, i) => (
-          <Card key={i} className="rounded-2xl">
-            <CardHeader>
-              <div className="flex items-center gap-3">
-                <Avatar>
-                  <AvatarImage src={t.avatar} />
-                  <AvatarFallback>{t.name.slice(0, 2)}</AvatarFallback>
-                </Avatar>
-                <div>
-                  <CardTitle className="text-base">{t.name}</CardTitle>
-                  <CardDescription>{t.role}</CardDescription>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent>“{t.quote}”</CardContent>
-          </Card>
-        ))}
-      </div>
-    </div>
-  </section>
-);
-
 const Footer = () => (
   <footer className="py-10 border-t">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -309,21 +251,3 @@ const Footer = () => (
     </div>
   </footer>
 );
-
-export default function About() {
-  const onTry = () => {
-    const el = document.querySelector("#playground");
-    el?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
-  return (
-    <div className="min-h-screen">
-      <Hero onTry={onTry} />
-      <FeatureSection />
-      <Playground />
-      <Pricing />
-      <Testimonials />
-      <Footer />
-    </div>
-  );
-}
