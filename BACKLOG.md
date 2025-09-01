@@ -15,7 +15,11 @@
   Branche: `feature/EPA-81-creation-image`
   Commit:  `EPA-81: creation-image`
 
--[EPA-76] Page mes campagnes (Assigné à: Nathan Rakotoarimanana)
+- [EPA-80] Mise à jour de génération social post WEB (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branch: `chore/EPA-80-socialpost-generation`
+  Commit: `EPA-80: chore: mise à jour d'intégration socialPost`
+
+- [EPA-76] Page mes campagnes (Assigné à: Nathan Rakotoarimanana)
   Branche: `feature/EPA-76-mes-campagnes`
   Commit: `EPA-76: Page mes campagnes`
 
