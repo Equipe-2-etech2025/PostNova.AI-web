@@ -11,7 +11,7 @@
 
 ## En cours
 
--[EPA-81] Creation image
+-[EPA-81] Creation image (Assigné à: Nathan Rakotoarimanana)
   Branche: `feature/EPA-81-creation-image`
   Commit:  `EPA-81: creation-image`
 
