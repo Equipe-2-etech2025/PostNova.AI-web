@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { InputPrompt } from "@shared/Input";
 import { generateSocialPostService } from "@services/generateSocialPostService";
+import { generate } from "@services/landingPageService";
+import { useNotification } from "@hooks/useNotification";
+import MessageNotification from "@shared/MessageNotification";
 
-const NewRequest = ({ campaignId }) => {
+const NewRequest = ({ campaignId, onFinish }) => {
+	const { notification, hideNotification, showError } = useNotification();
+
 	const [showOption, setShowOption] = useState(false);
 	const [selectedPlatform, setSelectedPlatform] = useState("");
 	const [topic, setTopic] = useState("");
@@ -61,6 +66,7 @@ const NewRequest = ({ campaignId }) => {
 
 			if (response.success) {
 				setGeneratedPosts(response.posts);
+
 			} else {
 				alert(response.message || "Erreur lors de la génération des posts.");
 			}
@@ -71,10 +77,48 @@ const NewRequest = ({ campaignId }) => {
 			setLoading(false);
 		}
 	};
+	
+	const handleGenerateLandingPage = async () => {
+		if (!topic) {
+			showError("Veuillez saisir le sujet.");
+			return;
+		}
+
+		setLoading(true);
+
+		try {
+			const response = await generate({
+				prompt: topic,
+				campaign_id: campaignId
+			});
+
+			if (response.success) {
+				onFinish();
+			} else {
+				showError(response.message || "Erreur lors de la génération de la landing page.");
+			}
+		} catch (error) {
+			console.error("Erreur API:", error);
+			showError(error.message || "Erreur de connexion à l’API.");
+		} finally {
+			setLoading(false);
+		}
+	};
 
 	return (
 		<div>
-			<h1 className="text-center text-3xl font-bold mb-2">Nouvelle requête</h1>
+			<MessageNotification
+				message={notification.message}
+				type={notification.type}
+				isVisible={notification.isVisible}
+				onClose={hideNotification}
+				autoHide={true}
+				duration={5000}
+				position="top-center"
+				showProgressBar={true}
+			/>
+
+			<h1 className="w-3xl text-center text-3xl font-bold mb-2">Nouvelle requête</h1>
 			<div className="p-6 space-y-4 w-full max-h-[90vh] overflow-y-auto bg-white rounded-2xl">
 				<div className="space-y-6">
 					{/* Input du sujet du post + bouton intégré */}
@@ -83,7 +127,8 @@ const NewRequest = ({ campaignId }) => {
 						handleOption={() => setShowOption((prev) => !prev)}
 						value={topic}
 						onChange={(e) => setTopic(e.target.value)}
-						onSubmit={handleGenerate}
+						// onSubmit={handleGenerate}
+						onSubmit={handleGenerateLandingPage}
 						btnDisabled={loading || !topic || !selectedPlatform}
 						btnText={loading ? "Génération..." : "Générer"}
 					/>
@@ -94,12 +139,6 @@ const NewRequest = ({ campaignId }) => {
 							showOption ? "max-h-100" : "max-h-0"
 						} overflow-clip transition-all duration-500`}
 					>
-						<p>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus
-							pariatur maxime, est asperiores nostrum recusandae consequatur rem fugit
-							perspiciatis, accusantium aliquam vitae voluptates temporibus dignissimos
-							ad voluptatibus quis odio voluptas!
-						</p>
 					</div>
 				</div>
 

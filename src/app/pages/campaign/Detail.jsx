@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState, useCallback } from "react";
 import {
 	BsBarChartLine,
 	BsTwitterX,
@@ -24,10 +24,9 @@ import { campaignService } from "@services/campaignService";
 import { imageService } from "@services/imageService";
 import { socialPostService } from "@services/socialPostService";
 import { campaignInteractionService } from "@services/campaignInteractionService";
+import { getAllLandingPage } from "@services/landingPageService";
 import ImagePreview from "@components/Campaign/Features/Image";
-import CampaignOverviewItem, {
-	CampaignOverviewItemSkeleton,
-} from "@components/Campaign/CampaignOverviewItem";
+import { CampaignOverviewItemSkeleton } from "@components/Campaign/CampaignOverviewItem";
 
 const Detail = () => {
 	const location = useLocation();
@@ -35,11 +34,14 @@ const Detail = () => {
 	const [isPreview, setIsPreview] = useState(false);
 	const [selectedImage, setSelectedImage] = useState(null);
 	const [selectedPostId, setSelectedPostId] = useState(null);
+	const [selectedLandingPageId, setSelectedLandingPageId] = useState(null);
 
 	// States
-	const [campaignName, setCampaignName] = useState("");
-	const [campaignDescription, setCampaignDescription] = useState("");
-	const [campaignOverviews, setCampaignOverviews] = useState([]);
+	const [campaignInfo, setCampaignInfo] = useState({
+		id: null,
+		name: "",
+		description: "",
+	});
 	const [campaignPosts, setCampaignPosts] = useState([]);
 	const [imageDetails, setImageDetails] = useState([]);
 	const [campaignLandingPages, setCampaignLandingPages] = useState([]);
@@ -105,6 +107,21 @@ const Detail = () => {
 		}
 	};
 
+	const fetchCampaignLandingPages = useCallback(async () => {
+		try {
+			setLoadingCampaignLandingPages(true);
+			
+			const response = await getAllLandingPage({ campaign_id: campaignInfo?.id });
+			if (response.success) {
+				setCampaignLandingPages(response.data.data || []);
+			}
+		} catch (error) {
+			console.error("Erreur lors de la récupération des landing pages:", error);
+		} finally {
+			setLoadingCampaignLandingPages(false);
+		}
+	}, [campaignInfo?.id]);
+
 	useEffect(() => {
 		const fetchAllData = async () => {
 			try {
@@ -121,9 +138,8 @@ const Detail = () => {
 				// Fetch campaign details
 				const campaignResponse = await campaignService.getCampaignById(campaignId);
 				if (campaignResponse.success) {
-					const { name, description } = campaignResponse.data.data;
-					setCampaignName(name);
-					setCampaignDescription(description);
+					const { id, name, description } = campaignResponse.data.data;
+					setCampaignInfo({ id, name, description });
 				}
 
 				// Fetch images
@@ -148,22 +164,13 @@ const Detail = () => {
 					setCampaignPosts(campaignPosts);
 				}
 
-				const fetchedCampaignLandingPages = [
-					{
-						id: 1,
-						created_at: "2023-10-01T12:00:00Z",
-						title: "Landing page 1",
-						content: "",
-					},
-				];
-				setCampaignLandingPages(fetchedCampaignLandingPages);
+				fetchCampaignLandingPages();
 			} catch (error) {
 				console.error("Erreur lors de la récupération des données:", error);
 			} finally {
 				setLoadingCampaignOverviews(false);
 				setLoadingCampaignPosts(false);
 				setLoadingCampaignImages(false);
-				setLoadingCampaignLandingPages(false);
 				setLoadingStats(false);
 			}
 		};
@@ -175,18 +182,22 @@ const Detail = () => {
 			(feature) => feature.link.replace("#", "") === currentHash
 		);
 		setActiveTab(activeFeatureIndex >= 0 ? activeFeatureIndex : 0);
-	}, [featuresMemo, location]);
+	}, [featuresMemo, fetchCampaignLandingPages, location]);
 
 	const handleCampaignUpdateSuccess = () => {
 		closeModal();
 		const campaignId = location.pathname.split("/").pop();
 		campaignService.getCampaignById(campaignId).then((response) => {
 			if (response.success) {
-				const { name, description } = response.data.data;
-				setCampaignName(name);
-				setCampaignDescription(description);
+				const { id, name, description } = response.data.data;
+				setCampaignInfo({ id, name, description });
 			}
 		});
+	};
+
+	const handleNewRequestFinish = () => {
+		closeModal();
+		fetchCampaignLandingPages();
 	};
 
 	const formatDate = (dateString) => {
@@ -302,11 +313,11 @@ const Detail = () => {
 										<CampaignLandingPageItem
 											key={page.id}
 											campaignLandingPage={page}
-											isLoading={false}
+											isLoading={loadingCampaignLandingPages}
 											onClick={() => {
+												setSelectedLandingPageId(page.id);
 												openModal("landing-page");
 											}}
-											compactView={true}
 										/>
 									))}
 									{campaignLandingPages.length > 4 && (
@@ -412,7 +423,10 @@ const Detail = () => {
 								key={campaignLandingPage.id}
 								campaignLandingPage={campaignLandingPage}
 								isLoading={loadingCampaignLandingPages}
-								onClick={() => openModal("landing-page")}
+								onClick={() => {
+									setSelectedLandingPageId(campaignLandingPage.id);
+									openModal("landing-page");
+								}}
 							/>
 						))}
 					</div>
@@ -430,11 +444,11 @@ const Detail = () => {
 				<section className="py-4">
 					<div className="space-y-2">
 						<span className="flex items-center gap-4 text-3xl font-bold">
-							<h1>{campaignName}</h1>
+							<h1>{campaignInfo?.name}</h1>
 							<Tag color="red">En cours...</Tag>
 						</span>
 						<p className="text-gray-500">
-							{campaignDescription}{" "}
+							{campaignInfo?.description}{" "}
 							<Button
 								variant="ghost"
 								size="none"
@@ -579,8 +593,8 @@ const Detail = () => {
 				<Modal isOpen={isOpen("edit-campaign")} onClose={closeModal} size="xl">
 					<Suspense fallback={<div>Chargement...</div>}>
 						<EditCampaign
-							campaignName={campaignName}
-							campaignDescription={campaignDescription}
+							campaignName={campaignInfo?.name}
+							campaignDescription={campaignInfo?.description}
 							onSuccess={handleCampaignUpdateSuccess}
 							onCancel={closeModal}
 						/>
@@ -589,7 +603,10 @@ const Detail = () => {
 
 				<Modal isOpen={isOpen("new-request")} onClose={closeModal} size="xl">
 					<Suspense fallback={<div>Chargement...</div>}>
-						<NewRequest />
+						<NewRequest 
+							campaignId={campaignInfo?.id}
+							onFinish={handleNewRequestFinish}
+						/>
 					</Suspense>
 				</Modal>
 
@@ -634,13 +651,18 @@ const Detail = () => {
 					onClose={() => {
 						closeModal();
 						setIsPreview(false);
+						setSelectedLandingPageId(null);
 					}}
 					size={isPreview ? "full" : "fit"}
 				>
 					<Suspense fallback={<div>Chargement...</div>}>
 						<Feature.LandingPage
-							previewActive={isPreview}
-							onTogglePreview={() => setIsPreview((prev) => !prev)}
+							data={campaignLandingPages?.find((landingPage) => landingPage.id === selectedLandingPageId)}
+							onDelete={(id) => {
+								setCampaignLandingPages((prev) => prev.filter((landingPage) => landingPage.id !== id));
+								setSelectedLandingPageId(null);
+								closeModal();
+							}}
 						/>
 					</Suspense>
 				</Modal>
