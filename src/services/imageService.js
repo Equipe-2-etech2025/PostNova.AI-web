@@ -18,21 +18,20 @@ export const imageService = {
 	},
 
 	async getImageById(id) {
-		try {	
+		try {
 			const response = await api.get(`/images/${id}`);
 			return {
 				success: true,
 				data: response.data,
 			};
-		}
-		catch (error) {
+		} catch (error) {
 			return {
 				success: false,
 				message: `Impossible de récupérer l'image avec l'ID ${id}`,
 				error: error.message,
 			};
 		}
-	},	
+	},
 
 	async creteImage(imageData) {
 		try {
@@ -59,7 +58,7 @@ export const imageService = {
 				data: response.data,
 				message: "Image mise à jour avec succès",
 			};
-		}	 catch (error) {
+		} catch (error) {
 			return {
 				success: false,
 				message: `Erreur lors de la mise à jour de l'image ID ${id}`,
@@ -75,14 +74,14 @@ export const imageService = {
 				success: true,
 				message: response.data.message || "Image supprimée avec succès",
 			};
-		}	 catch (error) {
+		} catch (error) {
 			return {
 				success: false,
 				message: `Erreur lors de la suppression de l'image ID ${id}`,
 				error: error.message,
 			};
-	}
-	}
+		}
+	},
 };
 
 function handleError(error, defaultMsg) {

@@ -27,6 +27,7 @@ const CampaignModals = ({
 	deleteConfirmOpen,
 	setDeleteConfirmOpen,
 	setSelectedPostId,
+	onDeleteImage,
 }) => {
 	const [newRequestModalSize, setNewRequestModalSize] = useState("3xl");
 	const [isSharing, setIsSharing] = useState(false);
@@ -63,6 +64,21 @@ const CampaignModals = ({
 			setDeleteConfirmOpen(false);
 		} finally {
 			setIsDeleting(false);
+		}
+	};
+
+	// Nouvelle fonction pour gérer la suppression d'images
+	const handleDeleteImage = async (imageId) => {
+		try {
+			await onDeleteImage(imageId);
+			// Fermer la modal et actualiser le contenu après suppression
+			closeModal();
+			if (onContentRefresh) {
+				onContentRefresh();
+			}
+		} catch (error) {
+			console.error("Erreur lors de la suppression de l'image:", error);
+			// Vous pouvez ajouter une notification d'erreur ici
 		}
 	};
 
@@ -206,6 +222,8 @@ const CampaignModals = ({
 						status={selectedImage.is_published ? "Publiée" : "Non publiée"}
 						onSuccess={handleCloseAndRefresh}
 						promptText={selectedImage.prompt}
+						imageId={selectedImage.id}
+						onDeleteImage={handleDeleteImage}
 					/>
 				)}
 			</Modal>
