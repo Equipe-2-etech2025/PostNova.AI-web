@@ -65,18 +65,21 @@ const Detail = () => {
 	const [deletedPost, setDeletePost] = useState(false);
 	const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
-
 	{
 		/** Fonctions **/
 	}
 
-	{ /** supprimer la post en utilisant la serviceSocialPost delete */}
+	{
+		/** supprimer la post en utilisant la serviceSocialPost delete */
+	}
 	const handleDeletePost = async (postId) => {
 		try {
-			await new Promise(resolve => setTimeout(resolve, 1000));
+			await new Promise((resolve) => setTimeout(resolve, 1000));
 			const response = await socialPostService.deleteSocialPost(postId);
 			if (response.success) {
-				const updatedPosts = campaignData.posts.filter((post) => post.id !== postId);
+				const updatedPosts = campaignData.posts.filter(
+					(post) => post.id !== postId
+				);
 				setCampaignData((prev) => ({ ...prev, posts: updatedPosts }));
 				closeModal();
 			} else {
@@ -84,6 +87,32 @@ const Detail = () => {
 			}
 		} catch (error) {
 			console.error("Erreur API:", error);
+		}
+	};
+
+	{
+		/** supprimer l'image en utilisant le service imageService delete */
+	}
+	const handleDeleteImage = async (imageId) => {
+		try {
+			const response = await imageService.deleteImage(imageId);
+			if (response.success) {
+				// Mettre à jour la liste des images localement
+				const updatedImages = campaignData.images.filter(
+					(image) => image.id !== imageId
+				);
+				setCampaignData((prev) => ({ ...prev, images: updatedImages }));
+				console.log("Image supprimée avec succès:", response.message);
+			} else {
+				console.error(
+					"Erreur lors de la suppression de l'image:",
+					response.message
+				);
+				// Optionnel: afficher une notification d'erreur à l'utilisateur
+			}
+		} catch (error) {
+			console.error("Erreur API suppression image:", error);
+			// Optionnel: afficher une notification d'erreur à l'utilisateur
 		}
 	};
 
@@ -274,8 +303,8 @@ const Detail = () => {
 	const handleContentRefresh = () => {
 		setRefreshTrigger((prev) => prev + 1);
 		if (user?.id) {
-		fetchQuotaData(user.id);
-	}
+			fetchQuotaData(user.id);
+		}
 	};
 
 	return (
@@ -344,9 +373,10 @@ const Detail = () => {
 				onCloseShareModal={() => setIsShareModalOpen(false)}
 				onShareCampaign={handleShareCampaign}
 				onDeletePost={handleDeletePost}
+				onDeleteImage={handleDeleteImage}
 				deleteConfirmOpen={deleteConfirmOpen}
 				setDeleteConfirmOpen={setDeleteConfirmOpen}
-				setSelectedPostId={setSelectedPostId} 
+				setSelectedPostId={setSelectedPostId}
 			/>
 		</div>
 	);
