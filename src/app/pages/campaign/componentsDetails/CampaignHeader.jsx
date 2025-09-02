@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { BsPencilFill } from "react-icons/bs";
+import { BsPencilFill, BsShareFill } from "react-icons/bs";
 import Tag from "@shared/Tag";
 import Button from "@shared/Button";
 
 const CampaignHeader = ({
 	name,
+	is_published,
 	description,
 	status,
 	originalStatus,
@@ -69,13 +70,21 @@ const CampaignHeader = ({
 							className="transition-all duration-300 group-hover:text-purple-700 dark:group-hover:text-purple-400 group-hover:rotate-12"
 						/>
 					</Button>
-					<Button
-						variant="solid"
-						className="bg-purple-600 hover:bg-gradient-to-r from-blue-700 via-purple-600 to-pink-600 border-none text-white font-semibold rounded-lg px-4 py-2"
-						onClick={onShare}
-					>
-						Partager
-					</Button>
+					{is_published ? (
+						<span className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-700 via-purple-600 to-pink-600 text-white font-semibold rounded-lg px-4 py-2 shadow-md">
+							<BsShareFill className="text-lg" />
+							Déjà partagé
+						</span>
+					) : (
+						<Button
+							variant="solid"
+							className="bg-purple-600 hover:bg-gradient-to-r from-blue-700 via-purple-600 to-pink-600 border-none text-white font-semibold rounded-lg px-4 py-2 flex items-center gap-2"
+							onClick={onShare}
+						>
+							<BsShareFill className="text-lg" />
+							Partager
+						</Button>
+					)}
 				</div>
 			</div>
 		</section>
