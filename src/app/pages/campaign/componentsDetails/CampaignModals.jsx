@@ -205,14 +205,21 @@ const CampaignModals = ({
 						creationDate={new Date(selectedImage.created_at).toLocaleDateString()}
 						status={selectedImage.is_published ? "Publiée" : "Non publiée"}
 						onSuccess={handleCloseAndRefresh}
+						promptText={selectedImage.prompt}
 					/>
 				)}
 			</Modal>
 
-			<Modal isOpen={isOpen("image-marketing")} onClose={closeModal} size="xl">
+			<Modal
+				isOpen={isOpen("image-marketing")}
+				onClose={closeModal}
+				size={newRequestModalSize}
+				className={newRequestModalSize === "full" ? "!p-0" : ""}
+			>
 				<Suspense fallback={<div>Chargement...</div>}>
 					<Feature.ImageMarketing
 						campaignId={campaignId}
+						modalSize={newRequestModalSize}
 						onSuccess={handleCloseAndRefresh}
 						onContentGenerated={handleContentGenerated}
 					/>

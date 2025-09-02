@@ -80,6 +80,10 @@
 
 ## Terminé(e)
 
+-[EPA-86] Amélioration image (Assigné à: Nathan Rakotoarimanana)
+  Branche: `enhance/EPA-86-affichage-image`
+  Commit:  `EPA-86: amélioration affichage image`
+
 - [EPA-64] Run lint web (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `fix/EPA-64-lint`
   Commit: `EPA-64: fix error et warning lint et mise à jour de makefile`

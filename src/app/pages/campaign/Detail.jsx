@@ -155,12 +155,14 @@ const Detail = () => {
 	const fetchCampaignDetails = async (campaignId) => {
 		try {
 			const response = await campaignService.getCampaignById(campaignId);
+			console.log(response.data);
 			if (response.success) {
-				const { name, description, status } = response.data.data;
+				const { name, description, status, is_published } = response.data.data;
 				const translatedStatus = translateStatus(status.label);
 				setCampaignInfo({
 					name,
 					description,
+					is_published,
 					status: translatedStatus,
 					originalStatus: status.label,
 					statusValue: status.value,
@@ -280,6 +282,7 @@ const Detail = () => {
 		<div className="container mx-auto">
 			<CampaignHeader
 				name={campaignInfo.name}
+				is_published={campaignInfo.is_published}
 				description={campaignInfo.description}
 				status={campaignInfo.status}
 				originalStatus={campaignInfo.originalStatus}
