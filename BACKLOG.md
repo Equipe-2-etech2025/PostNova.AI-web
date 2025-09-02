@@ -11,6 +11,10 @@
 
 ## En cours
 
+- [EPA-85] Mise à jour design page publique et 404 error (Assigné à: Mialisoa Lisa Rasoanirina)
+  Branche: `chore/EPA-85-design-404-public-page`
+  Commit: `EPA-85: mise à jour design page acceuil, 404 et a propos`
+
 -[EPA-84] Ajout d'une fonction supprimer post (Assigné à: Mialisoa Lisa Rasoanirina)
  Branche: `feature/EPA-84-deletedPost`
  Commit: `EPA-84: suppression post social`

@@ -5,8 +5,9 @@ import {
 	BsChevronDown,
 	BsMoonStarsFill,
 	BsPersonFill,
-	BsSpeedometer2,
-	BsSunriseFill,
+	BsList,
+	BsX,
+	BsSunFill,
 } from "react-icons/bs";
 import useTheme from "@hooks/useTheme";
 import useAuth from "@hooks/useAuth";
@@ -25,12 +26,12 @@ const NavBar = () => {
 	const menuRef = useRef(null);
 	const navigate = useNavigate();
 
-	// Fermer le menu utilisateur quand on clique à l'extérieur
 	useEffect(() => {
-		if (userMenuOpen) {
+		if (userMenuOpen || menuOpen) {
 			const handleClickOutside = (event) => {
 				if (menuRef.current && !menuRef.current.contains(event.target)) {
 					setUserMenuOpen(false);
+					setMenuOpen(false);
 				}
 			};
 			document.addEventListener("mousedown", handleClickOutside);
@@ -38,15 +39,15 @@ const NavBar = () => {
 				document.removeEventListener("mousedown", handleClickOutside);
 			};
 		}
-	}, [userMenuOpen]);
+	}, [userMenuOpen, menuOpen]);
 
-	// Items de navigation
 	const navigationItems = () => {
 		const publicItems = [
 			{ label: "Nos services", href: "#our-services" },
 			{ label: "Explorer", href: "#popular-content" },
 			{ label: "Nos offres", href: "#our-offers" },
 			{ label: "À propos", to: "/about" },
+			{ label: "Àcceuil", to: "/" },
 			{ label: "Contact", href: "#contact" },
 		];
 
@@ -56,7 +57,7 @@ const NavBar = () => {
 
 		const userItems = [
 			{ label: "Dashboard", to: "/dashboard" },
-			{ label: "Mes Campagnes", to: "/campaign/list" },
+			{ label: "Mes Campagnes", to: "/campaigns" },
 			{ label: "Explorer", to: "/explore" },
 			{ label: "À propos", to: "/about" },
 		];
@@ -88,8 +89,14 @@ const NavBar = () => {
 		}
 	};
 
-	// Menu utilisateur
+	// User Menu
 	const UserMenu = () => {
+		const navItems = navigationItems();
+
+		const filteredNavItems = navItems.filter(
+			(item) => item.to !== "/userProfile"
+		);
+
 		return (
 			<div className="relative" ref={menuRef}>
 				<Button
@@ -109,10 +116,10 @@ const NavBar = () => {
 				</Button>
 
 				{userMenuOpen && (
-					<div className="absolute right-0 top-full mt-2 bg-white/75 dark:bg-black/75 backdrop-blur-sm border border-gray-200 dark:border-gray-900 rounded-2xl shadow-lg z-50 min-w-[200px] px-3 py-2">
+					<div className="absolute right-0 top-full mt-2 bg-white/90 dark:bg-black/90 backdrop-blur-sm border border-gray-200 dark:border-gray-900 rounded-2xl shadow-lg z-50 min-w-[250px] max-w-[90vw] px-3 py-2">
 						<div className="border-b border-gray-500/25 space-y-1 p-3">
-							<div className="text-xl font-medium">{user?.name}</div>
-							<div className="text-sm text-gray-400 dark:text-gray-500">
+							<div className="text-xl font-medium truncate">{user?.name}</div>
+							<div className="text-sm text-gray-400 dark:text-gray-500 truncate">
 								{user?.email}
 							</div>
 							{user?.role === "admin" && (
@@ -122,16 +129,33 @@ const NavBar = () => {
 							)}
 						</div>
 
-						<div className="py-1">
-							<Link
-								to="/dashboard"
-								className="flex items-center gap-2 rounded-sm px-3 py-2 text-sm hover:bg-gray-300/25 dark:hover:bg-gray-500/25 transition-colors"
-								onClick={() => setUserMenuOpen(false)}
-							>
-								<BsSpeedometer2 size={14} />
-								Dashboard
-							</Link>
+						{/* Navigation items on mobile/tablet */}
+						<div className="lg:hidden border-b border-gray-500/25 py-1">
+							{filteredNavItems.map((item, index) => (
+								<div key={index}>
+									{item.to ? (
+										<Link
+											to={item.to}
+											className="flex items-center gap-2 rounded-sm px-3 py-2 text-sm hover:bg-gray-300/25 dark:hover:bg-gray-500/25 transition-colors"
+											onClick={() => setUserMenuOpen(false)}
+										>
+											{item.label}
+										</Link>
+									) : (
+										<a
+											href={item.href}
+											className="flex items-center gap-2 rounded-sm px-3 py-2 text-sm hover:bg-gray-300/25 dark:hover:bg-gray-500/25 transition-colors"
+											onClick={() => setUserMenuOpen(false)}
+										>
+											{item.label}
+										</a>
+									)}
+								</div>
+							))}
+						</div>
 
+						{/* User-specific menu items */}
+						<div className="py-1">
 							<Link
 								to="/userProfile"
 								className="flex items-center gap-2 rounded-sm px-3 py-2 text-sm hover:bg-gray-300/25 dark:hover:bg-gray-500/25 transition-colors"
@@ -186,6 +210,62 @@ const NavBar = () => {
 		);
 	};
 
+	// Non connected User
+	const MobileMenu = () => {
+		const navItems = navigationItems();
+
+		return (
+			<div className="relative lg:hidden" ref={menuRef}>
+				<Button
+					variant="ghost"
+					size="none"
+					onClick={() => setMenuOpen(!menuOpen)}
+					className="p-2"
+				>
+					{menuOpen ? <BsX size={24} /> : <BsList size={24} />}
+				</Button>
+
+				{menuOpen && (
+					<div className="absolute right-0 top-full mt-2 bg-white/90 dark:bg-black/90 backdrop-blur-sm border border-gray-200 dark:border-gray-900 rounded-2xl shadow-lg z-50 min-w-[200px] max-w-[90vw] px-3 py-2">
+						<div className="py-1">
+							{navItems.map((item, index) => (
+								<div key={index}>
+									{item.to ? (
+										<Link
+											to={item.to}
+											className="flex items-center gap-2 rounded-sm px-3 py-2 text-sm hover:bg-gray-300/25 dark:hover:bg-gray-500/25 transition-colors"
+											onClick={() => setMenuOpen(false)}
+										>
+											{item.label}
+										</Link>
+									) : (
+										<a
+											href={item.href}
+											className="flex items-center gap-2 rounded-sm px-3 py-2 text-sm hover:bg-gray-300/25 dark:hover:bg-gray-500/25 transition-colors"
+											onClick={() => setMenuOpen(false)}
+										>
+											{item.label}
+										</a>
+									)}
+								</div>
+							))}
+						</div>
+
+						<div className="border-t border-gray-500/25 py-1">
+							<Link
+								to="/login"
+								className="flex items-center gap-2 rounded-sm px-3 py-2 text-sm hover:bg-gray-300/25 dark:hover:bg-gray-500/25 transition-colors font-medium"
+								onClick={() => setMenuOpen(false)}
+							>
+								Se connecter
+							</Link>
+						</div>
+					</div>
+				)}
+			</div>
+		);
+	};
+
 	return (
 		<div className="sticky top-0 w-full backdrop-blur-lg z-40">
 			<div className="container flex items-center justify-between py-5 mx-auto">
@@ -196,12 +276,11 @@ const NavBar = () => {
 							<span>
 								<img className="size-10" src={logo} alt="logo" />
 							</span>
-							<strong>PostNova</strong>
+							<strong className="hidden sm:block">PostNova</strong>
 						</div>
 					</Link>
 
-					{/* Navigation */}
-					<nav>
+					<nav className="hidden lg:block">
 						<ul className="flex items-center gap-4">
 							{loading
 								? [...Array(4)].map((_, i) => (
@@ -248,15 +327,24 @@ const NavBar = () => {
 								{theme === "light" ? (
 									<BsMoonStarsFill size={16} />
 								) : (
-									<BsSunriseFill size={16} />
+									<BsSunFill size={16} />
 								)}
 							</Button>
 							{isAuthenticated ? (
 								<UserMenu />
 							) : (
-								<Button as={Link} to={"/login"} circle color="neutral">
-									Se connecter
-								</Button>
+								<>
+									<Button
+										as={Link}
+										to={"/login"}
+										circle
+										color="neutral"
+										className="hidden md:flex"
+									>
+										Se connecter
+									</Button>
+									<MobileMenu />
+								</>
 							)}
 						</>
 					)}
