@@ -1,5 +1,5 @@
 import React from "react";
-import { BsBasket } from "react-icons/bs";
+import { BsTrash } from "react-icons/bs";
 import Button from "@shared/Button";
 
 const DeleteButton = ({ onClick }) => {
@@ -12,7 +12,7 @@ const DeleteButton = ({ onClick }) => {
 				onClick={onClick}
 			>
 				<span className="text-sm">Supprimer</span>
-				<BsBasket />
+				<BsTrash />
 			</Button>
 		</div>
 	);

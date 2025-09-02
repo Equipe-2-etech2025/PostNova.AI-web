@@ -254,7 +254,7 @@ const DashboardUser = () => {
 								</div>
 								<div className="w-full bg-[var(--color-gray)] rounded-full h-2.5 mt-2">
 									<div
-										className="bg-blue-600 h-2.5 rounded-full transition-all duration-1000"
+										className="bg-blue-600 h-2.5 rounded-full bg-gradient-to-r from-blue-700 via-purple-600 to-pink-400 transition-all duration-1000"
 										style={{
 											width:
 												tarif?.tarif?.max_limit != null &&

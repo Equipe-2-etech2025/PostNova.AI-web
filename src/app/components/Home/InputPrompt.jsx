@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { BsArrowUpCircle } from "react-icons/bs";
 import Button from "@shared/Button";
+import { useNavigate } from "react-router";
 
 const phrases = [
 	"une campagne de lancement d’une app mobile",
@@ -18,6 +19,12 @@ const InputPrompt = ({ containerStyle, inputStyle }) => {
 	const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
 	const [charIndex, setCharIndex] = useState(0);
 	const [isDeleting, setIsDeleting] = useState(false);
+	const navigate = useNavigate();
+
+	const handleNavigate = () => {
+		navigate("/campaign/new");
+	};
+
 
 	useEffect(() => {
 		const phrase = phrases[currentPhraseIndex];
@@ -85,9 +92,11 @@ const InputPrompt = ({ containerStyle, inputStyle }) => {
 						<i className="ri-link-m"></i>
 					</button>
 				</div>
-				<Button circle>
-					<BsArrowUpCircle className="text-[var(--color-lightgray)]" size={24} />
-				</Button>
+				
+				<Button circle onClick={handleNavigate}>
+	<BsArrowUpCircle className="text-[var(--color-lightgray)]" size={24} />
+</Button>
+
 			</div>
 		</div>
 	);
