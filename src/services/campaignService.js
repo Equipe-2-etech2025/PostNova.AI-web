@@ -41,6 +41,22 @@ export const campaignService = {
 		}
 	},
 
+	async createCampaignByTemplate(campaignData) {
+		try {
+			const response = await api.post(
+				"/campaigns/template/generate",
+				campaignData
+			);
+			return {
+				success: true,
+				data: response.data,
+				message: "Campagne créée avec succès",
+			};
+		} catch (error) {
+			return handleError(error, "Erreur lors de la création de la campagne");
+		}
+	},
+
 	async getPopularCampaigns() {
 		try {
 			const response = await api.get("/campaigns/popular/content");
@@ -117,7 +133,7 @@ export const campaignService = {
 	},
 
 	generateNameAndCreate: (data) =>
-    api.post("/campaigns/generate-name", data).then(res => res.data),
+		api.post("/campaigns/generate-name", data).then((res) => res.data),
 };
 
 function handleError(error, defaultMsg) {
