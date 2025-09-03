@@ -2,14 +2,13 @@
 
 ## À faire
 
-	
 
-
-
-
-- [EPA-26] Intégration mot de passe oublié + vérification email (Assigné à: Nathan Rakotoarimanana)
 
 ## En cours
+
+-[EPA-87] Utiliser templates
+  Branche: `feature/EPA-87-utiliser-template`
+  Commit:  `EPA-87: fonctionnalité utiliser template`
 
 - [EPA-85] Mise à jour design page publique et 404 error (Assigné à: Mialisoa Lisa Rasoanirina)
   Branche: `chore/EPA-85-design-404-public-page`
@@ -83,6 +82,8 @@
 - [EPA-14] Creation de composant réutilisable (bouton, card, modal, ...) (Assigné à: Tahiry Houlder RATERAHAJA)
 
 ## Terminé(e)
+
+- [EPA-26] Intégration mot de passe oublié + vérification email (Assigné à: Nathan Rakotoarimanana)
 
 -[EPA-86] Amélioration image (Assigné à: Nathan Rakotoarimanana)
   Branche: `enhance/EPA-86-affichage-image`
