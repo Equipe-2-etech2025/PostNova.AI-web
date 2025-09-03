@@ -6,7 +6,7 @@
 
 ## En cours
 
--[EPA-87] Utiliser templates
+-[EPA-87] Utiliser templates (Assigné à: Nathan Rakotoarimanana)
   Branche: `feature/EPA-87-utiliser-template`
   Commit:  `EPA-87: fonctionnalité utiliser template`
 
