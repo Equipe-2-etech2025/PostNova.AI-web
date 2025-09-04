@@ -17,6 +17,7 @@ Frontend web React propulsé par Vite pour la plateforme SaaS **PostNova.AI** �
 - **Langage** : JavaScript
 - **Styling** : TailwindCSS
 - **Routing** : React Router
+
 - **Formatting** : Prettier
 - **Linting** : EsLint
   
@@ -55,7 +56,6 @@ PostNova.AI-web/
 │   └── main.jsx           # Point d'entrée
 └── tests/                 # Tests
 ```
-
 
 ### Prérequis
 ```
