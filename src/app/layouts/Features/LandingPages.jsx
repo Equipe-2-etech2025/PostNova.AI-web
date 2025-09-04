@@ -132,6 +132,7 @@ const LandingPage = ({
 			try {
 				setLoading(true);
 				const res = await landingPageService.getOne(landingPageId);
+				console.log(res);
 				if (!res.success) {
 					setContent(undefined);
 					return;
