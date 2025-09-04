@@ -256,6 +256,7 @@ const NewRequest = ({
 				<TopicInput
 					topic={topic}
 					setTopic={setTopic}
+					placeholder={"Décrivez votre publication..."}
 					showOption={showOption}
 					setShowOption={setShowOption}
 					handleGenerate={handleGenerate}

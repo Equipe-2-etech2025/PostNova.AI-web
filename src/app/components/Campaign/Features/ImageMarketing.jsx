@@ -162,6 +162,7 @@ const ImageMarketing = ({
 			<TopicInput
 				topic={topic}
 				setTopic={setTopic}
+				placeholder={"Décrivez votre image..."}
 				handleGenerate={handleGenerateImages}
 				handleRegenerate={handleRegenerate}
 				loading={loading}

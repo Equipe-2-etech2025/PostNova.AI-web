@@ -185,25 +185,29 @@ const LandingPage = ({
 					</div>
 				</div>
 			</div>
-			<div className={`${previewActive ? "flex-0" : "flex-1/4"} flex flex-col`}>
-				<div className="sticky top-0 py-1 z-20">
-					<h1 className="text-center text-3xl font-bold mb-2">Landing page</h1>
-				</div>
-				<div className="flex flex-wrap gap-2 my-4 p-2">
-					{availableSections.map((section) => (
-						<Button
-							key={section.id}
-							variant={selectedSection === section?.id ? "solid" : "outline"}
-							color={selectedSection === section?.id ? "primary" : "neutral"}
-							size="sm"
-							className="flex items-center gap-2"
-							onClick={() => setSelectedSection(section?.id)}
-							disabled={loading}
-						>
-							{section?.icon}
-							{section?.label}
-						</Button>
-					))}
+			<div
+				className={`${previewActive ? "flex-0 overflow-hidden" : "flex-1/4 flex flex-col"} transition-all ease-in-out duration-300`}
+			>
+				<div className="flex-shrink-0">
+					<div className="sticky top-0 py-1 z-20">
+						<h1 className="text-center text-3xl font-bold mb-2">Landing page</h1>
+					</div>
+					<div className="flex flex-wrap gap-2 my-4 p-2">
+						{availableSections.map((section) => (
+							<Button
+								key={section.id}
+								variant={selectedSection === section?.id ? "solid" : "outline"}
+								color={selectedSection === section?.id ? "primary" : "neutral"}
+								size="sm"
+								className="flex items-center gap-2"
+								onClick={() => setSelectedSection(section?.id)}
+								disabled={loading}
+							>
+								{section?.icon}
+								{section?.label}
+							</Button>
+						))}
+					</div>
 				</div>
 				<div className="overflow-y-auto">
 					{selectedSection === "hero" && content && (

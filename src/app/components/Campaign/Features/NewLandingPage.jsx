@@ -5,11 +5,7 @@ import MessageNotification from "@shared/MessageNotification";
 import TopicInput from "@layouts/Campaign/components/TopicInput";
 import RequestHeader from "@layouts/Campaign/components/RequestHeader";
 
-const NewLandingPage = ({
-	campaignId,
-	onSuccess,
-	modalSize = "3xl",
-}) => {
+const NewLandingPage = ({ campaignId, onSuccess, modalSize = "3xl" }) => {
 	const [topic, setTopic] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [isCreating, setIsCreating] = useState(false);
@@ -66,10 +62,7 @@ const NewLandingPage = ({
 			if (res.success) {
 				onSuccess();
 			} else {
-				showNotification(
-					res.data.message || "Erreur lors de la génération des images.",
-					"error"
-				);
+				showNotification("Erreur lors de la génération des images.", "error");
 			}
 		} catch (error) {
 			console.error("Erreur API:", error);
@@ -137,6 +130,7 @@ const NewLandingPage = ({
 			<TopicInput
 				topic={topic}
 				setTopic={setTopic}
+				placeholder={"Décrivez votre landing page..."}
 				handleGenerate={handleGenerateLandingPages}
 				handleRegenerate={handleRegenerate}
 				loading={loading}

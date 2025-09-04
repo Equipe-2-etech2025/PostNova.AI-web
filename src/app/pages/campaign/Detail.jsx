@@ -332,7 +332,7 @@ const Detail = () => {
 	};
 
 	return (
-		<div className="container mx-auto">
+		<div className="container mx-auto px-4 sm:px-6 lg:px-8">
 			<CampaignHeader
 				name={campaignInfo.name}
 				is_published={campaignInfo.is_published}
@@ -350,8 +350,9 @@ const Detail = () => {
 				onLandingPageClick={() => openModal("new-landing-page")}
 			/>
 
-			<section className="flex items-start gap-6 py-4">
-				<div className="flex-3/4">
+			<section className="flex flex-col xl:flex-row xl:items-start gap-4 xl:gap-6 py-4">
+				{/* Contenu principal - pleine largeur sur mobile, 3/4 sur desktop */}
+				<div className="w-full xl:flex-1 xl:w-3/4">
 					<CampaignTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 					<CampaignContent
 						activeTab={activeTab}
@@ -373,15 +374,18 @@ const Detail = () => {
 					/>
 				</div>
 
-				<CampaignSidebar
-					posts={campaignData.posts}
-					stats={campaignData.interactionStats}
-					loadingStats={loading.stats}
-					quotaPrompt={quotaPrompt}
-					tarif={tarif}
-					loadingQuota={loadingQuota}
-					onContentRefresh={handleContentRefresh}
-				/>
+				{/* Sidebar - en bas sur mobile/tablette, à droite sur desktop */}
+				<div className="w-full xl:w-1/4 xl:max-w-sm">
+					<CampaignSidebar
+						posts={campaignData.posts}
+						stats={campaignData.interactionStats}
+						loadingStats={loading.stats}
+						quotaPrompt={quotaPrompt}
+						tarif={tarif}
+						loadingQuota={loadingQuota}
+						onContentRefresh={handleContentRefresh}
+					/>
+				</div>
 			</section>
 
 			<CampaignModals

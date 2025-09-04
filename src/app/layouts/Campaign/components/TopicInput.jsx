@@ -5,6 +5,7 @@ import LoadingSpinnerNova from "@shared/LoadingSpinnerNova";
 const TopicInput = ({
 	topic,
 	setTopic,
+	placeholder,
 	showOption,
 	setShowOption,
 	handleGenerate,
@@ -34,9 +35,7 @@ const TopicInput = ({
 			}`}
 		>
 			<InputPrompt
-				placeholder={
-					hasGeneratedPosts ? "Modifier le sujet..." : "Décrivez votre campagne"
-				}
+				placeholder={placeholder}
 				value={topic}
 				btnText={
 					loading ? "Génération..." : hasGeneratedPosts ? "Regénérer" : "Générer"
