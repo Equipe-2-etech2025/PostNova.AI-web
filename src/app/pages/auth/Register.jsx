@@ -145,7 +145,7 @@ const Register = () => {
 
 			<div className="h-screen w-full flex flex-col md:flex-row overflow-hidden">
 				{/* Left */}
-				<div className="flex-1 relative p-4 h-64 md:h-auto">
+				<div className="hidden lg:flex flex-1 relative p-4 h-64 lg:h-auto">
 					<img
 						src={galaxy}
 						alt="galaxy"
