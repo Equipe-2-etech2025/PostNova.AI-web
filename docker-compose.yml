@@ -1,0 +1,22 @@
+services:
+  web:
+    build: .
+    container_name: postnova-web
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - VITE_API_URL=http://postnova-webserver/api
+      - VITE_USE_DOCKER_API=true
+    stdin_open: true
+    tty: true
+    networks:
+      - postnova-network
+
+networks:
+  postnova-network:
+    external: true

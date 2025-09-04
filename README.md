@@ -17,19 +17,54 @@ Frontend web React propulsé par Vite pour la plateforme SaaS **PostNova.AI** �
 - **Langage** : JavaScript
 - **Styling** : TailwindCSS
 - **Routing** : React Router
-- **Gestion d’état** : Zustand
 
-
-## 🚀 Installation
+- **Formatting** : Prettier
+- **Linting** : EsLint
+  
+## 📁 Structure du Projet
+```
+PostNova.AI-web/
+├── .dockerignore
+├── .gitignore
+├── CONFIG.md
+├── docker-compose.yml
+├── Dockerfile
+├── eslint.config.js
+├── index.html
+├── Makefile
+├── netlfly.toml
+├── package-lock.json
+├── package.json
+├── README.md
+├── vite.config.js
+├── yarn.lock
+├── public/                # Assets statiques
+├── src/
+│   ├── app/
+│   │   ├── Routes.jsx     # Configuration du routing
+│   │   ├── pages/         # Composants de page
+│   │                            
+│   ├── assets/            # Images, polices, etc.
+│   ├── components/        # Composants UI réutilisables
+│   ├── configs/           # Configurations de l'app
+│   ├── forms/             # Formulaires et logique
+│   ├── hooks/             # Hooks React personnalisés          
+│   ├── services/          # Services API
+│   ├── shared/            # Utilitaires partagés
+│   ├── App.jsx            # Composant principal
+│   ├── index.css          # Styles globaux
+│   └── main.jsx           # Point d'entrée
+└── tests/                 # Tests
+```
 
 ### Prérequis
-
+```
 - Node.js 22+
 - npm ou yarn
-
+```
 ### Installation rapide
 
-```bash
+```
 # Clone
 git clone https://github.com/Equipe-2-etech2025/PostNova.AI-web.git
 cd PostNova.AI-web
@@ -44,18 +79,33 @@ npm run dev
 # or
 yarn dev
 ```
+## 🐳 Configuration Docker
+### Développement
+```
+# Construire et démarrer les containers
+# linux/ MAC:
+make build
+make up
+make start
+# windows
+docker compose build
+docker compose up
 
-### Configuration
-```env
+# Accéder à l'application sur
+http://localhost:5173
+```
+## 🔧 Configuration
+```
+Éditer le fichier .env :
 VITE_API_URL=http://localhost:8000/api
+VITE_APP_NAME=PostNova.AI
+VITE_APP_ENV=development
+```
+## 🚀 Déploiement
+```
+Vercel
+https://deploy-preview-12--dev-postnova-web.netlify.app
 ```
 
-## Roadmap
-- [ ] Intégration éditeur de script AI (avec aperçu vidéo)
-- [ ] Interface de publication multi-plateforme
-- [ ] Mode sombre / clair
-- [ ] Éditeur de landing page
-- [ ] Notifications en temps réel via WebSocket
-- [ ] Interface multi-utilisateurs
 
 Développé avec ❤️ par l'Équipe 2 - ETech 2025

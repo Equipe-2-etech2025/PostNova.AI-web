@@ -1,0 +1,9 @@
+{
+    "makefile.configureOnOpen": false,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "eslint.validate": ["javascript", "javascriptreact"],
+	"editor.insertSpaces": false,
+	"editor.detectIndentation": false,
+  	"editor.tabSize": 4
+}
