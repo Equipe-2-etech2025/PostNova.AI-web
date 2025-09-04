@@ -3,7 +3,7 @@ import { BsHeart } from "react-icons/bs";
 import { Card } from "@shared/Card";
 import Button from "@shared/Button";
 
-const CampaignLandingPageItem = ({ campaignLandingPage , isLoading = true, onClick }) => {
+const CampaignLandingPageItem = ({ campaignLandingPage, isLoading = true, onClick }) => {
 	if (!campaignLandingPage) return null;
 	if (isLoading) {
 		return null;
@@ -16,25 +16,17 @@ const CampaignLandingPageItem = ({ campaignLandingPage , isLoading = true, onCli
 					variant="ghost"
 					size="none"
 					className="w-full flex items-start justify-start gap-6 font-medium"
-					onClick={onClick}
+					onClick={() => onClick(campaignLandingPage.id)}
 				>
 					<div className="space-y-1 text-start">
 						<div>
 							<span className="text-sm text-gray-500">
 								{new Date(campaignLandingPage.created_at).toDateString()}
 							</span>
-							<h4 className="text-2xl font-bold">{campaignLandingPage.title}</h4>
+							<h4 className="text-lg font-600">{campaignLandingPage?.content?.template.data.hero.title || 'Landing page générée'}</h4>
 						</div>
 					</div>
 				</Button>
-				<div className="w-full">
-					<div className="table ml-auto">
-						<Button variant="ghost" size="none" className="flex items-center gap-2">
-							<span>0</span>
-							<BsHeart size={18} />
-						</Button>
-					</div>
-				</div>
 			</div>
 		</Card>
 	);

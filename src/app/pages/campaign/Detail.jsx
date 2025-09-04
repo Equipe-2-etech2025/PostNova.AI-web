@@ -9,6 +9,7 @@ import { imageService } from "@services/imageService";
 import { socialPostService } from "@services/socialPostService";
 import { campaignInteractionService } from "@services/campaignInteractionService";
 import { campaignService } from "@services/campaignService";
+import { landingPageService } from "@services/landingPageService";
 
 import CampaignHeader from "./componentsDetails/CampaignHeader";
 import CampaignTabs from "./componentsDetails/CampaignTabs";
@@ -27,6 +28,7 @@ const Detail = () => {
 	const [isPreview, setIsPreview] = useState(false);
 	const [selectedImage, setSelectedImage] = useState(null);
 	const [selectedPostId, setSelectedPostId] = useState(null);
+	const [selectedLandingPage, setSelectedLandingPage] = useState(null);
 	const [activeTab, setActiveTab] = useState(0);
 	const [refreshTrigger, setRefreshTrigger] = useState(0);
 	const campaignId = location.pathname.split("/").pop();
@@ -59,7 +61,7 @@ const Detail = () => {
 		stats: true,
 		images: true,
 		posts: true,
-		landingPages: false,
+		landingPages: true,
 		all: true,
 	});
 	const [deletedPost, setDeletePost] = useState(false);
@@ -184,7 +186,6 @@ const Detail = () => {
 	const fetchCampaignDetails = async (campaignId) => {
 		try {
 			const response = await campaignService.getCampaignById(campaignId);
-			console.log(response.data);
 			if (response.success) {
 				const { name, description, status, is_published } = response.data.data;
 				const translatedStatus = translateStatus(status.label);
@@ -265,6 +266,28 @@ const Detail = () => {
 	};
 
 	{
+		/** Récupérer les landing pages de la campagne **/
+	}
+	const fetchLandingPages = async (campaignId) => {
+		setLoading((prev) => ({ ...prev, landingPages: true }));
+		try {
+			const res = await landingPageService.getAll({
+				campaign_id: campaignId,
+			});
+			if (res.success) {
+				const campaignLandingPages = res.data.data.filter(
+					(page) => page.campaign_id == campaignId
+				);
+				setCampaignData((prev) => ({ ...prev, landingPages: campaignLandingPages }));
+			}
+		} catch (error) {
+			console.error("Erreur landing pages:", error);
+		} finally {
+			setLoading((prev) => ({ ...prev, landingPages: false }));
+		}
+	};
+
+	{
 		/** Charger toutes les données de la campagne **/
 	}
 	useEffect(() => {
@@ -277,6 +300,7 @@ const Detail = () => {
 					fetchCampaignStats(campaignId),
 					fetchImages(campaignId),
 					fetchPosts(campaignId),
+					fetchLandingPages(campaignId),
 				]);
 			} catch (error) {
 				console.error("Erreur lors de la récupération des données:", error);
@@ -323,7 +347,7 @@ const Detail = () => {
 			<CampaignChoiceSection
 				onImageClick={() => openModal("image-marketing")}
 				onPostClick={() => openModal("new-request")}
-				onLandingPageClick={() => openModal("landing-page")}
+				onLandingPageClick={() => openModal("new-landing-page")}
 			/>
 
 			<section className="flex items-start gap-6 py-4">
@@ -341,7 +365,10 @@ const Detail = () => {
 							setSelectedPostId(postId);
 							openModal("post");
 						}}
-						onLandingPageClick={() => openModal("landing-page")}
+						onLandingPageClick={(landingPage) => {
+							setSelectedLandingPage(landingPage);
+							openModal("landing-page")
+						}}
 						setActiveTab={setActiveTab}
 					/>
 				</div>
@@ -364,6 +391,7 @@ const Detail = () => {
 				setIsPreview={setIsPreview}
 				selectedImage={selectedImage}
 				selectedPostId={selectedPostId}
+				selectedLandingPage={selectedLandingPage}
 				posts={campaignData.posts}
 				campaignName={campaignInfo.name}
 				campaignDescription={campaignInfo.description}
@@ -374,9 +402,11 @@ const Detail = () => {
 				onShareCampaign={handleShareCampaign}
 				onDeletePost={handleDeletePost}
 				onDeleteImage={handleDeleteImage}
+				onDeleteLandingPage={() => {}}
 				deleteConfirmOpen={deleteConfirmOpen}
 				setDeleteConfirmOpen={setDeleteConfirmOpen}
 				setSelectedPostId={setSelectedPostId}
+				setSelectedLandingPage={setSelectedLandingPage}
 			/>
 		</div>
 	);

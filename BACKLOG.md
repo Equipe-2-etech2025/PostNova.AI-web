@@ -67,6 +67,10 @@
 - [EPA-8] Creation de .github/workflows(CI/CD) Laravel (Assigné à: Mialisoa Lisa Rasoanirina)
 
 ## Terminé non testé
+- [EPA-89] Mise à jour des contenus Landing Page (Assigné à: Andhi Andrianina)
+  Branche: `EPA-89-landing-page-edit-content`
+  Commit: `EPA-89: feat: add landing page generation and management features`
+
 - [EPA-70] Amélioration de la fonctionnalité "Landing Page" (Assigné à: Andhi Andrianina)
   Branche: `enhance/EPA-70-landing-page-editor`
   Commit: `EPA-70: Enhancement landing page feature`

@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { generateImageService } from "@services/generateImageService";
+import { landingPageService } from "@services/landingPageService";
 import { promptService } from "@services/promptService";
 import MessageNotification from "@shared/MessageNotification";
 import TopicInput from "@layouts/Campaign/components/TopicInput";
 import RequestHeader from "@layouts/Campaign/components/RequestHeader";
 
-const ImageMarketing = ({
+const NewLandingPage = ({
 	campaignId,
 	onSuccess,
-	onContentGenerated,
 	modalSize = "3xl",
 }) => {
 	const [topic, setTopic] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [isCreating, setIsCreating] = useState(false);
-	const [generatedImages, setGeneratedImages] = useState([]);
-	const [currentImageId, setCurrentImageId] = useState(null);
 	const [notification, setNotification] = useState({
 		message: "",
 		type: "info",
@@ -26,16 +23,12 @@ const ImageMarketing = ({
 		setNotification({ message, type, isVisible: true });
 	};
 
-	useEffect(() => {
-		if (generatedImages.length > 0) {
-			setCurrentImageId(generatedImages[0].id);
-			onContentGenerated?.("full");
-		}
-	}, [generatedImages]);
-
-	const handleGenerateImages = async () => {
+	const handleGenerateLandingPages = async () => {
 		if (!topic) {
-			showNotification("Veuillez saisir un sujet pour l'image.", "warning");
+			showNotification(
+				"Veuillez saisir un sujet pour la landing page.",
+				"warning"
+			);
 			return;
 		}
 
@@ -64,27 +57,17 @@ const ImageMarketing = ({
 
 			const promptId = promptResponse.data.data?.id;
 
-			const imagesResponse = await generateImageService({
+			const res = await landingPageService.generate({
 				prompt: topic,
 				campaign_id: campaignId,
 				prompt_id: promptId,
 			});
 
-			if (imagesResponse.success) {
-				const images = imagesResponse.images || [];
-				setGeneratedImages(images);
-				setCurrentImageId(images[0]?.id || null);
-
-				if (images.length > 0) {
-					showNotification("Images générées avec succès !", "success");
-					onSuccess?.();
-					onContentGenerated?.("full");
-				} else {
-					showNotification("Aucune image n'a été générée.", "warning");
-				}
+			if (res.success) {
+				onSuccess();
 			} else {
 				showNotification(
-					imagesResponse.message || "Erreur lors de la génération des images.",
+					res.data.message || "Erreur lors de la génération des images.",
 					"error"
 				);
 			}
@@ -97,7 +80,7 @@ const ImageMarketing = ({
 		}
 	};
 
-	const handleRegenerate = async (imageId, updatedTopic) => {
+	const handleRegenerate = async (landingPageId, updatedTopic) => {
 		if (!updatedTopic) {
 			showNotification("Veuillez saisir un sujet.", "warning");
 			return;
@@ -121,23 +104,15 @@ const ImageMarketing = ({
 
 			const promptId = promptResponse.data.data?.id;
 
-			const regenResponse = await generateImageService({
+			const res = await landingPageService.generate({
 				prompt: updatedTopic,
 				campaign_id: campaignId,
 				prompt_id: promptId,
 			});
 
-			if (regenResponse.success && regenResponse.images?.length > 0) {
-				const updatedImages = regenResponse.images;
-				setGeneratedImages((prev) =>
-					prev.map((img) => (img.id === imageId ? updatedImages[0] : img))
-				);
-				showNotification("Image régénérée avec succès !", "success");
-				onContentGenerated?.("full");
-			} else {
-				showNotification("Aucune image régénérée.", "warning");
-			}
+			console.log(res);
 		} catch (error) {
+			console.error(error);
 			showNotification("Erreur de connexion à l'API.", "error");
 		} finally {
 			setLoading(false);
@@ -149,7 +124,7 @@ const ImageMarketing = ({
 		<div
 			className={`h-full ${modalSize === "full" ? "w-full" : "w-3xl"} flex flex-col p-5`}
 		>
-			<RequestHeader headerText="Générer des Images" />
+			<RequestHeader headerText="Générer une Landing Page" />
 
 			<MessageNotification
 				message={notification.message}
@@ -162,42 +137,15 @@ const ImageMarketing = ({
 			<TopicInput
 				topic={topic}
 				setTopic={setTopic}
-				handleGenerate={handleGenerateImages}
+				handleGenerate={handleGenerateLandingPages}
 				handleRegenerate={handleRegenerate}
 				loading={loading}
 				isCreating={isCreating}
-				hasGeneratedPosts={generatedImages.length > 0}
-				postId={currentImageId}
+				hasGeneratedPosts={false}
 				selectedPlatform="any"
 			/>
-
-			{/* Images générées */}
-			{generatedImages.length > 0 && (
-				<div className="mt-6">
-					<h3 className="text-lg font-semibold mb-4">Images générées</h3>
-					<div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-						{generatedImages.map((image) => (
-							<div
-								key={image.id}
-								className="border rounded-lg overflow-hidden flex flex-col"
-							>
-								<img
-									src={image.url}
-									alt={`Image générée ${image.id}`}
-									className="w-full h-48 object-cover"
-								/>
-								<div className="p-3 flex justify-end">
-									<button className="bg-blue-600 text-white px-3 py-1 rounded text-sm">
-										Télécharger
-									</button>
-								</div>
-							</div>
-						))}
-					</div>
-				</div>
-			)}
 		</div>
 	);
 };
 
-export default ImageMarketing;
+export default NewLandingPage;

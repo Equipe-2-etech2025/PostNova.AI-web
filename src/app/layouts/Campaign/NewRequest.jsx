@@ -250,7 +250,8 @@ const NewRequest = ({
 				showProgressBar={true}
 			/>
 
-			<RequestHeader />
+			<RequestHeader headerText={"Nouvelle publication"} />
+			
 			<div className="flex-1 flex flex-col">
 				<TopicInput
 					topic={topic}
