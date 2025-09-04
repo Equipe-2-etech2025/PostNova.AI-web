@@ -441,29 +441,36 @@ const AllCampaigns = () => {
 		<>
 			<div className="container mx-auto my-4">
 				{/* En-tête */}
-				<div className="flex items-center justify-between mb-6">
+				<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
 					<div className="flex items-center">
+						{/* Bouton retour - masqué sur mobile */}
 						<Button
 							variant="outline"
 							color="neutral"
 							circle
-							className="h-12 w-12 mr-4"
+							className="hidden sm:flex h-12 w-12 mr-4"
 							onClick={() => navigate(-1)}
 						>
 							<BsArrowLeft size={20} />
 						</Button>
 						<div>
-							<h1 className="text-3xl font-bold">Toutes mes campagnes</h1>
-							<p className="text-gray-600">
+							<h1 className="text-2xl sm:text-3xl font-bold">Toutes mes campagnes</h1>
+							<p className="text-gray-600 text-sm sm:text-base">
 								{filteredCampaigns.length} campagne
 								{filteredCampaigns.length > 1 ? "s" : ""} trouvée
 								{filteredCampaigns.length > 1 ? "s" : ""}
 							</p>
 						</div>
 					</div>
-					<Button as={Link} to={"/campaign/new"} className="pe-2">
+
+					{/* Bouton créer - responsive */}
+					<Button
+						as={Link}
+						to={"/campaign/new"}
+						className="pe-2 w-full sm:w-auto justify-center sm:justify-start"
+					>
 						<div className="flex items-center">
-							<span>Créer une campagne</span>
+							<span className="text-sm sm:text-base">Créer une campagne</span>
 							<BsPlus size={24} />
 						</div>
 					</Button>
@@ -512,7 +519,8 @@ const AllCampaigns = () => {
 								<option value="views">Plus de vues</option>
 							</select>
 
-							<div className="flex  border border-purple-100 dark:border-black-10 rounded-lg overflow-hidden">
+							{/* Boutons de vue - masqués sur mobile/tablette, affichés sur desktop */}
+							<div className="hidden lg:flex border border-purple-100 dark:border-black-10 rounded-lg overflow-hidden">
 								<button
 									onClick={() => setViewMode("grid")}
 									className={`p-2 transition-colors ${

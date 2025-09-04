@@ -632,7 +632,7 @@ const TemplatesExplorer = () => {
 								</select>
 
 								{/* Toggle vue */}
-								<div className="flex border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden">
+								<div className="hidden lg:flex border border-purple-100 dark:border-black-10 rounded-lg overflow-hidden">
 									<button
 										onClick={() => setViewMode("grid")}
 										className={`p-2 transition-colors ${

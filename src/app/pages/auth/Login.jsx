@@ -269,8 +269,8 @@ const Login = () => {
 					</div>
 				</div>
 
-				{/*Right Section avec animation typewriter*/}
-				<div className="flex-1 relative p-4 h-64 md:h-auto">
+				{/* Right Section avec animation typewriter */}
+				<div className="hidden lg:flex flex-1 relative p-4 h-64 lg:h-auto">
 					<img
 						src={galaxy}
 						alt="galaxy"

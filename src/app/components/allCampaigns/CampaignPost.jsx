@@ -120,9 +120,6 @@ const CampaignPost = ({
 						</div>
 					</div>
 				</div>
-				<Button variant="ghost" size="sm">
-					<FiMoreHorizontal size={16} />
-				</Button>
 			</div>
 
 			{/* Contenu principal */}
@@ -205,9 +202,7 @@ const CampaignPost = ({
 										{campaign.social_posts_count || 0}
 									</span>
 								</div>
-								<span className="text-xs text-gray-500 dark:text-gray-400">
-									Publications
-								</span>
+								<span className="text-xs text-gray-500 dark:text-gray-400">Posts</span>
 							</div>
 							<div className="bg-white dark:bg-gray-800 rounded-lg p-3 shadow-sm border border-gray-200 dark:border-gray-700">
 								<div className="flex items-center justify-center gap-1 text-green-600 mb-1">
@@ -299,9 +294,7 @@ const CampaignPost = ({
 										{campaign.social_posts_count || 0}
 									</span>
 								</div>
-								<span className="text-xs text-gray-600 dark:text-gray-400">
-									Publications
-								</span>
+								<span className="text-xs text-gray-600 dark:text-gray-400">Posts</span>
 							</div>
 							<div>
 								<div className="flex items-center justify-center gap-1 text-green-600 mb-1">
