@@ -185,7 +185,7 @@ const LandingPage = ({
 					</div>
 				</div>
 			</div>
-			<div className={`${previewActive ? "flex-0" : "flex-1/4"} overflow-scroll`}>
+			<div className={`${previewActive ? "flex-0" : "flex-1/4"} flex flex-col`}>
 				<div className="sticky top-0 py-1 z-20">
 					<h1 className="text-center text-3xl font-bold mb-2">Landing page</h1>
 				</div>
@@ -205,14 +205,16 @@ const LandingPage = ({
 						</Button>
 					))}
 				</div>
-				{selectedSection === "hero" && content && (
-					<LandingPageLayout.HeroSection
-						content={content.content.template.data}
-						handleChange={handleChange}
-						getLengthError={getLengthError}
-						TEXT_LIMITS={TEXT_LIMITS}
-					/>
-				)}
+				<div className="overflow-y-auto">
+					{selectedSection === "hero" && content && (
+						<LandingPageLayout.HeroSection
+							content={content.content.template.data}
+							handleChange={handleChange}
+							getLengthError={getLengthError}
+							TEXT_LIMITS={TEXT_LIMITS}
+						/>
+					)}
+				</div>
 			</div>
 		</div>
 	);
