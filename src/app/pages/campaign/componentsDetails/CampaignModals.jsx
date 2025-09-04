@@ -1,11 +1,11 @@
 import React, { Suspense, useState } from "react";
+import { useNavigate } from "react-router";
+import { BsArrowRepeat } from "react-icons/bs";
 import Modal from "@shared/Modal";
 import EditCampaign from "@layouts/Campaign/EditCampaign";
 import NewRequest from "@layouts/Campaign/NewRequest";
 import ImagePreview from "@components/Campaign/Features/Image";
 import * as Feature from "@components/Campaign/Features";
-import { BsArrowRepeat } from "react-icons/bs";
-//import { Loader2 } from "lucide-react"; // icône spinner (si tu utilises lucide-react)
 
 const CampaignModals = ({
 	isOpen,
@@ -14,6 +14,7 @@ const CampaignModals = ({
 	setIsPreview,
 	selectedImage,
 	selectedPostId,
+	selectedLandingPage,
 	posts,
 	campaignName,
 	campaignDescription,
@@ -27,8 +28,10 @@ const CampaignModals = ({
 	deleteConfirmOpen,
 	setDeleteConfirmOpen,
 	setSelectedPostId,
+	setSelectedLandingPage,
 	onDeleteImage,
 }) => {
+	const navigate = useNavigate();
 	const [newRequestModalSize, setNewRequestModalSize] = useState("3xl");
 	const [isSharing, setIsSharing] = useState(false);
 	const [isDeleting, setIsDeleting] = useState(false);
@@ -255,9 +258,30 @@ const CampaignModals = ({
 			>
 				<Suspense fallback={<div>Chargement...</div>}>
 					<Feature.LandingPage
+						landingPageId={selectedLandingPage}
 						previewActive={isPreview}
 						onTogglePreview={() => setIsPreview((prev) => !prev)}
-						onSuccess={handleCloseAndRefresh}
+						setSelectedLandingPage={setSelectedLandingPage}
+						setDeleteConfirmOpen={setDeleteConfirmOpen}
+					/>
+				</Suspense>
+			</Modal>
+
+			<Modal
+				isOpen={isOpen("new-landing-page")}
+				onClose={closeModal}
+				size={newRequestModalSize}
+				className={newRequestModalSize === "full" ? "!p-0" : ""}
+			>
+				<Suspense fallback={<div>Chargement...</div>}>
+					<Feature.NewLandingPage
+						campaignId={campaignId}
+						modalSize={newRequestModalSize}
+						onSuccess={() => {
+							closeModal();
+							onContentRefresh()
+							navigate("/campaign/" + campaignId + "#landing-page");
+						}}
 					/>
 				</Suspense>
 			</Modal>

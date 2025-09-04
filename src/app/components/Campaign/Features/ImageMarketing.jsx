@@ -149,7 +149,7 @@ const ImageMarketing = ({
 		<div
 			className={`h-full ${modalSize === "full" ? "w-full" : "w-3xl"} flex flex-col p-5`}
 		>
-			<RequestHeader />
+			<RequestHeader headerText="Générer des Images" />
 
 			<MessageNotification
 				message={notification.message}
@@ -162,6 +162,7 @@ const ImageMarketing = ({
 			<TopicInput
 				topic={topic}
 				setTopic={setTopic}
+				placeholder={"Décrivez votre image..."}
 				handleGenerate={handleGenerateImages}
 				handleRegenerate={handleRegenerate}
 				loading={loading}
