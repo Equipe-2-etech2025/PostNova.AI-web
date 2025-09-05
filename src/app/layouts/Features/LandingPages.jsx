@@ -1,35 +1,73 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { BsFullscreen, BsFullscreenExit } from "react-icons/bs";
+import React, {
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+	useMemo,
+} from "react";
+import {
+	BsArrowCounterclockwise,
+	BsArrowRepeat,
+	BsFullscreen,
+	BsFullscreenExit,
+	BsSave,
+} from "react-icons/bs";
+import { useNotification } from "@hooks/useNotification";
+import SectionBlock from "@layouts/SectionBlock";
 import Button from "@shared/Button";
-import { landingPageService } from "@services/landingPageService";
+import MessageNotification from "@shared/MessageNotification";
 import { processTemplate } from "@shared/templateUtils";
+import { landingPageService } from "@services/landingPageService";
 import * as LandingPageLayout from "@components/Features/LandingPage";
+import DownloadButton from "@components/Campaign/Features/componentsPosts/DownloadButton";
+import DeleteButton from "@components/Campaign/Features/componentsPosts/DeleteButton";
+import SaveButton from "@components/Campaign/Features/componentsPosts/SaveButton";
 
 const LandingPage = ({
 	landingPageId,
 	previewActive = false,
 	onTogglePreview,
+	onLandingPageDeleted,
 }) => {
 	const [content, setContent] = useState(null);
+	const [originalContent, setOriginalContent] = useState(null);
 
 	const [loading, setLoading] = useState(true);
 	const [iframeLoaded, setIframeLoaded] = useState(false);
 	const [selectedSection, setSelectedSection] = useState("hero");
 
+	const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+	const [isDeleting, setIsDeleting] = useState(false);
+	const { notification, hideNotification, showSuccess, showError } =
+		useNotification();
+
 	const iframeRef = useRef(null);
+
+	useEffect(() => {
+		if (!originalContent && content) {
+			setOriginalContent(JSON.parse(JSON.stringify(content)));
+		}
+	}, [content, originalContent]);
+
+	const hasContentChanged = useMemo(() => {
+		if (!originalContent || !content) return false;
+		return JSON.stringify(content) !== JSON.stringify(originalContent);
+	}, [content, originalContent]);
 
 	const availableSections = [
 		{ id: "hero", label: "Hero" },
-		...(content?.sections || []).map((section, index) => ({
-			id: section.id || `section-${index + 1}`,
-			label: `Section ${index + 1}`,
-		})),
+		...(content?.content?.template?.data?.sections || []).map(
+			(section, index) => ({
+				id: section?.id || `section-${index + 1}`,
+				label: `Section ${index + 1}`,
+			})
+		),
 		{ id: "footer", label: "Footer" },
 	];
 
 	const TEXT_LIMITS = {
 		title: 100,
-		subtitle: 200,
+		subtitle: 300,
 		text: 500,
 		buttonText: 30,
 		url: 200,
@@ -101,6 +139,14 @@ const LandingPage = ({
 			const updated = { ...prev };
 			let current = updated;
 
+			// Naviguer vers content.template.data pour les modifications
+			if (!current.content) current.content = {};
+			if (!current.content.template) current.content.template = {};
+			if (!current.content.template.data) current.content.template.data = {};
+
+			current = current.content.template.data;
+
+			// On parcourt toutes les clés sauf la dernière
 			const keys = path.split(".");
 			for (let i = 0; i < keys.length - 1; i++) {
 				const key = keys[i];
@@ -108,24 +154,130 @@ const LandingPage = ({
 				if (key.includes("[")) {
 					const arrayKey = key.split("[")[0];
 					const index = parseInt(key.match(/\[(\d+)\]/)[1], 10);
+					if (!current[arrayKey]) current[arrayKey] = [];
 					current[arrayKey] = [...current[arrayKey]];
 					current = current[arrayKey][index];
 				} else {
+					if (!current[key]) current[key] = {};
 					current[key] = { ...current[key] };
 					current = current[key];
 				}
 			}
 
+			// Mise à jour de la clé finale
 			const lastKey = keys[keys.length - 1];
 			current[lastKey] = value;
+
+			// Forcer le rechargement de l'iframe
+			setIframeLoaded(false);
 
 			return updated;
 		});
 	};
 
+	const handleSave = async () => {
+		if (!content || !landingPageId) return;
+
+		try {
+			const res = await landingPageService.update(landingPageId, {
+				content: {
+					template: {
+						...content.content.template,
+						data: content.content.template.data,
+					},
+				},
+			});
+
+			if (res.success) {
+				showSuccess("Landing page sauvegardée avec succès", {
+					duration: 5000,
+					position: "top-center",
+				});
+				// Mettre à jour l'original content après sauvegarde réussie
+				setOriginalContent(JSON.parse(JSON.stringify(content)));
+			} else {
+				showError("Erreur lors de la sauvegarde", {
+					duration: 5000,
+					position: "top-center",
+				});
+			}
+			console.log(res);
+		} catch (error) {
+			console.error("Erreur lors de la sauvegarde:", error);
+			showError("Erreur lors de la sauvegarde", {
+				duration: 5000,
+				position: "top-center",
+			});
+		}
+	};
+
+	const handleDownloadFile = () => {
+		if (!content || !landingPageId) return;
+
+		const fileContent = processTemplate(
+			content.content.template.html,
+			content.content.template.data
+		);
+
+		const blob = new Blob([fileContent], { type: "text/plain;charset=utf-8" });
+		const link = document.createElement("a");
+		link.href = URL.createObjectURL(blob);
+		link.download = "landing-page.html";
+		link.click();
+
+		URL.revokeObjectURL(link.href);
+	};
+
+	const handleCancel = useCallback(() => {
+		if (originalContent) {
+			setContent(JSON.parse(JSON.stringify(originalContent)));
+			setIframeLoaded(false);
+		}
+	}, [originalContent]);
+
 	const getLengthError = useCallback((text, maxLength) => {
 		return text?.length > maxLength;
 	}, []);
+
+	const handleDeleteClick = () => {
+		setShowDeleteConfirm(true);
+	};
+
+	const handleConfirmDelete = async () => {
+		if (content) {
+			try {
+				setIsDeleting(true);
+				const res = await landingPageService.delete(landingPageId);
+				if (res.success) {
+					showSuccess("Page supprimée avec succès", {
+						duration: 5000,
+						position: "top-center",
+					});
+					onLandingPageDeleted();
+					console.log("Deleted landing page ID:", landingPageId);
+				} else {
+					showError(res.data.message || "Erreur lors de la suppression", {
+						duration: 5000,
+						position: "top-center",
+					});
+				}
+				setShowDeleteConfirm(false);
+			} catch (error) {
+				showError(error.message || "Erreur lors de la suppression", {
+					duration: 5000,
+					position: "top-center",
+				});
+				console.error("Erreur lors de la suppression:", error);
+			} finally {
+				setIsDeleting(false);
+				setContent(null);
+			}
+		}
+	};
+
+	const handleCancelDelete = () => {
+		setShowDeleteConfirm(false);
+	};
 
 	useEffect(() => {
 		const fetchContent = async () => {
@@ -136,6 +288,7 @@ const LandingPage = ({
 					setContent(undefined);
 					return;
 				}
+				console.log(res);
 				setContent(res.data);
 			} catch (err) {
 				setContent(undefined);
@@ -161,66 +314,195 @@ const LandingPage = ({
 				`<!DOCTYPE html><html><head><title>Preview</title></head><body>${generateHTML()}</body></html>`
 			);
 			doc.close();
-
-			setIframeLoaded(false);
 		}
-	}, [generateHTML]);
+	}, [generateHTML, content, landingPageId]);
 
 	return (
-		<div className="h-full flex gap-8 p-8">
-			<div className="relative flex-1/2">
-				<div className="h-full rounded-2xl mx-auto">
-					<iframe ref={iframeRef} className="size-full rounded-2xl" />
-					<div className="absolute top-4 right-4">
-						<Button
-							variant="solid"
-							size="none"
-							color="tertiary"
-							circle
-							className="p-2"
-							onClick={onTogglePreview}
+		<>
+			<MessageNotification
+				message={notification.message}
+				type={notification.type}
+				isVisible={notification.isVisible}
+				onClose={hideNotification}
+				autoHide
+				duration={5000}
+				position="top-center"
+				showProgressBar
+			/>
+			<div className="h-full flex flex-col lg:flex-row gap-8 p-8">
+				<div className="relative flex-1/2">
+					<div className="h-full rounded-2xl mx-auto">
+						<iframe ref={iframeRef} className="size-full rounded-2xl" />
+						<div
+							className={`absolute top-4 right-4 transform transition-transform duration-200 ${loading ? "scale-0" : "scale-100"}`}
 						>
-							{previewActive ? <BsFullscreenExit /> : <BsFullscreen />}
-						</Button>
-					</div>
-				</div>
-			</div>
-			<div
-				className={`${previewActive ? "flex-0 overflow-hidden" : "flex-1/4 flex flex-col"} transition-all ease-in-out duration-300`}
-			>
-				<div className="flex-shrink-0">
-					<div className="sticky top-0 py-1 z-20">
-						<h1 className="text-center text-3xl font-bold mb-2">Landing page</h1>
-					</div>
-					<div className="flex flex-wrap gap-2 my-4 p-2">
-						{availableSections.map((section) => (
 							<Button
-								key={section.id}
-								variant={selectedSection === section?.id ? "solid" : "outline"}
-								color={selectedSection === section?.id ? "primary" : "neutral"}
-								size="sm"
-								className="flex items-center gap-2"
-								onClick={() => setSelectedSection(section?.id)}
-								disabled={loading}
+								variant="solid"
+								size="none"
+								color="tertiary"
+								circle
+								className="p-2"
+								onClick={onTogglePreview}
 							>
-								{section?.icon}
-								{section?.label}
+								{previewActive ? <BsFullscreenExit /> : <BsFullscreen />}
 							</Button>
-						))}
+						</div>
 					</div>
 				</div>
-				<div className="overflow-y-auto">
-					{selectedSection === "hero" && content && (
-						<LandingPageLayout.HeroSection
-							content={content.content.template.data}
-							handleChange={handleChange}
-							getLengthError={getLengthError}
-							TEXT_LIMITS={TEXT_LIMITS}
-						/>
-					)}
+				<div
+					className={`${previewActive ? "flex-0 overflow-hidden" : "flex-1/4 flex flex-col"} transition-all ease-in-out duration-300`}
+				>
+					<div className="flex-shrink-0">
+						<div className="sticky top-0 py-1 z-20">
+							<h1 className="text-center text-3xl font-bold mb-2">Landing page</h1>
+						</div>
+						<div className="flex flex-wrap gap-2 my-4 p-2">
+							{availableSections.map((section) => (
+								<Button
+									key={section.id}
+									variant={selectedSection === section?.id ? "solid" : "outline"}
+									color={selectedSection === section?.id ? "primary" : "neutral"}
+									size="sm"
+									className="flex items-center gap-2"
+									onClick={() => setSelectedSection(section?.id)}
+									disabled={loading}
+								>
+									{section?.icon}
+									{section?.label}
+								</Button>
+							))}
+						</div>
+					</div>
+					<div className="overflow-y-auto">
+						{selectedSection === "hero" && content?.content?.template?.data && (
+							<LandingPageLayout.HeroSection
+								content={content.content.template.data}
+								handleChange={handleChange}
+								getLengthError={getLengthError}
+								TEXT_LIMITS={TEXT_LIMITS}
+							/>
+						)}
+						{content?.content?.template?.data?.sections.map(
+							(section, index) =>
+								selectedSection === section.id && (
+									<SectionBlock
+										key={section.id}
+										title={`Section ${index + 1} - ${section.type
+											.split("-")
+											.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+											.join(" ")}`}
+									>
+										<div className="space-y-4">
+											{section.type === "text-section" && (
+												<LandingPageLayout.TextSectionEditor
+													section={section}
+													index={index}
+													handleChange={handleChange}
+													getLengthError={getLengthError}
+													TEXT_LIMITS={TEXT_LIMITS}
+												/>
+											)}
+
+											{section.type === "cta-section" && (
+												<LandingPageLayout.CtaSectionEditor
+													section={section}
+													index={index}
+													handleChange={handleChange}
+													getLengthError={getLengthError}
+													TEXT_LIMITS={TEXT_LIMITS}
+												/>
+											)}
+
+											{section.type === "columns-section" && (
+												<LandingPageLayout.ColumnsSectionEditor
+													section={section}
+													index={index}
+													handleChange={handleChange}
+													getLengthError={getLengthError}
+													TEXT_LIMITS={TEXT_LIMITS}
+												/>
+											)}
+										</div>
+									</SectionBlock>
+								)
+						)}
+						{selectedSection === "footer" && content?.content?.template?.data && (
+							<LandingPageLayout.FooterSection
+								content={content.content.template.data}
+								handleChange={handleChange}
+							/>
+						)}
+					</div>
+					<div className="text-end space-x-2 space-y-1 relative mt-3">
+						{!hasContentChanged ? (
+							<>
+								<DownloadButton onClick={handleDownloadFile} />
+								<DeleteButton onClick={handleDeleteClick} />
+							</>
+						) : (
+							<>
+								<Button
+									variant="outline"
+									color="secondary"
+									className="flex items-center color:danger gap-2 transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+									onClick={handleSave}
+								>
+									<span className="text-sm">Enregistrer</span>
+									<BsSave />
+								</Button>
+								<Button
+									variant="outline"
+									color="neutral"
+									className="flex items-center color:danger gap-2 transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+									onClick={handleCancel}
+								>
+									<span className="text-sm">Annuler</span>
+									<BsArrowCounterclockwise />
+								</Button>
+							</>
+						)}
+					</div>
 				</div>
+
+				{showDeleteConfirm && (
+					<div className="fixed inset-0 backdrop-blur-sm bg-black/20 flex items-center justify-center z-50">
+						<div className="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-md w-full mx-4 shadow-2xl transform transition-all duration-300 scale-100 animate-in fade-in-0 zoom-in-95">
+							<h3 className="text-lg font-semibold mb-4">Confirmer la suppression</h3>
+							<p className="text-gray-600 dark:text-gray-300 mb-6">
+								Êtes-vous sûr de vouloir supprimer cette page ? Cette action est
+								irréversible.
+							</p>
+							<div className="flex gap-3 justify-end">
+								<Button
+									variant="outline"
+									color="neutral"
+									onClick={handleCancelDelete}
+									disabled={isDeleting}
+								>
+									Annuler
+								</Button>
+								<Button
+									variant="solid"
+									color="danger"
+									onClick={handleConfirmDelete}
+									disabled={isDeleting}
+									className={`flex items-center gap-2 ${isDeleting ? "opacity-70 cursor-not-allowed" : ""}`}
+								>
+									{isDeleting ? (
+										<>
+											<BsArrowRepeat className="animate-spin" size={16} />
+											Suppression...
+										</>
+									) : (
+										"Supprimer"
+									)}
+								</Button>
+							</div>
+						</div>
+					</div>
+				)}
 			</div>
-		</div>
+		</>
 	);
 };
 

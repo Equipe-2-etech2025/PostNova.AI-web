@@ -268,7 +268,7 @@ const NavBar = () => {
 
 	return (
 		<div className="sticky top-0 w-full backdrop-blur-lg z-40">
-			<div className="container flex items-center justify-between py-5 mx-auto">
+			<div className="container flex items-center justify-between py-5 mx-auto px-4 lg:px-0">
 				{/* Logo */}
 				<div className="flex items-center gap-12">
 					<Link to={"/"} className="text-2xl font-bold">
