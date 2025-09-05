@@ -59,6 +59,7 @@ const NavBar = () => {
 			{ label: "Dashboard", to: "/dashboard" },
 			{ label: "Mes Campagnes", to: "/campaign/list" },
 			{ label: "Explorer", to: "/explore" },
+			{ label: "Templates", to: "/templates" },
 			{ label: "À propos", to: "/about" },
 		];
 
@@ -273,10 +274,8 @@ const NavBar = () => {
 				<div className="flex items-center gap-12">
 					<Link to={"/"} className="text-2xl font-bold">
 						<div className="flex items-center gap-2 py-1">
-							<span>
-								<img className="size-10" src={logo} alt="logo" />
-							</span>
-							<strong className="hidden sm:block">PostNova</strong>
+							<img className="size-10 sm:size-8" src={logo} alt="logo" />
+							<strong className="text-base sm:text-lg">PostNova</strong>
 						</div>
 					</Link>
 

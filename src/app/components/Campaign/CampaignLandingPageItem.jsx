@@ -3,12 +3,16 @@ import { BsHeart } from "react-icons/bs";
 import { Card } from "@shared/Card";
 import Button from "@shared/Button";
 
-const CampaignLandingPageItem = ({ campaignLandingPage, isLoading = true, onClick }) => {
+const CampaignLandingPageItem = ({
+	campaignLandingPage,
+	isLoading = true,
+	onClick,
+}) => {
 	if (!campaignLandingPage) return null;
 	if (isLoading) {
 		return null;
 	}
-	
+
 	return (
 		<Card shadow="md">
 			<div className="space-y-2">

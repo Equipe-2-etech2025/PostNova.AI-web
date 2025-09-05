@@ -172,28 +172,40 @@ const ImageMarketing = ({
 				selectedPlatform="any"
 			/>
 
-			{/* Images générées */}
+			{/* Image générée */}
 			{generatedImages.length > 0 && (
-				<div className="mt-6">
-					<h3 className="text-lg font-semibold mb-4">Images générées</h3>
-					<div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-						{generatedImages.map((image) => (
-							<div
-								key={image.id}
-								className="border rounded-lg overflow-hidden flex flex-col"
-							>
-								<img
-									src={image.url}
-									alt={`Image générée ${image.id}`}
-									className="w-full h-48 object-cover"
-								/>
-								<div className="p-3 flex justify-end">
-									<button className="bg-blue-600 text-white px-3 py-1 rounded text-sm">
-										Télécharger
-									</button>
+				<div className="mt-6 flex-1">
+					<h3 className="text-lg font-semibold mb-4 text-gray-800">Image générée</h3>
+					<div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+						<div className="relative">
+							<img
+								src={generatedImages[0].url}
+								alt="Image générée"
+								className="w-full h-96 object-cover"
+							/>
+							{/* Overlay avec informations */}
+							<div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+								<div className="text-white">
+									<p className="text-sm opacity-90">
+										Généré le{" "}
+										{new Date(
+											generatedImages[0].created_at || Date.now()
+										).toLocaleDateString("fr-FR")}
+									</p>
 								</div>
 							</div>
-						))}
+						</div>
+
+						{/* Footer de la carte */}
+						<div className="p-4 bg-gray-50">
+							<div className="flex items-center justify-between">
+								<div className="flex items-center space-x-2">
+									<div className="w-2 h-2 bg-green-500 rounded-full"></div>
+									<span className="text-sm text-gray-600">Image prête</span>
+								</div>
+								<div className="text-xs text-gray-500">ID: {generatedImages[0].id}</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			)}

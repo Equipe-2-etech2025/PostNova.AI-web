@@ -25,12 +25,14 @@ import { InputForm } from "@shared/Input";
 import { useNotification } from "@hooks/useNotification";
 import MessageNotification from "@shared/MessageNotification";
 import { campaignTemplateService } from "@services/campaignTemplates";
+import { campaignService } from "@services/campaignService";
 import Pagination from "@shared/Pagination";
 
 const TemplatesExplorer = () => {
 	const navigate = useNavigate();
 	const { notification, showSuccess, showError, hideNotification } =
 		useNotification();
+	const [loadingTemplates, setLoadingTemplates] = useState(new Set());
 
 	// États pour la pagination
 	const [currentPage, setCurrentPage] = useState(1);
@@ -220,9 +222,37 @@ const TemplatesExplorer = () => {
 	}, [searchTerm, selectedCategory, selectedType, sortBy]);
 
 	// Actions sur les modèles
-	const handleUseTemplate = (template) => {
-		showSuccess(`Modèle "${template.name}" sélectionné !`);
-		navigate(`/campaigns/create?template=${template.id}`);
+	const handleUseTemplate = async (template) => {
+		console.log(template);
+		try {
+			setLoadingTemplates((prev) => new Set([...prev, template.id]));
+
+			const response = await campaignService.createCampaignByTemplate({
+				name: template.name,
+				description: template.description,
+				type_campaign_id: template.type.id,
+				template_id: template.id,
+				social_posts: template.socialPosts,
+			});
+
+			if (response.success) {
+				showSuccess("Campagne créée avec succès !");
+				setTimeout(() => {
+					navigate(`/campaign/${response.data.data.id}`);
+				}, 2000);
+			} else {
+				showError("Erreur lors de la création : " + response.message);
+			}
+		} catch (error) {
+			console.error("Erreur lors de la création :", error);
+			showError("Une erreur est survenue lors de la création.");
+		} finally {
+			setLoadingTemplates((prev) => {
+				const newSet = new Set(prev);
+				newSet.delete(template.id);
+				return newSet;
+			});
+		}
 	};
 
 	const handlePreviewTemplate = (template) => {
@@ -359,10 +389,21 @@ const TemplatesExplorer = () => {
 						<Button
 							onClick={() => handleUseTemplate(template)}
 							className="flex-1 text-sm py-2"
+							disabled={loadingTemplates.has(template.id)}
 						>
-							<BsPlay size={14} className="mr-1" />
-							Utiliser
+							{loadingTemplates.has(template.id) ? (
+								<>
+									<div className="animate-spin border-2 border-t-transparent border-white rounded-full w-4 h-4 mr-2"></div>
+									Création...
+								</>
+							) : (
+								<>
+									<BsPlay size={14} className="mr-1" />
+									Utiliser
+								</>
+							)}
 						</Button>
+
 						<Button
 							variant="outline"
 							onClick={() => handlePreviewTemplate(template)}
@@ -458,9 +499,19 @@ const TemplatesExplorer = () => {
 							onClick={() => handleUseTemplate(template)}
 							size="sm"
 							className="whitespace-nowrap"
+							disabled={loadingTemplates.has(template.id)}
 						>
-							<BsPlay size={12} className="mr-1" />
-							Utiliser
+							{loadingTemplates.has(template.id) ? (
+								<>
+									<div className="animate-spin border-2 border-t-transparent border-white rounded-full w-3 h-3 mr-1"></div>
+									Création...
+								</>
+							) : (
+								<>
+									<BsPlay size={12} className="mr-1" />
+									Utiliser
+								</>
+							)}
 						</Button>
 						<Button
 							variant="outline"
@@ -581,7 +632,7 @@ const TemplatesExplorer = () => {
 								</select>
 
 								{/* Toggle vue */}
-								<div className="flex border border-gray-300 dark:border-gray-700 rounded-lg overflow-hidden">
+								<div className="hidden lg:flex border border-purple-100 dark:border-black-10 rounded-lg overflow-hidden">
 									<button
 										onClick={() => setViewMode("grid")}
 										className={`p-2 transition-colors ${

@@ -17,10 +17,12 @@ import {
 	BsPlus,
 	BsGrid3X3Gap,
 	BsArrowLeft,
+	BsArrowRepeat,
 	BsList,
 } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "@hooks/useAuth";
+import { useNotification } from "@hooks/useNotification";
 import Button from "@shared/Button";
 import { Card } from "@shared/Card";
 import { campaignService } from "@services/campaignService";
@@ -29,7 +31,13 @@ import LoadingCampaignsState from "@components/allCampaigns/LoadingCampaignsStat
 
 const AllCampaigns = () => {
 	const { user, loading: authLoading } = useAuth();
+	const { showSuccess, showError } = useNotification();
 	const navigate = useNavigate();
+
+	// Ajouter ces états près des autres états existants
+	const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+	const [campaignToDelete, setCampaignToDelete] = useState(null);
+	const [isDeleting, setIsDeleting] = useState(false);
 
 	// États pour les données
 	const [campaigns, setCampaigns] = useState([]);
@@ -179,21 +187,36 @@ const AllCampaigns = () => {
 	};
 
 	const handleDeleteCampaign = async (campaignId) => {
-		if (window.confirm("Êtes-vous sûr de vouloir supprimer cette campagne ?")) {
+		setCampaignToDelete(campaignId);
+		setShowDeleteConfirm(true);
+	};
+
+	const handleConfirmDelete = async () => {
+		if (campaignToDelete) {
 			try {
-				const response = await campaignService.deleteCampaign(campaignId);
+				setIsDeleting(true);
+				const response = await campaignService.deleteCampaign(campaignToDelete);
 				if (response.success) {
-					// Recharger les campagnes après suppression
-					fetchCampaigns();
+					await fetchCampaigns();
+					showSuccess("Campagne supprimée avec succès");
 					setActiveDropdown(null);
+					setShowDeleteConfirm(false);
+					setCampaignToDelete(null);
 				} else {
-					alert(response.message || "Erreur lors de la suppression");
+					showError(response.message || "Erreur lors de la suppression");
 				}
 			} catch (error) {
 				console.error("Erreur lors de la suppression:", error);
-				alert("Erreur lors de la suppression de la campagne");
+				showError("Erreur lors de la suppression de la campagne");
+			} finally {
+				setIsDeleting(false);
 			}
 		}
+	};
+
+	const handleCancelDelete = () => {
+		setShowDeleteConfirm(false);
+		setCampaignToDelete(null);
 	};
 
 	const CampaignCard = ({ campaign }) => (
@@ -415,155 +438,205 @@ const AllCampaigns = () => {
 	}
 
 	return (
-		<div className="container mx-auto my-4">
-			{/* En-tête */}
-			<div className="flex items-center justify-between mb-6">
-				<div className="flex items-center">
-					<Button
-						variant="outline"
-						color="neutral"
-						circle
-						className="h-12 w-12 mr-4"
-						onClick={() => navigate(-1)}
-					>
-						<BsArrowLeft size={20} />
-					</Button>
-					<div>
-						<h1 className="text-3xl font-bold">Toutes mes campagnes</h1>
-						<p className="text-gray-600">
-							{filteredCampaigns.length} campagne
-							{filteredCampaigns.length > 1 ? "s" : ""} trouvée
-							{filteredCampaigns.length > 1 ? "s" : ""}
-						</p>
-					</div>
-				</div>
-				<Button as={Link} to={"/campaign/new"} className="pe-2">
+		<>
+			<div className="container mx-auto my-4">
+				{/* En-tête */}
+				<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
 					<div className="flex items-center">
-						<span>Créer une campagne</span>
-						<BsPlus size={24} />
+						{/* Bouton retour - masqué sur mobile */}
+						<Button
+							variant="outline"
+							color="neutral"
+							circle
+							className="hidden sm:flex h-12 w-12 mr-4"
+							onClick={() => navigate(-1)}
+						>
+							<BsArrowLeft size={20} />
+						</Button>
+						<div>
+							<h1 className="text-2xl sm:text-3xl font-bold">Toutes mes campagnes</h1>
+							<p className="text-gray-600 text-sm sm:text-base">
+								{filteredCampaigns.length} campagne
+								{filteredCampaigns.length > 1 ? "s" : ""} trouvée
+								{filteredCampaigns.length > 1 ? "s" : ""}
+							</p>
+						</div>
 					</div>
-				</Button>
+
+					{/* Bouton créer - responsive */}
+					<Button
+						as={Link}
+						to={"/campaign/new"}
+						className="pe-2 w-full sm:w-auto justify-center sm:justify-start"
+					>
+						<div className="flex items-center">
+							<span className="text-sm sm:text-base">Créer une campagne</span>
+							<BsPlus size={24} />
+						</div>
+					</Button>
+				</div>
+
+				{/* Barre de recherche et filtres */}
+				<Card styles="p-4">
+					<div className="flex flex-col lg:flex-row gap-4">
+						<div className="flex-1 relative">
+							<BsSearch
+								className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+								size={16}
+							/>
+							<input
+								type="text"
+								placeholder="Rechercher une campagne..."
+								value={searchTerm}
+								onChange={(e) => setSearchTerm(e.target.value)}
+								className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+							/>
+						</div>
+
+						<div className="flex gap-4">
+							<select
+								value={statusFilter}
+								onChange={(e) => setStatusFilter(e.target.value)}
+								className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 dark:bg-gray-800 focus:ring-purple-500"
+							>
+								<option value="all">Tous les statuts</option>
+								<option value="active">Active</option>
+								<option value="draft">Brouillon</option>
+								<option value="scheduled">Programmée</option>
+								<option value="paused">Pausée</option>
+								<option value="completed">Terminée</option>
+								<option value="created">Créée</option>
+							</select>
+
+							<select
+								value={sortBy}
+								onChange={(e) => setSortBy(e.target.value)}
+								className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 dark:bg-gray-800 focus:ring-purple-500"
+							>
+								<option value="recent">Plus récent</option>
+								<option value="oldest">Plus ancien</option>
+								<option value="name">Nom (A-Z)</option>
+								<option value="views">Plus de vues</option>
+							</select>
+
+							{/* Boutons de vue - masqués sur mobile/tablette, affichés sur desktop */}
+							<div className="hidden lg:flex border border-purple-100 dark:border-black-10 rounded-lg overflow-hidden">
+								<button
+									onClick={() => setViewMode("grid")}
+									className={`p-2 transition-colors ${
+										viewMode === "grid"
+											? "bg-purple-600 text-white"
+											: "text-purple-600 hover:bg-purple-100"
+									}`}
+								>
+									<BsGrid3X3Gap size={16} />
+								</button>
+								<button
+									onClick={() => setViewMode("list")}
+									className={`p-2 transition-colors ${
+										viewMode === "list"
+											? "bg-purple-600 text-white"
+											: "text-purple-600 hover:bg-purple-100"
+									}`}
+								>
+									<BsList size={16} />
+								</button>
+							</div>
+						</div>
+					</div>
+				</Card>
+				<div className="mt-6">
+					{/* Liste des campagnes */}
+					{currentCampaigns.length === 0 ? (
+						<div className="text-center py-12">
+							<div className="text-gray-400 mb-4">
+								<BsFileEarmarkText size={48} className="mx-auto" />
+							</div>
+							<h3 className="text-xl font-semibold text-gray-600 mb-2">
+								Aucune campagne trouvée
+							</h3>
+							<p className="text-gray-500 mb-4">
+								{searchTerm || statusFilter !== "all"
+									? "Essayez de modifier vos critères de recherche"
+									: "Commencez par créer votre première campagne"}
+							</p>
+							{!searchTerm && statusFilter === "all" && (
+								<Button as={Link} to="/campaign/new">
+									Créer ma première campagne
+								</Button>
+							)}
+						</div>
+					) : (
+						<>
+							{viewMode === "grid" ? (
+								<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+									{currentCampaigns.map((campaign) => (
+										<div key={campaign.id} className="dropdown-container">
+											<CampaignCard campaign={campaign} />
+										</div>
+									))}
+								</div>
+							) : (
+								<div className="space-y-4">
+									{currentCampaigns.map((campaign) => (
+										<div key={campaign.id} className="dropdown-container">
+											<CampaignListItem campaign={campaign} />
+										</div>
+									))}
+								</div>
+							)}
+
+							{/* Pagination */}
+							<CampaignsPagination
+								currentPage={currentPage}
+								totalPages={totalPages}
+								setCurrentPage={setCurrentPage}
+							/>
+						</>
+					)}
+				</div>
 			</div>
+			{showDeleteConfirm && (
+				<div className="fixed inset-0 bg-black/20 flex items-center justify-center z-50">
+					{/* Arrière-plan flou séparé */}
+					<div className="absolute inset-0 backdrop-blur-sm" />
 
-			{/* Barre de recherche et filtres */}
-			<Card styles="p-4">
-				<div className="flex flex-col lg:flex-row gap-4">
-					<div className="flex-1 relative">
-						<BsSearch
-							className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-							size={16}
-						/>
-						<input
-							type="text"
-							placeholder="Rechercher une campagne..."
-							value={searchTerm}
-							onChange={(e) => setSearchTerm(e.target.value)}
-							className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-						/>
-					</div>
-
-					<div className="flex gap-4">
-						<select
-							value={statusFilter}
-							onChange={(e) => setStatusFilter(e.target.value)}
-							className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 dark:bg-gray-800 focus:ring-purple-500"
-						>
-							<option value="all">Tous les statuts</option>
-							<option value="active">Active</option>
-							<option value="draft">Brouillon</option>
-							<option value="scheduled">Programmée</option>
-							<option value="paused">Pausée</option>
-							<option value="completed">Terminée</option>
-							<option value="created">Créée</option>
-						</select>
-
-						<select
-							value={sortBy}
-							onChange={(e) => setSortBy(e.target.value)}
-							className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 dark:bg-gray-800 focus:ring-purple-500"
-						>
-							<option value="recent">Plus récent</option>
-							<option value="oldest">Plus ancien</option>
-							<option value="name">Nom (A-Z)</option>
-							<option value="views">Plus de vues</option>
-						</select>
-
-						<div className="flex  border border-purple-100 dark:border-black-10 rounded-lg overflow-hidden">
-							<button
-								onClick={() => setViewMode("grid")}
-								className={`p-2 transition-colors ${
-									viewMode === "grid"
-										? "bg-purple-600 text-white"
-										: "text-purple-600 hover:bg-purple-100"
-								}`}
+					{/* Modal au-dessus de l'arrière-plan flou */}
+					<div className="relative bg-white dark:bg-gray-800 p-6 rounded-lg max-w-md w-full mx-4 shadow-2xl transform transition-all duration-300 scale-100 animate-in fade-in-0 zoom-in-95">
+						<h3 className="text-lg font-semibold mb-4">Confirmer la suppression</h3>
+						<p className="text-gray-600 dark:text-gray-300 mb-6">
+							Êtes-vous sûr de vouloir supprimer cette campagne ? Cette action est
+							irréversible et supprimera également tous les contenus associés.
+						</p>
+						<div className="flex gap-3 justify-end">
+							<Button
+								variant="outline"
+								onClick={handleCancelDelete}
+								disabled={isDeleting}
 							>
-								<BsGrid3X3Gap size={16} />
-							</button>
-							<button
-								onClick={() => setViewMode("list")}
-								className={`p-2 transition-colors ${
-									viewMode === "list"
-										? "bg-purple-600 text-white"
-										: "text-purple-600 hover:bg-purple-100"
-								}`}
+								Annuler
+							</Button>
+							<Button
+								variant="solid"
+								color="danger"
+								onClick={handleConfirmDelete}
+								disabled={isDeleting}
+								className={`flex items-center gap-2 ${isDeleting ? "opacity-70 cursor-not-allowed" : ""}`}
 							>
-								<BsList size={16} />
-							</button>
+								{isDeleting ? (
+									<>
+										<BsArrowRepeat className="animate-spin" size={16} />
+										Suppression...
+									</>
+								) : (
+									"Supprimer"
+								)}
+							</Button>
 						</div>
 					</div>
 				</div>
-			</Card>
-			<div className="mt-6">
-				{/* Liste des campagnes */}
-				{currentCampaigns.length === 0 ? (
-					<div className="text-center py-12">
-						<div className="text-gray-400 mb-4">
-							<BsFileEarmarkText size={48} className="mx-auto" />
-						</div>
-						<h3 className="text-xl font-semibold text-gray-600 mb-2">
-							Aucune campagne trouvée
-						</h3>
-						<p className="text-gray-500 mb-4">
-							{searchTerm || statusFilter !== "all"
-								? "Essayez de modifier vos critères de recherche"
-								: "Commencez par créer votre première campagne"}
-						</p>
-						{!searchTerm && statusFilter === "all" && (
-							<Button as={Link} to="/campaign/new">
-								Créer ma première campagne
-							</Button>
-						)}
-					</div>
-				) : (
-					<>
-						{viewMode === "grid" ? (
-							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-								{currentCampaigns.map((campaign) => (
-									<div key={campaign.id} className="dropdown-container">
-										<CampaignCard campaign={campaign} />
-									</div>
-								))}
-							</div>
-						) : (
-							<div className="space-y-4">
-								{currentCampaigns.map((campaign) => (
-									<div key={campaign.id} className="dropdown-container">
-										<CampaignListItem campaign={campaign} />
-									</div>
-								))}
-							</div>
-						)}
-
-						{/* Pagination */}
-						<CampaignsPagination
-							currentPage={currentPage}
-							totalPages={totalPages}
-							setCurrentPage={setCurrentPage}
-						/>
-					</>
-				)}
-			</div>
-		</div>
+			)}
+		</>
 	);
 };
 

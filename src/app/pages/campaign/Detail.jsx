@@ -218,6 +218,25 @@ const Detail = () => {
 			}
 		} catch (error) {
 			console.error("Erreur stats:", error);
+
+			// Gestion spécifique de l'erreur 403
+			if (error.response?.status === 403) {
+				console.warn(
+					"Accès interdit aux statistiques - campagne sans interactions"
+				);
+				// Définir des statistiques par défaut pour une campagne sans interactions
+				setCampaignData((prev) => ({
+					...prev,
+					interactionStats: {
+						total_interactions: 0,
+						views: 0,
+						clicks: 0,
+						shares: 0,
+						likes: 0,
+						comments: 0,
+					},
+				}));
+			}
 		} finally {
 			setLoading((prev) => ({ ...prev, stats: false }));
 		}

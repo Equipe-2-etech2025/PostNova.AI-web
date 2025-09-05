@@ -102,10 +102,33 @@ export const campaignInteractionService = {
 				data: response.data,
 			};
 		} catch (error) {
-			return handleError(
-				error,
-				`Erreur lors de la récupération des statistiques pour la campagne ID ${campaignId}`
+			// Gestion spécifique de l'erreur 403
+			if (error.response?.status === 403) {
+				console.warn(
+					`Accès interdit aux statistiques pour la campagne ${campaignId}`
+				);
+				return {
+					success: true,
+					data: {
+						total_interactions: 0,
+						views: 0,
+						clicks: 0,
+						shares: 0,
+						likes: 0,
+						comments: 0,
+						message: "Aucune statistique disponible pour cette campagne",
+					},
+				};
+			}
+
+			console.error(
+				`Erreur lors de la récupération des statistiques pour la campagne ID ${campaignId}`,
+				error
 			);
+			return {
+				success: false,
+				error: error.message,
+			};
 		}
 	},
 

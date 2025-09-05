@@ -49,12 +49,14 @@ const LastCampaignList = ({ campaigns = [], isLoading = true }) => {
 			) : (
 				<div className="text-center text-gray-500 space-y-2 my-4">
 					<p>Aucune campagne trouvée.</p>
-					<Button color="blue">
-						<div className="flex items-center gap-4 text-white">
-							<BsPlus size={24} />
-							<span>Créer une campagne</span>
-						</div>
-					</Button>
+					<Link to="/campaign/new">
+						<Button color="blue">
+							<div className="flex items-center gap-4 text-white">
+								<BsPlus size={24} />
+								<span>Créer une campagne</span>
+							</div>
+						</Button>
+					</Link>
 				</div>
 			)}
 		</SectionBlock>

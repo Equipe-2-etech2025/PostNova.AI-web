@@ -145,7 +145,7 @@ const Register = () => {
 
 			<div className="h-screen w-full flex flex-col md:flex-row overflow-hidden">
 				{/* Left */}
-				<div className="flex-1 relative p-4 h-64 md:h-auto">
+				<div className="hidden lg:flex flex-1 relative p-4 h-64 lg:h-auto">
 					<img
 						src={galaxy}
 						alt="galaxy"
@@ -200,7 +200,6 @@ const Register = () => {
 									</div>
 								)}
 							</div>
-
 							<div className="space-y-2">
 								<InputForm
 									type="email"
@@ -218,7 +217,6 @@ const Register = () => {
 									</div>
 								)}
 							</div>
-
 							<div className="space-y-2 relative">
 								<InputForm
 									type={showPassword ? "text" : "password"}
@@ -247,7 +245,6 @@ const Register = () => {
 									</div>
 								)}
 							</div>
-
 							<div className="space-y-2 relative">
 								<InputForm
 									type={showPassword ? "text" : "password"}
@@ -276,7 +273,6 @@ const Register = () => {
 									</div>
 								)}
 							</div>
-
 							{/* Conditions d'utilisation */}
 							<div className="text-start space-y-2">
 								<div className="flex items-start">
@@ -323,14 +319,13 @@ const Register = () => {
 									</div>
 								)}
 							</div>
-
 							<div className="flex justify-center">
 								<Button
 									type="submit"
-									disabled={loading}
-									className={`${loading ? "opacity-50 cursor-not-allowed" : ""}`}
+									disabled={isSubmitting}
+									className={`${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
 								>
-									{loading ? (
+									{isSubmitting ? (
 										<div className="flex items-center">
 											<svg
 												className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"

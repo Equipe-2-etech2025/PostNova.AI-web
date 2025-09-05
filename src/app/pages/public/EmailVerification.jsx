@@ -65,9 +65,9 @@ const EmailVerification = () => {
 	// Si l'email est déjà vérifié
 	if (user?.email_verified_at) {
 		return (
-			<div className="min-h-screen w-full bg-[#1c1b23] text-white flex items-center justify-center p-6">
+			<div className="min-h-screen w-full bg-gray-50 dark:bg-[#1c1b23] text-gray-900 dark:text-white flex items-center justify-center p-6">
 				<div className="w-full max-w-md">
-					<div className="bg-[#2e2d3b] rounded-2xl shadow-2xl p-8 border border-gray-700/50">
+					<div className="bg-white dark:bg-[#2e2d3b] rounded-2xl shadow-2xl p-8 border border-gray-200 dark:border-gray-700/50">
 						<div className="text-center">
 							<div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
 								<svg
@@ -85,11 +85,11 @@ const EmailVerification = () => {
 								</svg>
 							</div>
 
-							<h1 className="text-3xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent mb-2">
+							<h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">
 								Email vérifié !
 							</h1>
 
-							<p className="text-gray-400 mb-6">
+							<p className="text-gray-600 dark:text-gray-400 mb-6">
 								Votre email a été vérifié le{" "}
 								{new Date(user.email_verified_at).toLocaleDateString()}
 							</p>
@@ -113,12 +113,12 @@ const EmailVerification = () => {
 				showProgressBar={true}
 			/>
 
-			<div className="min-h-screen w-full bg-[#1c1b23] text-white flex items-center justify-center p-6">
+			<div className="min-h-screen w-full bg-gray-50 dark:bg-[#1c1b23] text-gray-900 dark:text-white flex items-center justify-center p-6">
 				<div className="w-full max-w-md">
-					<div className="bg-[#2e2d3b] rounded-2xl shadow-2xl p-8 border border-gray-700/50">
+					<div className="bg-white dark:bg-[#2e2d3b] rounded-2xl shadow-2xl p-8 border border-gray-200 dark:border-gray-700/50">
 						{/* Header */}
 						<div className="text-center mb-8">
-							<div className="w-16 h-16 bg-[#4335C4] rounded-full flex items-center justify-center mx-auto mb-4">
+							<div className="w-16 h-16 bg-[#8c1bee] rounded-full flex items-center justify-center mx-auto mb-4">
 								{isVerifying ? (
 									<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
 								) : (
@@ -138,16 +138,16 @@ const EmailVerification = () => {
 								)}
 							</div>
 
-							<h1 className="text-3xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent mb-2">
+							<h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">
 								{isVerifying ? "Vérification en cours..." : "Vérifiez votre email"}
 							</h1>
 
 							{!isVerifying && (
 								<>
-									<p className="text-gray-400 text-sm leading-relaxed">
+									<p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
 										Nous avons envoyé un lien de vérification à
 									</p>
-									<p className="text-[#4335C4] font-medium mt-1">{user?.email}</p>
+									<p className="text-[#8c1bee] font-medium mt-1">{user?.email}</p>
 								</>
 							)}
 						</div>
@@ -155,7 +155,7 @@ const EmailVerification = () => {
 						{/* Contenu principal */}
 						{!isVerifying && (
 							<div className="space-y-6">
-								<div className="text-center text-gray-300">
+								<div className="text-center text-gray-700 dark:text-gray-300">
 									<p className="mb-4">
 										Cliquez sur le lien dans l'email pour vérifier votre compte.
 									</p>
@@ -166,10 +166,10 @@ const EmailVerification = () => {
 						{/* Si en cours de vérification */}
 						{isVerifying && (
 							<div className="text-center">
-								<div className="animate-pulse text-gray-300 mb-4">
+								<div className="animate-pulse text-gray-700 dark:text-gray-300 mb-4">
 									Vérification de votre email en cours...
 								</div>
-								<div className="text-sm text-gray-400">
+								<div className="text-sm text-gray-500 dark:text-gray-400">
 									Veuillez patienter quelques instants
 								</div>
 							</div>
