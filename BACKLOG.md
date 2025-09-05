@@ -6,6 +6,10 @@
 
 ## En cours
 
+-[EPA-95] Configuration de la redirection, page netlify (Assigné à: Mialisoa Lisa Rasoanirina)
+ Branche: `chore/EPA-95-netlify-toml`
+ Commit: `EPA-95: mise à jour de netlify.toml`
+
 -[EPA-87] Utiliser templates (Assigné à: Nathan Rakotoarimanana)
   Branche: `feature/EPA-87-utiliser-template`
   Commit:  `EPA-87: fonctionnalité utiliser template`
