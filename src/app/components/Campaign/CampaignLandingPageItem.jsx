@@ -27,10 +27,7 @@ const CampaignLandingPageItem = ({
 							<span className="text-sm text-gray-500">
 								{new Date(campaignLandingPage.created_at).toDateString()}
 							</span>
-							<h4 className="text-lg font-600">
-								{campaignLandingPage?.content?.template?.data?.hero?.title ||
-									"Landing page générée"}
-							</h4>
+							<h4 className="text-lg font-600">{campaignLandingPage?.content?.template?.data.hero.title || 'Landing page générée'}</h4>
 						</div>
 					</div>
 				</Button>

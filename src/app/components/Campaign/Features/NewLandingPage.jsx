@@ -62,7 +62,8 @@ const NewLandingPage = ({ campaignId, onSuccess, modalSize = "3xl" }) => {
 			if (res.success) {
 				onSuccess();
 			} else {
-				showNotification("Erreur lors de la génération des images.", "error");
+				console.log(res);
+				showNotification("Erreur lors de la génération de la page.", "error");
 			}
 		} catch (error) {
 			console.error("Erreur API:", error);

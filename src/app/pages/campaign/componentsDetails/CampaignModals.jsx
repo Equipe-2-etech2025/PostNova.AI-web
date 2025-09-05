@@ -261,8 +261,11 @@ const CampaignModals = ({
 						landingPageId={selectedLandingPage}
 						previewActive={isPreview}
 						onTogglePreview={() => setIsPreview((prev) => !prev)}
-						setSelectedLandingPage={setSelectedLandingPage}
-						setDeleteConfirmOpen={setDeleteConfirmOpen}
+						onLandingPageDeleted={() => {
+							onContentRefresh();
+							setIsPreview(false);
+							closeModal();
+						}}
 					/>
 				</Suspense>
 			</Modal>
@@ -271,7 +274,7 @@ const CampaignModals = ({
 				isOpen={isOpen("new-landing-page")}
 				onClose={closeModal}
 				size={newRequestModalSize}
-				className={newRequestModalSize === "full" ? "!p-0" : ""}
+				className={newRequestModalSize === "full" ? "p-0" : ""}
 			>
 				<Suspense fallback={<div>Chargement...</div>}>
 					<Feature.NewLandingPage
