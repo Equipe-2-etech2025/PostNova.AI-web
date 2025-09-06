@@ -50,7 +50,7 @@ const CampaignSidebar = ({
 	};
 
 	return (
-		<aside className="flex-1/4 space-y-4 flex items-stretch gap-6 xl:flex-col">
+		<aside className="flex-1/4 space-y-4 flex flex-col-reverse items-stretch gap-6 sm:flex-row xl:flex-col">
 			{/* Section Activités de la campagne */}
 			<div className="flex-1/2">
 				<SectionBlock title="Activités de la campagne" icon={<BsBarChartLine />}>

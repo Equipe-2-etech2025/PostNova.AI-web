@@ -2,7 +2,7 @@ import React from "react";
 import { BsDownload } from "react-icons/bs";
 import Button from "@shared/Button";
 
-const DownloadButton = ({onClick}) => {
+const DownloadButton = ({isDownloading, onClick}) => {
 	return (
 		<div className="relative inline-flex items-center">
 			<Button

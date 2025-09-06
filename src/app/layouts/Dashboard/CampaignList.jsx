@@ -1,9 +1,9 @@
 import React from "react";
+import { Link } from "react-router";
 import { BsArrowUpRightCircleFill, BsClock, BsPlus } from "react-icons/bs";
 import CampaignItem from "@components/Dashboard/CampaignItem";
 import SectionBlock from "@layouts/SectionBlock";
 import Button from "@shared/Button";
-import { Link } from "react-router";
 
 const LastCampaignList = ({ campaigns = [], isLoading = true }) => {
 	return (

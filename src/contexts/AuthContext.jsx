@@ -68,7 +68,6 @@ const AuthProvider = ({ children }) => {
 			if (!currentPath.includes("/email/verify")) {
 				checkAuthStatus();
 			}
-			setLoading(false);
 		}
 	}, [checkAuthStatus]);
 

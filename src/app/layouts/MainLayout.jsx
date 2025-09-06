@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet } from "react-router";
 import useAuth from "@hooks/useAuth";
 import NavBar from "@layouts/NavBar";
+import Spinner from "@components/Spinner";
 
 const MainLayout = () => {
 	const { loading } = useAuth();
@@ -10,7 +11,7 @@ const MainLayout = () => {
 		return (
 			<div className="min-h-screen flex items-center justify-center">
 				<div className="space-y-3 animate-pulse">
-					<div className="w-12 h-12 border-6 border-gray-500 border-y-gray-500/10 rounded-full mx-auto animate-spin"></div>
+					<Spinner />
 					<p className="animate-bounce">Chargement...</p>
 				</div>
 			</div>

@@ -70,7 +70,7 @@ const EditCampaign = ({
 	};
 
 	return (
-		<div className="w-3xl mx-auto p-8 rounded shadow">
+		<div className="md:w-xl lg:w-3xl mx-auto p-8 rounded shadow">
 			{/* Notification */}
 			<MessageNotification
 				message={notification.message}
