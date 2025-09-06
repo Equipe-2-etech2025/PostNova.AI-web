@@ -15,7 +15,9 @@ import TemplatePreview from "@pages/userProfile/TemplatePreview";
 import CampaignsListPage from "@pages/campaign/CampaignsListPage";
 import AllCampaigns from "@pages/campaign/AllCampaigns";
 import PaymentForm from "@pages/payment/paymentForm";
+import PaymentInvoice from "@pages/payment/PymentInvoice";
 import About from "@pages/public/About";
+import AdminInvoice from "@pages/payment/AdminInvoice";
 const routes = [
 	/**
 	 * Main routes
@@ -60,13 +62,17 @@ const routes = [
 
 			{ path: "/campaign/list", element: <AllCampaigns /> },
 
+			{ path: "/payment", element: <PaymentForm /> },
+
+			{ path:  "/factures", element: <PaymentInvoice /> },
+
 			// Admin routes
 			{ path: "/admin", element: <Admin.Dashboard />, admin: true },
+			
+			{ path: "/admin/factures", element: <AdminInvoice />, admin: true },
+
 		],
 	},
-
-	// Payment
-	{ path: "/payment", element: <PaymentForm /> },
 
 	/**
 	 * Authentication and verification
