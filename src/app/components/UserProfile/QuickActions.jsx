@@ -21,12 +21,14 @@ const QuickActions = () => {
 						</div>
 					</Card>
 				</Link>
-				<Card styles="p-4 hover:shadow-lg transition-shadow cursor-pointer">
-					<div className="flex items-center gap-3">
-						<BsCreditCard size={20} className="text-green-500" />
-						<span className="font-semibold">Mes factures</span>
-					</div>
-				</Card>
+				<Link to="/factures">
+					<Card styles="p-4 hover:shadow-lg transition-shadow cursor-pointer">
+						<div className="flex items-center gap-3">
+							<BsCreditCard size={20} className="text-green-500" />
+							<span className="font-semibold">Mes factures</span>
+						</div>
+					</Card>
+				</Link>
 			</div>
 		</section>
 	);
