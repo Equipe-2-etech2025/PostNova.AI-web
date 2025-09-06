@@ -21,7 +21,7 @@ import { landingPageService } from "@services/landingPageService";
 import * as LandingPageLayout from "@components/Features/LandingPage";
 import DownloadButton from "@components/Campaign/Features/componentsPosts/DownloadButton";
 import DeleteButton from "@components/Campaign/Features/componentsPosts/DeleteButton";
-import SaveButton from "@components/Campaign/Features/componentsPosts/SaveButton";
+import Spinner from "@components/Spinner";
 
 const LandingPage = ({
 	landingPageId,
@@ -201,7 +201,6 @@ const LandingPage = ({
 					position: "top-center",
 				});
 			}
-			console.log(res);
 		} catch (error) {
 			console.error("Erreur lors de la sauvegarde:", error);
 			showError("Erreur lors de la sauvegarde", {
@@ -254,7 +253,6 @@ const LandingPage = ({
 						position: "top-center",
 					});
 					onLandingPageDeleted();
-					console.log("Deleted landing page ID:", landingPageId);
 				} else {
 					showError(res.data.message || "Erreur lors de la suppression", {
 						duration: 5000,
@@ -284,12 +282,10 @@ const LandingPage = ({
 			try {
 				setLoading(true);
 				const res = await landingPageService.getOne(landingPageId);
-				console.log(res);
 				if (!res.success) {
 					setContent(undefined);
 					return;
 				}
-				console.log(res);
 				setContent(res.data);
 			} catch (err) {
 				setContent(undefined);
@@ -351,7 +347,7 @@ const LandingPage = ({
 					</div>
 				</div>
 				<div
-					className={`${previewActive ? "flex-0 overflow-hidden" : "flex-1/4 flex flex-col"} transition-all ease-in-out duration-300`}
+					className={`${previewActive ? "flex-0 overflow-hidden" : "h-full flex-1/4 flex flex-col"} transition-all ease-in-out duration-300`}
 				>
 					<div className="flex-shrink-0">
 						<div className="sticky top-0 py-1 z-20">
@@ -374,7 +370,7 @@ const LandingPage = ({
 							))}
 						</div>
 					</div>
-					<div className="overflow-y-auto">
+					<div className="h-full overflow-y-auto">
 						{selectedSection === "hero" && content?.content?.template?.data && (
 							<LandingPageLayout.HeroSection
 								content={content.content.template.data}
@@ -434,35 +430,39 @@ const LandingPage = ({
 							/>
 						)}
 					</div>
-					<div className="text-end space-x-2 space-y-1 relative mt-3">
-						{!hasContentChanged ? (
-							<>
-								<DownloadButton onClick={handleDownloadFile} />
-								<DeleteButton onClick={handleDeleteClick} />
-							</>
-						) : (
-							<>
-								<Button
-									variant="outline"
-									color="secondary"
-									className="flex items-center color:danger gap-2 transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-									onClick={handleSave}
-								>
-									<span className="text-sm">Enregistrer</span>
-									<BsSave />
-								</Button>
-								<Button
-									variant="outline"
-									color="neutral"
-									className="flex items-center color:danger gap-2 transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
-									onClick={handleCancel}
-								>
-									<span className="text-sm">Annuler</span>
-									<BsArrowCounterclockwise />
-								</Button>
-							</>
-						)}
-					</div>
+					{(!loading && content) ? (
+						<div className="text-end space-x-2 space-y-1 relative mt-3">
+							{!hasContentChanged ? (
+								<>
+									<DownloadButton onClick={handleDownloadFile} />
+									<DeleteButton onClick={handleDeleteClick} />
+								</>
+							) : (
+								<>
+									<Button
+										variant="outline"
+										color="secondary"
+										className="flex items-center color:danger gap-2 transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+										onClick={handleSave}
+									>
+										<span className="text-sm">Enregistrer</span>
+										<BsSave />
+									</Button>
+									<Button
+										variant="outline"
+										color="neutral"
+										className="flex items-center color:danger gap-2 transition-all duration-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+										onClick={handleCancel}
+									>
+										<span className="text-sm">Annuler</span>
+										<BsArrowCounterclockwise />
+									</Button>
+								</>
+							)}
+						</div>
+					) : (
+						<Spinner />
+					)}
 				</div>
 
 				{showDeleteConfirm && (

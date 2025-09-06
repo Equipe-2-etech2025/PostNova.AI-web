@@ -70,6 +70,10 @@
 - [EPA-8] Creation de .github/workflows(CI/CD) Laravel (Assigné à: Mialisoa Lisa Rasoanirina)
 
 ## Terminé non testé
+- [EPA-96] Responsive de la page Dashboard (Assigné à: Andhi Andrianina)
+  Branche: `refactor/EPA-96-ui-responsive-dashboard`
+  Commit: `EPA-96: refactor: Responsivité de la page dashboard`
+
 - [EPA-89] Mise à jour des contenus Landing Page (Assigné à: Andhi Andrianina)
   Branche: `EPA-89-landing-page-edit-content`
   Commit: `EPA-89: feat: add landing page generation and management features`
@@ -90,7 +94,6 @@
 - [EPA-14] Creation de composant réutilisable (bouton, card, modal, ...) (Assigné à: Tahiry Houlder RATERAHAJA)
 
 ## Terminé(e)
-
 - [EPA-26] Intégration mot de passe oublié + vérification email (Assigné à: Nathan Rakotoarimanana)
 
 -[EPA-86] Amélioration image (Assigné à: Nathan Rakotoarimanana)

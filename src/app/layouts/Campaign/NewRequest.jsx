@@ -237,7 +237,7 @@ const NewRequest = ({
 
 	return (
 		<div
-			className={`h-full ${modalSize === "full" ? "w-full" : "w-3xl"} flex flex-col`}
+			className={`h-full ${modalSize === "full" ? "w-full" : "md:w-xl lg:w-3xl"} flex flex-col`}
 		>
 			<MessageNotification
 				message={notification.message}

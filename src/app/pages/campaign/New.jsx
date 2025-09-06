@@ -103,7 +103,7 @@ const New = () => {
 			/>
 
 			<div className="container flex flex-col items-center justify-center min-h-[80vh] mx-auto">
-				<h1 className="text-5xl font-bold mt-12 mb-2 text-center">
+				<h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mt-12 mb-2 text-center">
 					Créer une nouvelle campagne
 				</h1>
 
@@ -133,7 +133,7 @@ const New = () => {
 					/>
 
 					<div className="mt-8 text-center">
-						<div className="grid grid-cols-4 gap-3 max-w-3xl mx-auto mt-6">
+						<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 max-w-3xl mx-auto mt-6">
 							{campaignOptions.map((option) => (
 								<button
 									key={option.id}
