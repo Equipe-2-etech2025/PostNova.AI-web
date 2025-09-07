@@ -1,10 +1,8 @@
 # 📝 Backlog Jira Sync
 
-## À faire
-
-
-
-## En cours
+[EPA-100] Fix cannot read-properties aux prod et dev. (Assigné à: Mialisoa Lisa Rasoanirina)
+ Branche: `fix/EPA-100-cannot-read-properties`
+ Commit: `EPA-100: fix l'erreur liée aux cannot-read-properties aux dev et prod`
 
 -[EPA-95] Configuration de la redirection, page netlify (Assigné à: Mialisoa Lisa Rasoanirina)
  Branche: `chore/EPA-95-netlify-toml`
