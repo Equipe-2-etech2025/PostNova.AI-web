@@ -18,7 +18,7 @@ const Home = () => {
 				{/* Energy particles */}
 				<div className="absolute top-40 left-1/6 w-20 h-20 rounded-full bg-purple-500 opacity-60 blur-md animate-pulse animate-bounce"></div>
 				<div
-					className="absolute top-60 right-1/3 w-15 h-15 bg-blue-400 opacity-50 blur-md animate-pulse animate-bounce"
+					className="absolute top-80 right-1/3 w-15 h-15 rounded-full bg-blue-400 opacity-50 blur-md animate-pulse animate-bounce"
 					style={{ animationDelay: "1s" }}
 				></div>
 				<div

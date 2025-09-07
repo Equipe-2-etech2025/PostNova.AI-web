@@ -1,5 +1,9 @@
 # 📝 Backlog Jira Sync
 
+[EPA-101] Création page en cours de développement (Assigné à: Mialisoa Lisa Rasoanirina)
+Branche: `feature/EPA-101-page-repair`
+Commit: `EPA-101: création de page en cours de développement`
+
 [EPA-100] Fix cannot read-properties aux prod et dev. (Assigné à: Mialisoa Lisa Rasoanirina)
  Branche: `fix/EPA-100-cannot-read-properties`
  Commit: `EPA-100: fix l'erreur liée aux cannot-read-properties aux dev et prod`

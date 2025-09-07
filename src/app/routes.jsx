@@ -3,6 +3,7 @@ import React from "react";
 import MainLayout from "@layouts/MainLayout";
 import BlankLayout from "@layouts/BlankLayout";
 import NotFound from "./pages/404";
+import Repair from "./pages/Repair";
 import * as Auth from "@pages/auth";
 import * as Public from "@pages/public";
 import * as Campaign from "@pages/campaign";
@@ -102,7 +103,7 @@ const routes = [
 	 */
 	{
 		element: <BlankLayout />,
-		children: [{ path: "*", element: <NotFound />, public: true }],
+		children: [{ path: "*", element: <NotFound />, public: true }, { path: "/repair", element: <Repair />, public: true }, ],
 	},
 ];
 
