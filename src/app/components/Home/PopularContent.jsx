@@ -5,38 +5,26 @@ import { BsHeart, BsEye } from "react-icons/bs";
 const PopularContent = () => {
 	const [campaigns, setCampaigns] = useState([]);
 	const [currentIndex, setCurrentIndex] = useState(0);
-	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		const fetchCampaigns = async () => {
-			try {
-				setIsLoading(true);
-				const result = await campaignService.getPopularCampaigns();
-				if (result.success) {
-					setCampaigns(result.data || [])
-				} else {
-					setCampaigns([]);
-				}
-			} catch (error) {
-				console.error("Error fetching popular campaigns:", error);
-				setCampaigns([]);
-			} finally {
-				setIsLoading(false);
+			const result = await campaignService.getPopularCampaigns();
+			if (result.success) {
+				setCampaigns(result.data);
 			}
 		};
 		fetchCampaigns();
 	}, []);
 
 	useEffect(() => {
-		if (!campaigns || campaigns.length === 0) return;
-		
+		if (campaigns.length === 0) return;
 		const interval = setInterval(() => {
 			setCurrentIndex((prevIndex) => (prevIndex + 1) % campaigns.length);
 		}, 2000);
 		return () => clearInterval(interval);
 	}, [campaigns]);
 
-	if (isLoading) {
+	if (campaigns.length === 0) {
 		return (
 			<p className="text-center py-20 text-lg">
 				Chargement des contenus populaires...
@@ -44,23 +32,7 @@ const PopularContent = () => {
 		);
 	}
 
-	if (!campaigns || campaigns.length === 0) {
-		return (
-			<p className="text-center py-20 text-lg">
-				Aucun contenu populaire pour le moment.
-			</p>
-		);
-	}
-
 	const currentItem = campaigns[currentIndex];
-
-	if (!currentItem) {
-		return (
-			<p className="text-center py-20 text-lg">
-				Erreur d'affichage du contenu.
-			</p>
-		);
-	}
 
 	return (
 		<section id="popular-content" className="py-32">
@@ -76,8 +48,8 @@ const PopularContent = () => {
 					{/* Partie gauche : fond coloré */}
 					<div className="flex-1/2 transition-all">
 						<img
-							src={currentItem.image_path || "/placeholder-image.jpg"}
-							alt={currentItem.name || "Contenu populaire"}
+							src={currentItem.image_path}
+							alt={currentItem.name}
 							className="w-full h-full object-cover"
 						/>
 					</div>
@@ -86,13 +58,13 @@ const PopularContent = () => {
 						{/* Titre et description */}
 						<div>
 							<h3 className="text-5xl font-extrabold text-gray-900 dark:text-white mb-4 tracking-tight">
-								{currentItem.name || "Sans titre"}
+								{currentItem.name}
 							</h3>
 							<p className="text-xl font-medium text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-								{currentItem.description || "Aucune description disponible"}
+								{currentItem.description}
 							</p>
 							<p className="text-md leading-loose text-gray-700 dark:text-gray-400">
-								{currentItem.content || "Contenu non disponible"}
+								{currentItem.content}
 							</p>
 						</div>
 
@@ -101,7 +73,7 @@ const PopularContent = () => {
 							{/* Likes */}
 							<div className="flex items-center gap-4 text-4xl font-extrabold text-gray-800 dark:text-white">
 								<BsHeart className="h-10 w-10 text-red-500" />
-								<span>{currentItem.total_likes || 0}</span>
+								<span>{currentItem.total_likes}</span>
 							</div>
 
 							{/* Divider */}
@@ -110,7 +82,7 @@ const PopularContent = () => {
 							{/* Views */}
 							<div className="flex items-center gap-4 text-4xl font-extrabold text-gray-800 dark:text-white">
 								<BsEye className="h-10 w-10 text-blue-500" />
-								<span>{currentItem.total_views || 0}</span>
+								<span>{currentItem.total_views}</span>
 							</div>
 						</div>
 					</div>
