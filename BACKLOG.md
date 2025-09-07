@@ -2,9 +2,9 @@
 
 ## À faire
 
-
-
-## En cours
+-[EPA-98] Mise à jour de Social Post aux affichage de contenu. (Assigné à: Mialisoa Lisa Rasoanirina)
+ Branche: `fix/EPA-98-read-properties`
+ Commit: `EPA-98: fix le cannont read properties dans le dev deployer`
 
 -[EPA-95] Configuration de la redirection, page netlify (Assigné à: Mialisoa Lisa Rasoanirina)
  Branche: `chore/EPA-95-netlify-toml`
