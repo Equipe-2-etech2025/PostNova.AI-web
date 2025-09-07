@@ -83,7 +83,7 @@ const NewRequest = ({
 			if (!promptResponse.success) {
 				if (promptResponse.type === "quota_exceeded") {
 					showNotification(
-						`Quota dépassé ! Vous avez utilisé ${promptResponse.quota_used}/${promptResponse.quota_max} prompts aujourd'hui. Passez au plan PRO pour continuer.`,
+						`Quota dépassé ! Vous avez utilisé ${promptResponse.quota_used}/${promptResponse.quota_max} prompts aujourd'hui. Passez au plan supérieur pour continuer.`,
 						"warning"
 					);
 				} else {
