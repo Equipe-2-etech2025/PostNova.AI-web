@@ -64,10 +64,7 @@ const AuthProvider = ({ children }) => {
 	useEffect(() => {
 		if (!initialCheckDone.current) {
 			initialCheckDone.current = true;
-			const currentPath = window.location.pathname;
-			if (!currentPath.includes("/email/verify")) {
-				checkAuthStatus();
-			}
+			checkAuthStatus();
 		}
 	}, [checkAuthStatus]);
 
@@ -79,7 +76,6 @@ const AuthProvider = ({ children }) => {
 				localStorage.setItem("token", response.token);
 				setUser(response.user);
 				setIsAuthenticated(true);
-				console.log("Connexion réussie dans le contexte");
 				return {
 					success: true,
 					message: response.message,

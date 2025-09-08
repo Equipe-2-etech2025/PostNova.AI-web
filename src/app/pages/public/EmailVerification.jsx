@@ -24,23 +24,14 @@ const EmailVerification = () => {
 
 	// Vérifier automatiquement si on a les paramètres dans l'URL
 	useEffect(() => {
-		console.log("useEffect déclenché");
-		console.log("searchParams:", searchParams.toString());
-		console.log("URL complète:", window.location.href);
-		console.log("Search params string:", window.location.search);
 		const id = searchParams.get("id");
 		const hash = searchParams.get("hash");
 		const expires = searchParams.get("expires");
 		const signature = searchParams.get("signature");
 
-		console.log("Paramètres extraits:", { id, hash, expires, signature });
-		console.log("hasVerifiedOnceRef.current:", hasVerifiedOnceRef.current);
-
 		if (id && hash && expires && signature && !hasVerifiedOnceRef.current) {
 			hasVerifiedOnceRef.current = true;
 			handleVerifyFromUrl({ id, hash, expires, signature });
-		} else {
-			console.log("Conditions non remplies");
 		}
 	}, [searchParams]);
 
@@ -53,7 +44,7 @@ const EmailVerification = () => {
 
 			if (result.success) {
 				console.log("Email vérifié");
-				localStorage.setItem("auth_token", result.token);
+				localStorage.setItem("token", result.token);
 				setUser(result.user);
 				setIsAuthenticated(true);
 				// Redirection vers le dashboard

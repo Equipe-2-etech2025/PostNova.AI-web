@@ -11,7 +11,7 @@ const Home = () => {
 	return (
 		<>
 			{/* Background gradient arc */}
-			<div className="absolute top-0 left-1/2 w-[150%] h-[800px] transform -translate-x-1/2 bg-gradient-to-b from-purple-600/10 via-blue-500/10 to-transparent rounded-b-[50%] z-0"></div>
+			<div className="absolute top-0 left-1/2 w-full h-[800px] transform -translate-x-1/2 bg-gradient-to-b from-purple-600/10 via-blue-500/10 to-transparent rounded-b-[50%] z-0"></div>
 
 			{/* Hero Section */}
 			<section id="home" className="relative h-screen overflow-hidden mt-0">

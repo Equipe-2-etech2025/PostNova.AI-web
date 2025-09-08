@@ -10,9 +10,9 @@ const ProtectedRoute = ({
 	const { user } = useAuth();
 
 	// if no user is authenticated, redirect to login
-	// if (!user) {
-	// 	return <Navigate to="/login" replace />;
-	// }
+	if (!user) {
+		return <Navigate to="/login" replace />;
+	}
 
 	// Si email non vérifié et vérification requise, rediriger vers vérification
 	if (requireEmailVerification && user && !user.email_verified_at) {
