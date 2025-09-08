@@ -297,7 +297,10 @@ const Detail = () => {
 				const campaignLandingPages = res.data.data.filter(
 					(page) => page.campaign_id == campaignId
 				);
-				setCampaignData((prev) => ({ ...prev, landingPages: campaignLandingPages }));
+				setCampaignData((prev) => ({
+					...prev,
+					landingPages: campaignLandingPages,
+				}));
 			}
 		} catch (error) {
 			console.error("Erreur landing pages:", error);
@@ -387,7 +390,7 @@ const Detail = () => {
 						}}
 						onLandingPageClick={(landingPage) => {
 							setSelectedLandingPage(landingPage);
-							openModal("landing-page")
+							openModal("landing-page");
 						}}
 						setActiveTab={setActiveTab}
 					/>

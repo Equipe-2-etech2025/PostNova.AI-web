@@ -24,9 +24,6 @@ import { dashboardService } from "@services/dashboardService";
 
 const DashboardUser = () => {
 	const { user } = useAuth();
-	const [userInfo, setUserInfo] = useState({
-		name: "",
-	});
 
 	const indicatorBase = [
 		{
@@ -70,17 +67,6 @@ const DashboardUser = () => {
 	const [quotaPrompt, setQuotaPrompt] = useState(null);
 
 	useEffect(() => {
-		// Fetch user from token
-		const fetchUserInfo = async () => {
-			// then
-			const user = { name: "Alex" };
-			setUserInfo(user);
-		};
-
-		let timeoutUserInfo = setTimeout(() => {
-			fetchUserInfo();
-		}, 1500);
-
 		// Fetch indicator
 		const fetchIndicator = async () => {
 			if (!user?.id) return;
@@ -185,12 +171,10 @@ const DashboardUser = () => {
 		const timeoutPromptQuota = setTimeout(fetchPromptQuota, 2000);
 
 		return () => {
-			clearTimeout(timeoutUserInfo);
 			clearInterval(intervalIndicator);
 			clearTimeout(timeoutCampaign);
 			clearTimeout(timeoutTarif);
 			clearTimeout(timeoutPromptQuota);
-			setUserInfo({ name: "" });
 			setIndicator((prev) =>
 				prev.map((item) => ({
 					...item,
@@ -203,28 +187,28 @@ const DashboardUser = () => {
 
 	return (
 		<>
-			<div className="container flex flex-col gap-6 mx-auto my-4">
+			<div className="container flex flex-col gap-4 lg:gap-6 mx-auto my-4 px-4">
 				<section>
-					<div className="flex items-center justify-between gap-6">
+					<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 lg:gap-6">
 						<div className="flex flex-col gap-2">
-							<h1 className="text-3xl font-bold">Bonjour, {user?.name}</h1>
-							<p>
+							<h1 className="text-2xl lg:text-3xl font-bold">Bonjour, {user?.name}</h1>
+							<p className="text-sm lg:text-base">
 								Créez ou gérez des campagnes marketing complètes en moins d'une minute
 								grâce à l'IA
 							</p>
 						</div>
-						<div>
-							<Button as={Link} to={"/campaign/new"} className="pe-2">
-								<div className="flex items-center">
-									<span>Créer une campagne</span>
-									<BsPlus size={24} />
+						<div className="flex-shrink-0">
+							<Button as={Link} to={"/campaign/new"} className="pe-2 w-full sm:w-auto">
+								<div className="flex items-center justify-center">
+									<span className="text-sm lg:text-base">Créer une campagne</span>
+									<BsPlus size={20} className="lg:size-6" />
 								</div>
 							</Button>
 						</div>
 					</div>
 				</section>
-				<section>
-					<div className="flex justify-between gap-6">
+				<section className="hidden md:block">
+					<div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-6">
 						{indicator.map((item, i) => (
 							<div key={i} className="w-full">
 								<Indicator
@@ -239,20 +223,20 @@ const DashboardUser = () => {
 					</div>
 				</section>
 				<section>
-					<div className="grid grid-cols-6 items-start gap-6">
-						<div className="col-span-4">
+					<div className="grid grid-cols-1 xl:grid-cols-6 items-start gap-4 lg:gap-6">
+						<div className="xl:col-span-4">
 							<LastCampaignList campaigns={campaigns} isLoading={loadingCampaigns} />
 						</div>
-						<div className="col-span-2 grid grid-cols-1 gap-6">
+						<div className="xl:col-span-2 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 items-start gap-4 lg:gap-6">
 							<SectionBlock title={"Quota utilisé"} icon={<BsPieChart />}>
 								<div className="flex items-center justify-between gap-2">
-									<span>Quotas</span>
-									<strong>
+									<span className="text-sm lg:text-base">Quotas</span>
+									<strong className="text-sm lg:text-base">
 										{quotaPrompt?.daily_quota_used ?? "..."}/
 										{tarif?.tarif?.max_limit ?? "..."}
 									</strong>
 								</div>
-								<div className="w-full bg-[var(--color-gray)] rounded-full h-2.5 mt-2">
+								<div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
 									<div
 										className="bg-blue-600 h-2.5 rounded-full bg-gradient-to-r from-blue-700 via-purple-600 to-pink-400 transition-all duration-1000"
 										style={{
@@ -265,7 +249,7 @@ const DashboardUser = () => {
 									></div>
 								</div>
 								<div className="mt-4">
-									<span>
+									<span className="text-sm lg:text-base">
 										Il vous reste{" "}
 										{tarif?.tarif?.max_limit != null &&
 										quotaPrompt?.daily_quota_used != null
@@ -278,10 +262,12 @@ const DashboardUser = () => {
 							<div className="opacity-50">
 								<SectionBlock title={"Actions rapides"} icon={<BsLightningCharge />}>
 									<div className="bg-gray-600/5 text-center space-y-2 p-4 rounded-lg">
-										<p className="text-gray-400">
+										<p className="text-gray-400 text-sm lg:text-base">
 											Fonctionnalité disponible en version Pro
 										</p>
-										<Button variant="outline">Découvrir Pro</Button>
+										<Button variant="outline" size="sm" className="lg:text-base">
+											Découvrir Pro
+										</Button>
 									</div>
 									<ul className="relative space-y-4 mt-4">
 										<li>
@@ -290,7 +276,7 @@ const DashboardUser = () => {
 													<Card styles={"w-full py-3"}>
 														<div className="flex items-center gap-4">
 															<BsCameraVideo size={16} className="text-gray-400" />
-															<span>Créer une vidéo</span>
+															<span className="text-sm lg:text-base">Créer une vidéo</span>
 														</div>
 													</Card>
 												</div>
@@ -302,7 +288,9 @@ const DashboardUser = () => {
 													<Card styles={"w-full py-3"}>
 														<div className="flex items-center gap-4">
 															<BsFileEarmarkText size={16} className="text-gray-400" />
-															<span>Générer une landing page</span>
+															<span className="text-sm lg:text-base">
+																Générer une landing page
+															</span>
 														</div>
 													</Card>
 												</div>
@@ -314,7 +302,7 @@ const DashboardUser = () => {
 													<Card styles={"w-full py-3"}>
 														<div className="flex items-center gap-4">
 															<BsFileEarmarkText size={16} className="text-gray-400" />
-															<span>Post Linkedin</span>
+															<span className="text-sm lg:text-base">Post Linkedin</span>
 														</div>
 													</Card>
 												</div>

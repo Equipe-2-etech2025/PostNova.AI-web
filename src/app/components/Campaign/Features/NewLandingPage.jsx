@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { landingPageService } from "@services/landingPageService";
 import { promptService } from "@services/promptService";
 import MessageNotification from "@shared/MessageNotification";
@@ -62,7 +62,8 @@ const NewLandingPage = ({ campaignId, onSuccess, modalSize = "3xl" }) => {
 			if (res.success) {
 				onSuccess();
 			} else {
-				showNotification("Erreur lors de la génération des images.", "error");
+				console.log(res);
+				showNotification("Erreur lors de la génération de la page.", "error");
 			}
 		} catch (error) {
 			console.error("Erreur API:", error);
@@ -115,7 +116,7 @@ const NewLandingPage = ({ campaignId, onSuccess, modalSize = "3xl" }) => {
 
 	return (
 		<div
-			className={`h-full ${modalSize === "full" ? "w-full" : "w-3xl"} flex flex-col p-5`}
+			className={`h-full ${modalSize === "full" ? "w-full" : "md:w-xl lg:w-3xl"} flex flex-col p-5`}
 		>
 			<RequestHeader headerText="Générer une Landing Page" />
 

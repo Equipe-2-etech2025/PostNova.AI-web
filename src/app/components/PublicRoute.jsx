@@ -13,19 +13,19 @@ const PublicRoute = ({
 }) => {
 	const { user, loading } = useAuth();
 
-	// Verification
-	if (loading) {
-		return (
-			<div className="min-h-screen flex items-center justify-center">
-				<div className="space-y-3 animate-pulse">
-					<div className="w-12 h-12 border-6 border-purple-500 border-y-purple-500/10 rounded-full mx-auto animate-spin"></div>
-					<p className="text-gray-600 dark:text-gray-400 animate-bounce">
-						Vérification...
-					</p>
-				</div>
-			</div>
-		);
-	}
+	// // Verification
+	// if (loading) {
+	// 	return (
+	// 		<div className="min-h-screen flex items-center justify-center">
+	// 			<div className="space-y-3 animate-pulse">
+	// 				<div className="w-12 h-12 border-6 border-purple-500 border-y-purple-500/10 rounded-full mx-auto animate-spin"></div>
+	// 				<p className="text-gray-600 dark:text-gray-400 animate-bounce">
+	// 					Vérification...
+	// 				</p>
+	// 			</div>
+	// 		</div>
+	// 	);
+	// }
 
 	// When user is authenticated
 	if (user) {

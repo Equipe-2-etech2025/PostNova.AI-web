@@ -23,7 +23,9 @@ export const useCampaigns = () => {
 				setLoadingTypes(true);
 
 				// Charger les campagnes
-				const campaignsResult = await campaignService.getCampaignsByCriteria({is_published: true});
+				const campaignsResult = await campaignService.getCampaignsByCriteria({
+					is_published: true,
+				});
 				if (campaignsResult.success) {
 					setCampaigns(campaignsResult.data.data);
 				}
@@ -63,7 +65,8 @@ export const useCampaigns = () => {
 					currentUserId
 				);
 			} else {
-				result = await campaignInteractionService.createInteraction(interactionData);
+				result =
+					await campaignInteractionService.createInteraction(interactionData);
 			}
 
 			if (result.success) {
@@ -99,7 +102,8 @@ export const useCampaigns = () => {
 				throw new Error("ID campagne ou utilisateur manquant");
 			}
 
-			const result = await campaignInteractionService.createInteraction(interactionData);
+			const result =
+				await campaignInteractionService.createInteraction(interactionData);
 
 			if (result.success) {
 				setCampaigns((prev) =>
@@ -115,6 +119,37 @@ export const useCampaigns = () => {
 			}
 		} catch (error) {
 			console.error("Erreur lors du partage:", error);
+		}
+	};
+
+	// Record view uniquement si l'utilisateur n'est pas le créateur
+	const handleView = async (campaign) => {
+		try {
+			if (!campaign || !currentUserId) return;
+
+			// Vérifier si l'utilisateur est le créateur
+			if (campaign.user_id === currentUserId) return;
+
+			const interactionData = {
+				campaign_id: campaign.id,
+				user_id: currentUserId,
+				likes: 0,
+				views: 1,
+				shares: 0,
+			};
+
+			const result =
+				await campaignInteractionService.createInteraction(interactionData);
+
+			if (result.success) {
+				setCampaigns((prev) =>
+					prev.map((c) =>
+						c.id === campaign.id ? { ...c, total_views: (c.total_views || 0) + 1 } : c
+					)
+				);
+			}
+		} catch (error) {
+			console.error("Erreur lors de l'enregistrement de la vue:", error);
 		}
 	};
 
@@ -143,6 +178,7 @@ export const useCampaigns = () => {
 		currentUserId,
 		handleLike,
 		handleShare,
+		handleView,
 		handleBookmark,
 		typeOptions,
 	};

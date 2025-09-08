@@ -18,7 +18,6 @@ const TopicInput = ({
 	postId = null,
 }) => {
 	const handleSubmit = () => {
-
 		if (hasGeneratedPosts && postId) {
 			handleRegenerate(postId, topic);
 		} else {
@@ -53,13 +52,13 @@ const TopicInput = ({
 				onSubmit={handleSubmit}
 				containerStyle={`transition-all duration-500 w-full ${
 					hasGeneratedPosts
-						? "!px-4 !py-3 !rounded-lg !h-12 !text-base"
+						? "!px-4 !py-3 !rounded-lg !min-h-[48px] !text-base"
 						: "!px-6 !py-4 !rounded-xl !min-h-[80px] !text-lg"
 				}`}
-				inputStyle={`transition-all duration-300 ${
+				inputStyle={`transition-all duration-300 resize-none overflow-y-auto ${
 					hasGeneratedPosts
-						? "!p-0 !text-base !min-h-[32px]"
-						: "!p-0 !text-lg !min-h-[60px]"
+						? "!p-0 !text-base !min-h-[32px] !max-h-[100px]"
+						: "!p-0 !text-lg !min-h-[60px] !max-h-[150px]"
 				}`}
 				btnStyle={
 					hasGeneratedPosts ? "!py-2 !px-4 !text-sm" : "!py-3 !px-5 !text-base"

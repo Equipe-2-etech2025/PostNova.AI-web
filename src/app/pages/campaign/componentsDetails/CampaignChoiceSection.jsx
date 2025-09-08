@@ -1,12 +1,21 @@
 import React from "react";
-import { BsCardImage, BsFileText, BsGlobe, BsPlusSquareFill } from "react-icons/bs";
+import {
+	BsCardImage,
+	BsFileText,
+	BsGlobe,
+	BsPlusSquareFill,
+	BsTools,
+} from "react-icons/bs";
 import { CardChoice } from "./CardChoice";
+import { useNavigate } from "react-router-dom"; // Importez useNavigate
 
 const CampaignChoiceSection = ({
 	onImageClick,
 	onPostClick,
 	onLandingPageClick,
 }) => {
+	const navigate = useNavigate();
+
 	return (
 		<section className="py-6">
 			<h2 className="text-xl font-semibold text-center mb-4">
@@ -16,7 +25,7 @@ const CampaignChoiceSection = ({
 				Choisissez le format qui correspond le mieux à vos objectifs
 			</p>
 
-			<div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
+			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
 				{/* Carte Image Marketing */}
 				<CardChoice
 					hoverAnimation
@@ -61,12 +70,18 @@ const CampaignChoiceSection = ({
 						Construisez des pages de conversion performantes
 					</p>
 				</CardChoice>
-				{/* Carte Image Marketing */}
+
+				{/* Carte Campagne complète - En développement */}
 				<CardChoice
 					hoverAnimation
-					className="text-center shadow-lg group hover:border-yellow-500"
-					onClick={onImageClick}
+					className="text-center shadow-lg group hover:border-yellow-500 relative"
+					onClick={() => navigate("/repair")} // Redirige vers la page de maintenance
 				>
+					{/* Badge "En développement" */}
+					<div className="absolute top-2 right-2 bg-yellow-500 text-white text-xs px-2 py-1 rounded-full">
+						Bientôt disponible
+					</div>
+
 					<div className="mx-auto w-14 h-14 flex items-center justify-center rounded-full bg-yellow-500 text-white mb-3 group-hover:bg-yellow-600 transition-all duration-300">
 						<BsPlusSquareFill size={24} />
 					</div>
@@ -74,6 +89,12 @@ const CampaignChoiceSection = ({
 					<p className="text-gray-500 text-sm">
 						Créez des posts réseaux, images et landing pages en une clique.
 					</p>
+
+					{/* Indication visuelle supplémentaire */}
+					<div className="mt-2 flex items-center justify-center text-yellow-600 text-xs">
+						<BsTools className="mr-1" />
+						<span>En développement</span>
+					</div>
 				</CardChoice>
 			</div>
 		</section>

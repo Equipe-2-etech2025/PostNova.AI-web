@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import OurTarifs from "@components/Home/OurTarifs";
 import Contact from "@components/Home/Contact";
+import { Link } from "react-router";
 
 // ==================== Données ====================
 const sampleImages = {
@@ -106,7 +107,7 @@ const Switch = ({ checked, onCheckedChange }) => (
 	<button
 		type="button"
 		onClick={() => onCheckedChange(!checked)}
-		className={`relative inline-flex h-7 w-14 items-center rounded-full transition-all duration-300 ${checked ? "bg-purple-600" : "bg-gray-300"}`}
+		className={`relative inline-flex h-7 w-14 items-center rounded-full transition-all duration-300 ${checked ? "bg-purple-600" : "bg-gray-300 dark:bg-gray-600"}`}
 	>
 		<span
 			className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-lg transition-all duration-300 ${checked ? "translate-x-8" : "translate-x-1"}`}
@@ -116,7 +117,7 @@ const Switch = ({ checked, onCheckedChange }) => (
 
 // Carte de contenu améliorée
 const AssetCard = ({ type, title, thumb, meta }) => (
-	<div className="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+	<div className="group overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
 		<div className="aspect-video w-full overflow-hidden">
 			<img
 				src={thumb}
@@ -125,37 +126,37 @@ const AssetCard = ({ type, title, thumb, meta }) => (
 			/>
 		</div>
 		<div className="p-5">
-			<h3 className="text-base font-semibold flex items-center gap-2 mb-1">
+			<h3 className="text-base font-semibold flex items-center gap-2 mb-1 text-gray-900 dark:text-white">
 				{type === "video" && <span className="text-purple-600">🎬</span>}
 				{type === "post" && <span className="text-blue-600">📝</span>}
 				{type === "landing" && <span className="text-indigo-600">🌐</span>}
 				{title}
 			</h3>
-			<p className="text-sm text-gray-600">{meta}</p>
+			<p className="text-sm text-gray-600 dark:text-gray-400">{meta}</p>
 		</div>
 	</div>
 );
 
 // Hero amélioré
 const Hero = ({ onTry }) => (
-	<section className="py-20 bg-gradient-to-br from-purple-50 to-blue-50 relative overflow-hidden">
+	<section className="py-20 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 relative overflow-hidden">
 		{/* Éléments décoratifs */}
-		<div className="absolute top-0 left-0 w-full h-full opacity-10">
-			<div className="absolute top-20 left-10 w-72 h-72 bg-purple-600 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
-			<div className="absolute top-40 right-10 w-72 h-72 bg-blue-600 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
-			<div className="absolute bottom-20 left-1/2 w-72 h-72 bg-indigo-600 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
+		<div className="absolute top-0 left-0 w-full h-full opacity-10 dark:opacity-20">
+			<div className="absolute top-20 left-10 w-72 h-72 bg-purple-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-xl animate-blob"></div>
+			<div className="absolute top-40 right-10 w-72 h-72 bg-blue-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-xl animate-blob animation-delay-2000"></div>
+			<div className="absolute bottom-20 left-1/2 w-72 h-72 bg-indigo-600 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-xl animate-blob animation-delay-4000"></div>
 		</div>
 
 		<div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 grid md:grid-cols-2 gap-12 items-center relative z-10">
 			<div>
-				<div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-purple-200 bg-white text-purple-700 text-sm font-medium mb-6 shadow-sm">
+				<div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-purple-200 dark:border-purple-700 bg-white dark:bg-gray-800 text-purple-700 dark:text-purple-300 text-sm font-medium mb-6 shadow-sm">
 					<span className="w-2 h-2 bg-purple-600 rounded-full animate-pulse"></span>
 					Produit propulsé par IA
 				</div>
 				<h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
 					{brand.name}
 				</h1>
-				<p className="mt-6 text-lg text-gray-700 leading-relaxed">
+				<p className="mt-6 text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
 					{brand.tagline}
 				</p>
 				<button
@@ -179,22 +180,24 @@ const Hero = ({ onTry }) => (
 
 // Feature Section améliorée
 const FeatureSection = () => (
-	<section className="py-20 bg-white">
+	<section className="py-20 bg-white dark:bg-gray-900">
 		<div className="max-w-7xl mx-auto px-4">
-			<h2 className="text-3xl font-bold text-center mb-16 text-gray-900">
+			<h2 className="text-3xl font-bold text-center mb-16 text-gray-900 dark:text-white">
 				Comment ça fonctionne
 			</h2>
 			<div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
 				{featureBullets.map((f, i) => (
 					<div
 						key={i}
-						className="group border border-gray-100 rounded-2xl p-6 bg-white hover:bg-gradient-to-br hover:from-purple-50 hover:to-blue-50 transition-all duration-300 shadow-sm hover:shadow-md"
+						className="group border border-gray-100 dark:border-gray-700 rounded-2xl p-6 bg-white dark:bg-gray-800 hover:bg-gradient-to-br hover:from-purple-50 hover:to-blue-50 dark:hover:from-purple-900/20 dark:hover:to-blue-900/20 transition-all duration-300 shadow-sm hover:shadow-md"
 					>
 						<div className="text-3xl mb-4 transform transition duration-300 group-hover:scale-110">
 							{f.icon}
 						</div>
-						<h3 className="font-bold text-lg mb-2 text-gray-900">{f.title}</h3>
-						<p className="text-gray-600">{f.text}</p>
+						<h3 className="font-bold text-lg mb-2 text-gray-900 dark:text-white">
+							{f.title}
+						</h3>
+						<p className="text-gray-600 dark:text-gray-400">{f.text}</p>
 					</div>
 				))}
 			</div>
@@ -261,34 +264,38 @@ const Playground = () => {
 
 	return (
 		<section
-			className="py-20 bg-gradient-to-b from-white to-purple-50"
+			className="py-20 bg-gradient-to-b from-white to-purple-50 dark:from-gray-900 dark:to-gray-800"
 			id="playground"
 		>
 			<div className="max-w-7xl mx-auto px-4">
-				<h2 className="text-3xl font-bold text-center mb-16 text-gray-900">
+				<h2 className="text-3xl font-bold text-center mb-16 text-gray-900 dark:text-white">
 					Essayez notre démo
 				</h2>
 
 				<div className="grid lg:grid-cols-3 gap-8">
 					{/* Prompt + Switch */}
-					<div className="lg:col-span-1 p-6 bg-white rounded-2xl shadow-lg border border-gray-100 sticky top-6">
-						<h3 className="font-bold text-lg mb-4 text-gray-900">
+					<div className="lg:col-span-1 p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
+						<h3 className="font-bold text-lg mb-4 text-gray-900 dark:text-white">
 							De votre prompt à la campagne
 						</h3>
 						<textarea
 							value={prompt}
 							readOnly
 							onChange={(e) => setPrompt(e.target.value)}
-							className="w-full p-4 border border-gray-200 rounded-xl min-h-[200px] resize-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+							className="w-full p-4 border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-xl min-h-[200px] resize-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
 						/>
 						<div className="mt-6 space-y-4">
-							<h4 className="font-medium text-gray-900">Plateformes cibles</h4>
+							<h4 className="font-medium text-gray-900 dark:text-white">
+								Plateformes cibles
+							</h4>
 							{Object.keys(targets).map((key) => (
 								<div
 									key={key}
-									className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0"
+									className="flex justify-between items-center py-2 border-b border-gray-100 dark:border-gray-700 last:border-b-0"
 								>
-									<span className="capitalize font-medium text-gray-700">{key}</span>
+									<span className="capitalize font-medium text-gray-700 dark:text-gray-300">
+										{key}
+									</span>
 									<Switch
 										checked={targets[key]}
 										onCheckedChange={(v) => setTargets({ ...targets, [key]: v })}
@@ -334,11 +341,13 @@ const Playground = () => {
 					{/* Résultats */}
 					<div className="lg:col-span-2">
 						{loading && (
-							<div className="p-8 bg-white rounded-2xl shadow border border-gray-100 text-center">
+							<div className="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow border border-gray-100 dark:border-gray-700 text-center">
 								<div className="flex justify-center mb-4">
-									<div className="w-12 h-12 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin"></div>
+									<div className="w-12 h-12 border-4 border-purple-200 dark:border-purple-700 border-t-purple-600 rounded-full animate-spin"></div>
 								</div>
-								<p className="text-gray-700">Assemblage des clips, posts et landing…</p>
+								<p className="text-gray-700 dark:text-gray-300">
+									Assemblage des clips, posts et landing…
+								</p>
 							</div>
 						)}
 						{!loading && done && (
@@ -349,7 +358,7 @@ const Playground = () => {
 							</div>
 						)}
 						{!loading && !done && (
-							<div className="p-8 bg-white rounded-2xl shadow border border-gray-100 text-center text-gray-400">
+							<div className="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow border border-gray-100 dark:border-gray-700 text-center text-gray-400 dark:text-gray-500">
 								Aucun résultat (encore)
 							</div>
 						)}
@@ -362,16 +371,16 @@ const Playground = () => {
 
 // Testimonials améliorés
 const Testimonials = () => (
-	<section className="py-20 bg-white">
+	<section className="py-20 bg-white dark:bg-gray-900">
 		<div className="max-w-7xl mx-auto px-4">
-			<h2 className="text-3xl font-bold text-center mb-16 text-gray-900">
+			<h2 className="text-3xl font-bold text-center mb-16 text-gray-900 dark:text-white">
 				Ce que disent nos utilisateurs
 			</h2>
 			<div className="grid md:grid-cols-2 gap-8">
 				{testimonials.map((t, i) => (
 					<div
 						key={i}
-						className="group border border-gray-100 rounded-2xl p-6 bg-white shadow-sm hover:shadow-md transition-all duration-300"
+						className="group border border-gray-100 dark:border-gray-700 rounded-2xl p-6 bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-all duration-300"
 					>
 						<div className="flex items-center gap-4 mb-4">
 							<div className="relative">
@@ -383,11 +392,11 @@ const Testimonials = () => (
 								/>
 							</div>
 							<div>
-								<h4 className="font-bold text-gray-900">{t.name}</h4>
-								<p className="text-sm text-gray-500">{t.role}</p>
+								<h4 className="font-bold text-gray-900 dark:text-white">{t.name}</h4>
+								<p className="text-sm text-gray-500 dark:text-gray-400">{t.role}</p>
 							</div>
 						</div>
-						<p className="text-gray-700 italic">"{t.quote}"</p>
+						<p className="text-gray-700 dark:text-gray-300 italic">"{t.quote}"</p>
 					</div>
 				))}
 			</div>
@@ -397,11 +406,76 @@ const Testimonials = () => (
 
 // Footer amélioré
 const Footer = () => (
-	<footer className="py-12 bg-gradient-to-r from-purple-900 to-blue-900 text-white">
-		<div className="max-w-7xl mx-auto px-4 text-center">
-			<div className="text-2xl font-bold mb-4">{brand.name}</div>
-			<div className="text-sm opacity-80">
-				© {new Date().getFullYear()} {brand.name}, Tous droits réservés.
+	<footer className="py-12 bg-gray-900 text-white">
+		<div className="container mx-auto px-4">
+			<div className="flex flex-col md:flex-row justify-between items-start gap-8">
+				{/* Logo et description */}
+				<div className="flex-1">
+					<Link to="/">
+						<span className="text-xl font-bold">PostNova</span>
+					</Link>
+					<p className="mt-3 text-gray-400 max-w-md text-sm">
+						Transformez vos idées en campagnes marketing percutantes avec
+						l'intelligence artificielle.
+					</p>
+				</div>
+
+				{/* Liens rapides */}
+				<div className="flex-1">
+					<h4 className="text-lg font-bold mb-3">Liens rapides</h4>
+					<div className="grid grid-cols-2 gap-2">
+						<a
+							href="/"
+							className="text-gray-400 hover:text-white transition-colors text-sm"
+						>
+							Accueil
+						</a>
+						<Link
+							to="/about"
+							className="text-gray-400 hover:text-white transition-colors text-sm"
+						>
+							À propos
+						</Link>
+						<a
+							href="#tarifs"
+							className="text-gray-400 hover:text-white transition-colors text-sm"
+						>
+							Nos offres
+						</a>
+						<a
+							href="#contact"
+							className="text-gray-400 hover:text-white transition-colors text-sm"
+						>
+							Contact
+						</a>
+					</div>
+				</div>
+
+				{/* Newsletter */}
+				<div className="flex-1">
+					<h4 className="text-lg font-bold mb-3">Newsletter</h4>
+					<p className="text-gray-400 mb-3 text-sm">
+						Inscrivez-vous pour recevoir nos actualités
+					</p>
+					<div className="flex">
+						<input
+							type="email"
+							placeholder="Votre email"
+							className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-purple-500 flex-1 text-sm"
+						/>
+						<button className="bg-purple-600 px-3 py-2 rounded-r-lg hover:bg-purple-700 transition-colors text-sm">
+							Ok
+						</button>
+					</div>
+				</div>
+			</div>
+
+			{/* Copyright */}
+			<div className="border-t border-gray-800 mt-10 pt-6 text-center">
+				<p className="text-gray-400 text-sm">
+					Copyright 2025 - Made with <span className="text-pink-500">❤️</span> by
+					Equipe 2
+				</p>
 			</div>
 		</div>
 	</footer>
@@ -415,7 +489,7 @@ export default function About() {
 	};
 
 	return (
-		<div className="min-h-screen">
+		<div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
 			<Hero onTry={onTry} />
 			<FeatureSection />
 			<Playground />

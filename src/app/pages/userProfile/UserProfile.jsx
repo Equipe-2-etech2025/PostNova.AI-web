@@ -232,7 +232,7 @@ const UserProfile = () => {
 
 	return (
 		<>
-			<div className="min-h-screen bg-white text-black dark:bg-black dark:text-white transition-colors">
+			<div className="min-h-screen bg-white text-black dark:bg-gradient-to-b dark:from-gray-950 dark:via-gray-900 dark:to-black dark:text-white transition-colors">
 				<div className="container mx-auto py-8 px-4">
 					<ProfileHeader
 						user={user}

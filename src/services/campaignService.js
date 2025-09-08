@@ -62,14 +62,23 @@ export const campaignService = {
 			const response = await api.get("/campaigns/popular/content");
 			return {
 				success: true,
-				data: response.data.data,
-				totals: response.data.totals,
+				data: response.data?.data || [],
+				totals: response.data?.totals || {},
 			};
 		} catch (error) {
-			return handleError(
-				error,
-				"Impossible de récupérer les campagnes populaires"
-			);
+			if (process.env.NODE_ENV === "development") {
+				console.warn(
+					"Erreur campagnes populaires (visible seulement en dev):",
+					error
+				);
+			}
+
+			return {
+				success: false,
+				data: [],
+				totals: {},
+				error: "Service temporairement indisponible",
+			};
 		}
 	},
 

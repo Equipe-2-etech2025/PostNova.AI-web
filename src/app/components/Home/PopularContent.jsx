@@ -17,14 +17,14 @@ const PopularContent = () => {
 	}, []);
 
 	useEffect(() => {
-		if (campaigns.length === 0) return;
+		if (!campaigns || campaigns.length === 0) return;
 		const interval = setInterval(() => {
 			setCurrentIndex((prevIndex) => (prevIndex + 1) % campaigns.length);
 		}, 2000);
 		return () => clearInterval(interval);
 	}, [campaigns]);
 
-	if (campaigns.length === 0) {
+	if (!campaigns || campaigns.length === 0) {
 		return (
 			<p className="text-center py-20 text-lg">
 				Chargement des contenus populaires...
@@ -46,7 +46,7 @@ const PopularContent = () => {
 				</div>
 				<div className="bg-gray-50 dark:bg-black/50 flex rounded-4xl shadow-lg overflow-hidden transition-all duration-700">
 					{/* Partie gauche : fond coloré */}
-					<div className="flex-1/2 transition-all">
+					<div className="hidden md:block flex-1/2 transition-all">
 						<img
 							src={currentItem.image_path}
 							alt={currentItem.name}

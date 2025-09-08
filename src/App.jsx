@@ -28,7 +28,11 @@ const renderRoutes = (routeList) => {
 										{childRoute.element}
 									</ProtectedRoute>
 								) : (
-									<ProtectedRoute>{childRoute.element}</ProtectedRoute>
+									<ProtectedRoute
+										requireEmailVerification={childRoute.allowIfEmailNotVerified}
+									>
+										{childRoute.element}
+									</ProtectedRoute>
 								)
 							}
 						/>

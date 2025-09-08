@@ -9,8 +9,6 @@ const PostItem = ({ post, index, refreshKey }) => {
 			key={`${post.id}-${refreshKey}`}
 			className="p-4 bg-white dark:bg-gray-900 shadow-sm mb-4 rounded-lg"
 		>
-			<strong className="text-lg font-medium">{post.platform}</strong>
-
 			<p
 				className="text-lg leading-relaxed mt-2"
 				dangerouslySetInnerHTML={{
