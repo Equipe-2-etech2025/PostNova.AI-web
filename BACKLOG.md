@@ -1,5 +1,9 @@
 # 📝 Backlog Jira Sync
 
+[EPA-102] Mise à jour de page paiement (Assigné à: Mialisoa Lisa Rasoanirina)
+Branche: `chore/EPA-102-payment`
+Commit: `EPA-102: mise à jour de page payment et facture`
+
 [EPA-101] Création page en cours de développement (Assigné à: Mialisoa Lisa Rasoanirina)
 Branche: `feature/EPA-101-page-repair`
 Commit: `EPA-101: création de page en cours de développement`

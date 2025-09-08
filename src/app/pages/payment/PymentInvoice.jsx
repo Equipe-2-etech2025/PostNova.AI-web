@@ -31,32 +31,32 @@ const PaymentInvoice = () => {
   }, []);
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen flex flex-col items-center">
-      <div className="max-w-5xl mx-auto">
-        <h1 className="text-center text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-White-600">
+    <div className="p-6 bg-gray-100 dark:bg-gray-900 min-h-screen flex flex-col items-center">
+      <div className="w-full max-w-6xl mx-auto">
+        <h1 className="text-center text-2xl md:text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">
           📄 Mes factures
         </h1>
 
         {/* Erreur */}
         {errMsg ? (
-          <div className="mb-4 p-3 rounded border border-red-300 bg-red-50 text-red-700 text-sm sm:text-base">
+          <div className="mb-4 p-4 rounded-lg border border-red-300 bg-red-50 text-red-700 text-base">
             {errMsg}
           </div>
         ) : null}
 
         {/* Loading */}
         {loading ? (
-          <div className="p-4 bg-white rounded-lg shadow animate-pulse text-sm sm:text-base">
+          <div className="p-6 bg-white rounded-lg shadow animate-pulse text-base">
             Chargement des factures...
           </div>
         ) : (
-          <div className="overflow-x-auto bg-white-30 shadow-lg rounded-lg">
-            <table className="w-full table-auto border-collapse text-xs sm:text-sm">
-              <thead className="bg-gray-500/15 text-white-300">
+          <div className="overflow-x-auto w-full bg-white dark:bg-gray-800 shadow-xl rounded-2xl">
+            <table className="w-full border-collapse text-sm md:text-base lg:text-lg">
+              <thead className="bg-gray-600 text-white">
                 <tr>
-                  <th className="py-2 sm:py-3 px-2 sm:px-4 text-left">Montant</th>
-                  <th className="py-2 sm:py-3 px-2 sm:px-4 text-left">Date</th>
-                  <th className="py-2 sm:py-3 px-2 sm:px-4 text-left">Référence</th>
+                  <th className="py-4 px-6 text-left">Montant</th>
+                  <th className="py-4 px-6 text-left">Date</th>
+                  <th className="py-4 px-6 text-left">Référence</th>
                 </tr>
               </thead>
               <tbody>
@@ -64,20 +64,18 @@ const PaymentInvoice = () => {
                   rows.map((inv, idx) => (
                     <tr
                       key={inv.transaction_reference ?? idx}
-                      className="border-b hover:bg-white-50"
+                      className="border-b hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                     >
-                      <td className="py-2 px-2 sm:px-4 font-medium text-white-500">
+                      <td className="py-4 px-6 font-semibold text-gray-800 dark:text-gray-200">
                         {inv.amount} {inv.currency}
                       </td>
-                      <td className="py-2 px-2 sm:px-4 text-white-500">
+                      <td className="py-4 px-6 text-gray-700 dark:text-gray-300">
                         {inv.created_at
                           ? new Date(inv.created_at).toLocaleString("fr-FR")
                           : "—"}
                       </td>
-                      <td className="py-2 px-2 sm:px-4">
-                        <span className="text-white-500">
-                          {inv.transaction_reference || "—"}
-                        </span>
+                      <td className="py-4 px-6 text-gray-700 dark:text-gray-300">
+                        {inv.transaction_reference || "—"}
                       </td>
                     </tr>
                   ))
@@ -85,7 +83,7 @@ const PaymentInvoice = () => {
                   <tr>
                     <td
                       colSpan={3}
-                      className="py-6 text-center text-gray-500 text-sm sm:text-base"
+                      className="py-8 text-center text-gray-500 text-base md:text-lg"
                     >
                       Aucune facture trouvée.
                     </td>
