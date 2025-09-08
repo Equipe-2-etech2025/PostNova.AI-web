@@ -9,8 +9,8 @@ const QuickActions = () => {
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 				<Card styles="p-4 hover:shadow-lg transition-shadow cursor-pointer bg-gradient-to-r from-blue-500 to-purple-600">
 					<div className="flex items-center gap-3 text-white">
-						<BsPlus size={20} />
-						<span className="font-semibold">Créer une nouvelle campagne</span>
+						<BsPlus size={20} className="text-purple-600" />
+						<span className="font-semibold text-black dark:text-white">Créer une nouvelle campagne</span>
 					</div>
 				</Card>
 				<Link to="/templates">
