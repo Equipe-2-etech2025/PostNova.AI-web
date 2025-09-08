@@ -14,6 +14,8 @@ import {
 import { Card } from "@shared/Card";
 import Button from "@shared/Button";
 import { Badge } from "@shared/Badge";
+import { Link } from "react-router";
+import { useCampaigns } from "@hooks/useCampaigns";
 
 const CampaignPost = ({
 	campaign,
@@ -26,6 +28,7 @@ const CampaignPost = ({
 	const [isLiking, setIsLiking] = useState(false);
 	const [isSharing, setIsSharing] = useState(false);
 	const [currentImageIndex, setCurrentImageIndex] = useState(0);
+	const { handleView } = useCampaigns();
 
 	const statusColors = {
 		1: "blue", // created
@@ -124,9 +127,13 @@ const CampaignPost = ({
 
 			{/* Contenu principal */}
 			<div className="px-4 pb-3">
-				<h3 className="font-semibold text-lg mb-1 text-gray-900 dark:text-white">
+				<Link
+					to={`/campaign/view/${campaign.id}`}
+					className="font-semibold text-lg mb-1 text-gray-900 dark:text-white hover:underline"
+					onClick={() => handleView(campaign)}
+				>
 					{campaign.name}
-				</h3>
+				</Link>
 				<p className="text-gray-700 dark:text-gray-300 text-sm mb-3">
 					{campaign.description}
 				</p>
