@@ -14,6 +14,7 @@ import ChangePassword from "@pages/userProfile/ChangePassword";
 import TemplatesExplorer from "@pages/userProfile/TemplatesExplorer";
 import TemplatePreview from "@pages/userProfile/TemplatePreview";
 import CampaignsListPage from "@pages/campaign/CampaignsListPage";
+import PublicCampaignView from "@pages/campaign/PublicCampaignView";
 import AllCampaigns from "@pages/campaign/AllCampaigns";
 import PaymentForm from "@pages/payment/paymentForm";
 import PaymentInvoice from "@pages/payment/PymentInvoice";
@@ -62,6 +63,8 @@ const routes = [
 			{ path: "/templates/:id/preview", element: <TemplatePreview /> },
 
 			{ path: "/campaign/list", element: <AllCampaigns /> },
+
+			{ path: "/campaign/view/:campaignId", element: <PublicCampaignView /> },
 
 			{ path: "/payment", element: <PaymentForm /> },
 
