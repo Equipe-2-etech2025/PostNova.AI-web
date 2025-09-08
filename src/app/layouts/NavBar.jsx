@@ -117,7 +117,7 @@ const NavBar = () => {
 				</Button>
 
 				{userMenuOpen && (
-					<div className="absolute right-0 top-full mt-2 bg-white/90 dark:bg-black/90 backdrop-blur-sm border border-gray-200 dark:border-gray-900 rounded-2xl shadow-lg z-50 min-w-[250px] max-w-[90vw] px-3 py-2">
+					<div className="absolute right-0 top-full mt-2 bg-white/95 dark:bg-black/90 backdrop-blur-lg border border-gray-200 dark:border-gray-900 rounded-2xl shadow-lg z-50 min-w-[250px] max-w-[90vw] px-3 py-2">
 						<div className="border-b border-gray-500/25 space-y-1 p-3">
 							<div className="text-xl font-medium truncate">{user?.name}</div>
 							<div className="text-sm text-gray-400 dark:text-gray-500 truncate">
@@ -227,7 +227,7 @@ const NavBar = () => {
 				</Button>
 
 				{menuOpen && (
-					<div className="absolute right-0 top-full mt-2 bg-white/90 dark:bg-black/90 backdrop-blur-sm border border-gray-200 dark:border-gray-900 rounded-2xl shadow-lg z-50 min-w-[200px] max-w-[90vw] px-3 py-2">
+					<div className="absolute right-0 top-full mt-2 bg-white/90 dark:bg-black/90 backdrop-blur-md border border-gray-200 dark:border-gray-900 rounded-2xl shadow-lg z-50 min-w-[200px] max-w-[90vw] px-3 py-2">
 						<div className="py-1">
 							{navItems.map((item, index) => (
 								<div key={index}>
@@ -269,7 +269,7 @@ const NavBar = () => {
 
 	return (
 		<div className="sticky top-0 w-full backdrop-blur-lg z-40">
-			<div className="container flex items-center justify-between py-5 mx-auto">
+			<div className="container flex items-center justify-between py-5 mx-auto px-4 lg:px-0">
 				{/* Logo */}
 				<div className="flex items-center gap-12">
 					<Link to={"/"} className="text-2xl font-bold">
@@ -281,32 +281,25 @@ const NavBar = () => {
 
 					<nav className="hidden lg:block">
 						<ul className="flex items-center gap-4">
-							{loading
-								? [...Array(4)].map((_, i) => (
-										<li
-											key={i}
-											className="h-4 w-24 bg-gray-500/10 rounded animate-pulse"
-										></li>
-									))
-								: navigationItems().map((item, index) => (
-										<li key={index}>
-											{item.to ? (
-												<Link
-													to={item.to}
-													className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-												>
-													{item.label}
-												</Link>
-											) : (
-												<a
-													href={item.href}
-													className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
-												>
-													{item.label}
-												</a>
-											)}
-										</li>
-									))}
+							{navigationItems().map((item, index) => (
+								<li key={index}>
+									{item.to ? (
+										<Link
+											to={item.to}
+											className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+										>
+											{item.label}
+										</Link>
+									) : (
+										<a
+											href={item.href}
+											className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+										>
+											{item.label}
+										</a>
+									)}
+								</li>
+							))}
 						</ul>
 					</nav>
 				</div>

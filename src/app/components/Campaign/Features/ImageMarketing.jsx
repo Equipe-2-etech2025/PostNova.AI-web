@@ -147,7 +147,7 @@ const ImageMarketing = ({
 
 	return (
 		<div
-			className={`h-full ${modalSize === "full" ? "w-full" : "w-3xl"} flex flex-col p-5`}
+			className={`h-full ${modalSize === "full" ? "w-full" : "md:w-xl lg:w-3xl"} flex flex-col p-5`}
 		>
 			<RequestHeader headerText="Générer des Images" />
 

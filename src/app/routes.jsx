@@ -3,6 +3,7 @@ import React from "react";
 import MainLayout from "@layouts/MainLayout";
 import BlankLayout from "@layouts/BlankLayout";
 import NotFound from "./pages/404";
+import Repair from "./pages/Repair";
 import * as Auth from "@pages/auth";
 import * as Public from "@pages/public";
 import * as Campaign from "@pages/campaign";
@@ -16,7 +17,9 @@ import CampaignsListPage from "@pages/campaign/CampaignsListPage";
 import PublicCampaignView from "@pages/campaign/PublicCampaignView";
 import AllCampaigns from "@pages/campaign/AllCampaigns";
 import PaymentForm from "@pages/payment/paymentForm";
+import PaymentInvoice from "@pages/payment/PymentInvoice";
 import About from "@pages/public/About";
+import AdminInvoice from "@pages/payment/AdminInvoice";
 const routes = [
 	/**
 	 * Main routes
@@ -63,13 +66,17 @@ const routes = [
 
 			{ path: "/campaign/view/:campaignId", element: <PublicCampaignView /> },
 
+			{ path: "/payment", element: <PaymentForm /> },
+
+			{ path:  "/factures", element: <PaymentInvoice /> },
+
 			// Admin routes
 			{ path: "/admin", element: <Admin.Dashboard />, admin: true },
+			
+			{ path: "/admin/factures", element: <AdminInvoice />, admin: true },
+
 		],
 	},
-
-	// Payment
-	{ path: "/payment", element: <PaymentForm /> },
 
 	/**
 	 * Authentication and verification
@@ -99,7 +106,7 @@ const routes = [
 	 */
 	{
 		element: <BlankLayout />,
-		children: [{ path: "*", element: <NotFound />, public: true }],
+		children: [{ path: "*", element: <NotFound />, public: true }, { path: "/repair", element: <Repair />, public: true }, ],
 	},
 ];
 

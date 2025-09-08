@@ -17,14 +17,14 @@ const PopularContent = () => {
 	}, []);
 
 	useEffect(() => {
-		if (campaigns.length === 0) return;
+		if (!campaigns || campaigns.length === 0) return;
 		const interval = setInterval(() => {
 			setCurrentIndex((prevIndex) => (prevIndex + 1) % campaigns.length);
 		}, 2000);
 		return () => clearInterval(interval);
 	}, [campaigns]);
 
-	if (campaigns.length === 0) {
+	if (!campaigns || campaigns.length === 0) {
 		return (
 			<p className="text-center py-20 text-lg">
 				Chargement des contenus populaires...

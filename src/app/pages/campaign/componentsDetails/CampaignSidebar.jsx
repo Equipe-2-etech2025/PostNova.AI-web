@@ -50,58 +50,62 @@ const CampaignSidebar = ({
 	};
 
 	return (
-		<aside className="flex-1/4 space-y-4">
+		<aside className="flex-1/4 space-y-4 flex flex-col-reverse items-stretch gap-6 sm:flex-row xl:flex-col">
 			{/* Section Activités de la campagne */}
-			<SectionBlock title="Activités de la campagne" icon={<BsBarChartLine />}>
-				<SocialNetworks
-					posts={posts}
-					getSocialLink={getSocialLink}
-					getSocialIcon={getSocialIcon}
-				/>
-				<CampaignStats stats={stats} loading={loadingStats} />
-			</SectionBlock>
+			<div className="flex-1/2">
+				<SectionBlock title="Activités de la campagne" icon={<BsBarChartLine />}>
+					<SocialNetworks
+						posts={posts}
+						getSocialLink={getSocialLink}
+						getSocialIcon={getSocialIcon}
+					/>
+					<CampaignStats stats={stats} loading={loadingStats} />
+				</SectionBlock>
+			</div>
 
 			{/* Section Quota intégrée*/}
-			<SectionBlock
-				oneContentRefresh={oneContentRefresh}
-				title="Quota utilisé"
-				icon={<BsPieChart />}
-			>
-				<div className="flex items-center justify-between gap-2">
-					<span>Quotas utilisés</span>
-					<strong>
+			<div className="flex-1/2">
+				<SectionBlock
+					oneContentRefresh={oneContentRefresh}
+					title="Quota utilisé"
+					icon={<BsPieChart />}
+				>
+					<div className="flex items-center justify-between gap-2">
+						<span>Quotas utilisés</span>
+						<strong>
+							{loadingQuota ? (
+								<span className="inline-block h-4 w-10 animate-pulse rounded bg-gray-300"></span>
+							) : (
+								`${dailyQuotaUsed}/${maxLimit}`
+							)}
+						</strong>
+					</div>
+
+					<div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+						<div
+							className={`h-2.5 rounded-full  bg-gradient-to-r from-blue-700 via-purple-600 to-pink-400 transition-all duration-1000 ${progressBarColor}`}
+							style={{
+								width: `${percentage}%`,
+							}}
+						></div>
+					</div>
+
+					<div className="mt-4 text-sm">
 						{loadingQuota ? (
-							<span className="inline-block h-4 w-10 animate-pulse rounded bg-gray-300"></span>
+							<span className="inline-block h-4 w-40 animate-pulse rounded bg-gray-300"></span>
+						) : dailyQuotaUsed >= maxLimit ? (
+							<span className="text-red-600 font-semibold">
+								Quota dépassé ! Vous ne pouvez plus lancer de prompts aujourd'hui.
+							</span>
 						) : (
-							`${dailyQuotaUsed}/${maxLimit}`
+							<span>
+								Il vous reste <strong>{remaining}</strong> quota
+								{remaining !== 1 ? "s" : ""} aujourd'hui.
+							</span>
 						)}
-					</strong>
-				</div>
-
-				<div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
-					<div
-						className={`h-2.5 rounded-full  bg-gradient-to-r from-blue-700 via-purple-600 to-pink-400 transition-all duration-1000 ${progressBarColor}`}
-						style={{
-							width: `${percentage}%`,
-						}}
-					></div>
-				</div>
-
-				<div className="mt-4 text-sm">
-					{loadingQuota ? (
-						<span className="inline-block h-4 w-40 animate-pulse rounded bg-gray-300"></span>
-					) : dailyQuotaUsed >= maxLimit ? (
-						<span className="text-red-600 font-semibold">
-							Quota dépassé ! Vous ne pouvez plus lancer de prompts aujourd'hui.
-						</span>
-					) : (
-						<span>
-							Il vous reste <strong>{remaining}</strong> quota
-							{remaining !== 1 ? "s" : ""} aujourd'hui.
-						</span>
-					)}
-				</div>
-			</SectionBlock>
+					</div>
+				</SectionBlock>
+			</div>
 		</aside>
 	);
 };
