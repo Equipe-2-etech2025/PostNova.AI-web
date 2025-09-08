@@ -124,7 +124,7 @@ const TemplatesExplorer = () => {
 			setLoading(true);
 			try {
 				const response = await campaignTemplateService.getCampaignTemplates();
-				console.log(response.data);
+				console.log("templates", response.data);
 				if (response.success) {
 					const templates = response.data.data;
 					// Mettre à jour le compte d'occurrences dans chaque catégorie
