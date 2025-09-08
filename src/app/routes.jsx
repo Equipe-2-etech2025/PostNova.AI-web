@@ -68,13 +68,12 @@ const routes = [
 
 			{ path: "/payment", element: <PaymentForm /> },
 
-			{ path:  "/factures", element: <PaymentInvoice /> },
+			{ path: "/factures", element: <PaymentInvoice /> },
 
 			// Admin routes
 			{ path: "/admin", element: <Admin.Dashboard />, admin: true },
-			
-			{ path: "/admin/factures", element: <AdminInvoice />, admin: true },
 
+			{ path: "/admin/factures", element: <AdminInvoice />, admin: true },
 		],
 	},
 
@@ -90,8 +89,7 @@ const routes = [
 			{
 				path: "/email/verify",
 				element: <Public.EmailVerification />,
-				authPage: true,
-				allowIfEmailNotVerified: true,
+				public: true,
 			},
 			{
 				path: "/reset-password",
@@ -106,7 +104,10 @@ const routes = [
 	 */
 	{
 		element: <BlankLayout />,
-		children: [{ path: "*", element: <NotFound />, public: true }, { path: "/repair", element: <Repair />, public: true }, ],
+		children: [
+			{ path: "*", element: <NotFound />, public: true },
+			{ path: "/repair", element: <Repair />, public: true },
+		],
 	},
 ];
 

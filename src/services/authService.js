@@ -4,7 +4,7 @@ export const authService = {
 	async login(credentials) {
 		try {
 			const response = await api.post("/auth/login", credentials);
-			localStorage.setItem("auth_token", response.data.data.token);
+			localStorage.setItem("token", response.data.data.token);
 			return {
 				success: true,
 				token: response.data.data.token,

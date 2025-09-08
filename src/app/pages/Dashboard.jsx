@@ -227,7 +227,7 @@ const DashboardUser = () => {
 						<div className="xl:col-span-4">
 							<LastCampaignList campaigns={campaigns} isLoading={loadingCampaigns} />
 						</div>
-						<div className="xl:col-span-2 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 gap-4 lg:gap-6">
+						<div className="xl:col-span-2 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-1 items-start gap-4 lg:gap-6">
 							<SectionBlock title={"Quota utilisé"} icon={<BsPieChart />}>
 								<div className="flex items-center justify-between gap-2">
 									<span className="text-sm lg:text-base">Quotas</span>
@@ -236,7 +236,7 @@ const DashboardUser = () => {
 										{tarif?.tarif?.max_limit ?? "..."}
 									</strong>
 								</div>
-								<div className="w-full bg-[var(--color-gray)] rounded-full h-2.5 mt-2">
+								<div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
 									<div
 										className="bg-blue-600 h-2.5 rounded-full bg-gradient-to-r from-blue-700 via-purple-600 to-pink-400 transition-all duration-1000"
 										style={{
@@ -265,7 +265,9 @@ const DashboardUser = () => {
 										<p className="text-gray-400 text-sm lg:text-base">
 											Fonctionnalité disponible en version Pro
 										</p>
-										<Button variant="outline" size="sm" className="lg:text-base">Découvrir Pro</Button>
+										<Button variant="outline" size="sm" className="lg:text-base">
+											Découvrir Pro
+										</Button>
 									</div>
 									<ul className="relative space-y-4 mt-4">
 										<li>
@@ -286,7 +288,9 @@ const DashboardUser = () => {
 													<Card styles={"w-full py-3"}>
 														<div className="flex items-center gap-4">
 															<BsFileEarmarkText size={16} className="text-gray-400" />
-															<span className="text-sm lg:text-base">Générer une landing page</span>
+															<span className="text-sm lg:text-base">
+																Générer une landing page
+															</span>
 														</div>
 													</Card>
 												</div>
