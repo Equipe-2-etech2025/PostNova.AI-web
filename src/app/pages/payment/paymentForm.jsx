@@ -27,7 +27,7 @@ const CardPaymentForm = () => {
 };
 
 // ==================== Formulaire MOBILE MONEY ====================
-const MobileMoneyForm = ({ onSuccess, userId, totalAmount = "199999", showMessage }) => {
+const MobileMoneyForm = ({ onSuccess, userId, totalAmount = "69000", showMessage }) => {
 	const [phoneNumber, setPhoneNumber] = useState("");
 	const [loading, setLoading] = useState(false);
 
@@ -103,7 +103,7 @@ const PaymentForm = () => {
 		type: "info",
 		visible: false,
 	});
-	const totalAmount = 199999;
+	const totalAmount = 69000;
 	const navigate = useNavigate();
 
 	const handlePaymentSuccess = () => {

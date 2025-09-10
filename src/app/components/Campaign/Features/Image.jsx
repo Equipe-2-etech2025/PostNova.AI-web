@@ -70,25 +70,27 @@ const ImagePreview = ({
 				showProgressBar
 			/>
 			<div
-				className={`flex h-full gap-8 p-8 transition-all duration-300 ${showDeleteConfirm ? "blur-sm" : ""}`}
+				className={`flex flex-col lg:flex-row h-full gap-4 lg:gap-8 p-4 lg:p-8 transition-all duration-300 ${showDeleteConfirm ? "blur-sm" : ""}`}
 			>
 				{/* Image */}
-				<div className="flex-1 flex justify-center items-center overflow-auto">
+				<div className="flex-1 flex justify-center items-center overflow-auto min-h-[300px] lg:min-h-0">
 					<div
-						className={`relative ${previewActive ? "h-full" : "w-full"} rounded-2xl overflow-hidden mx-auto`}
+						className={`relative ${
+							previewActive ? "h-full w-full" : "w-full max-w-full lg:max-w-none"
+						} rounded-lg lg:rounded-2xl overflow-hidden mx-auto`}
 					>
 						<img
 							src={imageSrc}
 							alt={imageAlt}
 							className="w-full h-auto max-h-full object-contain"
 						/>
-						<div className="absolute top-4 right-4">
+						<div className="absolute top-2 right-2 lg:top-4 lg:right-4">
 							<Button
 								variant="solid"
 								size="none"
 								color="tertiary"
 								circle
-								className="p-2"
+								className="p-1.5 lg:p-2"
 								onClick={onTogglePreview}
 							>
 								{previewActive ? <BsFullscreenExit /> : <BsFullscreen />}
@@ -99,29 +101,35 @@ const ImagePreview = ({
 
 				{/* Informations */}
 				<div
-					className={`${previewActive ? "flex-0" : "flex-1"} space-y-6 overflow-auto`}
+					className={`${
+						previewActive
+							? "hidden lg:flex lg:flex-col lg:flex-0"
+							: "flex flex-col flex-1"
+					} space-y-4 lg:space-y-6 overflow-auto`}
 				>
-					<h1 className="text-center text-3xl font-bold mb-2">Détails de l'image</h1>
+					<h1 className="text-center text-xl lg:text-3xl font-bold mb-2">
+						Détails de l'image
+					</h1>
 
-					<div className="space-y-4">
+					<div className="space-y-3 lg:space-y-4">
 						<SectionBlock title="Informations" icon={<BsMagic />}>
-							<div className="grid grid-cols-1 gap-4">
+							<div className="grid grid-cols-1 gap-3 lg:gap-4">
 								<div>
-									<p className="text-sm text-gray-500">Date de création</p>
-									<p>{creationDate}</p>
+									<p className="text-xs lg:text-sm text-gray-500">Date de création</p>
+									<p className="text-sm lg:text-base">{creationDate}</p>
 								</div>
 							</div>
 						</SectionBlock>
 
 						<SectionBlock title="Prompt" icon={<BsMagic />}>
-							<p>{promptText}</p>
+							<p className="text-sm lg:text-base leading-relaxed">{promptText}</p>
 						</SectionBlock>
 
-						<div className="text-end space-x-2 relative mt-3">
-							<ShareButton />
+						<div className="flex flex-row justify-center lg:justify-end space-x-2 relative mt-3">
 							{imageId && onDeleteImage && (
 								<DeleteButton onClick={handleDeleteClick} />
 							)}
+							<ShareButton />
 						</div>
 					</div>
 				</div>
@@ -129,18 +137,21 @@ const ImagePreview = ({
 
 			{/* Modal de confirmation avec arrière-plan flou */}
 			{showDeleteConfirm && (
-				<div className="fixed inset-0 backdrop-blur-sm bg-black/20 flex items-center justify-center z-50">
-					<div className="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-md w-full mx-4 shadow-2xl transform transition-all duration-300 scale-100 animate-in fade-in-0 zoom-in-95">
-						<h3 className="text-lg font-semibold mb-4">Confirmer la suppression</h3>
-						<p className="text-gray-600 dark:text-gray-300 mb-6">
+				<div className="fixed inset-0 backdrop-blur-sm bg-black/20 flex items-center justify-center z-50 p-4">
+					<div className="bg-white dark:bg-gray-800 p-4 lg:p-6 rounded-lg max-w-md w-full shadow-2xl transform transition-all duration-300 scale-100 animate-in fade-in-0 zoom-in-95">
+						<h3 className="text-base lg:text-lg font-semibold mb-3 lg:mb-4">
+							Confirmer la suppression
+						</h3>
+						<p className="text-sm lg:text-base text-gray-600 dark:text-gray-300 mb-4 lg:mb-6 leading-relaxed">
 							Êtes-vous sûr de vouloir supprimer cette image ? Cette action est
 							irréversible.
 						</p>
-						<div className="flex gap-3 justify-end">
+						<div className="flex flex-col-reverse sm:flex-row gap-2 lg:gap-3 sm:justify-end">
 							<Button
 								variant="outline"
 								onClick={handleCancelDelete}
 								disabled={isDeleting}
+								className="w-full sm:w-auto"
 							>
 								Annuler
 							</Button>
@@ -149,7 +160,9 @@ const ImagePreview = ({
 								color="danger"
 								onClick={handleConfirmDelete}
 								disabled={isDeleting}
-								className={`flex items-center gap-2 ${isDeleting ? "opacity-70 cursor-not-allowed" : ""}`}
+								className={`w-full sm:w-auto flex items-center justify-center gap-2 ${
+									isDeleting ? "opacity-70 cursor-not-allowed" : ""
+								}`}
 							>
 								{isDeleting ? (
 									<>
