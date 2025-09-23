@@ -16,11 +16,9 @@ const CampaignModals = ({
 	selectedPostId,
 	selectedLandingPage,
 	posts,
-	campaignName,
-	campaignDescription,
+	campaign,
 	onCampaignUpdateSuccess,
 	onContentRefresh,
-	campaignId,
 	isShareModalOpen,
 	onCloseShareModal,
 	onShareCampaign,
@@ -163,8 +161,8 @@ const CampaignModals = ({
 			<Modal isOpen={isOpen("edit-campaign")} onClose={closeModal} size="xl">
 				<Suspense fallback={<div>Chargement...</div>}>
 					<EditCampaign
-						campaignName={campaignName}
-						campaignDescription={campaignDescription}
+						campaignName={campaign.name}
+						campaignDescription={campaign.description}
 						onSuccess={() => {
 							onContentRefresh();
 							closeModal();
@@ -183,7 +181,7 @@ const CampaignModals = ({
 			>
 				<Suspense fallback={<div>Chargement...</div>}>
 					<NewRequest
-						campaignId={campaignId}
+						campaignId={campaign.id}
 						modalSize={newRequestModalSize}
 						onSuccess={handleCloseAndRefresh}
 						onContentGenerated={handleContentGenerated}
@@ -239,7 +237,7 @@ const CampaignModals = ({
 			>
 				<Suspense fallback={<div>Chargement...</div>}>
 					<Feature.ImageMarketing
-						campaignId={campaignId}
+						campaignId={campaign.id}
 						modalSize={newRequestModalSize}
 						onSuccess={handleCloseAndRefresh}
 						onContentGenerated={handleContentGenerated}
@@ -278,12 +276,12 @@ const CampaignModals = ({
 			>
 				<Suspense fallback={<div>Chargement...</div>}>
 					<Feature.NewLandingPage
-						campaignId={campaignId}
+						campaign={campaign}
 						modalSize={newRequestModalSize}
 						onSuccess={() => {
 							closeModal();
 							onContentRefresh()
-							navigate("/campaign/" + campaignId + "#landing-page");
+							navigate("/campaign/" + campaign.id + "#landing-page");
 						}}
 					/>
 				</Suspense>

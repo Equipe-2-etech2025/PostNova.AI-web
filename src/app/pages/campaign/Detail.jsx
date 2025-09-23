@@ -33,7 +33,8 @@ const Detail = () => {
 	const [refreshTrigger, setRefreshTrigger] = useState(0);
 	const campaignId = location.pathname.split("/").pop();
 	const [isShareModalOpen, setIsShareModalOpen] = useState(false);
-	const [campaignInfo, setCampaignInfo] = useState({
+	const [campaign, setCampaign] = useState({
+		id: null,
 		name: "",
 		description: "",
 		status: "",
@@ -44,14 +45,7 @@ const Detail = () => {
 	const [campaignData, setCampaignData] = useState({
 		images: [],
 		posts: [],
-		landingPages: [
-			{
-				id: 1,
-				created_at: "2023-10-01T12:00:00Z",
-				title: "Landing page 1",
-				content: "",
-			},
-		],
+		landingPages: [],
 		interactionStats: null,
 	});
 	const [quotaPrompt, setQuotaPrompt] = useState(null);
@@ -64,7 +58,6 @@ const Detail = () => {
 		landingPages: true,
 		all: true,
 	});
-	const [deletedPost, setDeletePost] = useState(false);
 	const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
 	{
@@ -187,21 +180,37 @@ const Detail = () => {
 		try {
 			const response = await campaignService.getCampaignById(campaignId);
 			if (response.success) {
-				const { name, description, status, is_published } = response.data.data;
-				const translatedStatus = translateStatus(status.label);
-				setCampaignInfo({
-					name,
-					description,
-					is_published,
+				const data = response.data.data;
+				const translatedStatus = translateStatus(data.status.label);
+				setCampaign({
+					id: data.id,
+					name: data.name,
+					description: data.description,
+					is_published: data.is_published,
 					status: translatedStatus,
-					originalStatus: status.label,
-					statusValue: status.value,
+					originalStatus: data.status.label,
+					statusValue: data.status.value,
+					information: {
+						business_name: data.business_name,
+						email: data.email,
+						phone_numbers: data.phone_numbers,
+						company: data.company,
+						website: data.website,
+						industry: data.industry,
+						location: data.location,
+						target_audience: data.target_audience,
+						goals: data.goals,
+						budget: data.budget,
+						keywords: data.keywords,
+						preferred_style: data.preferred_style,
+						additional_notes: data.additional_notes,
+					},
 					loading: false,
 				});
 			}
 		} catch (error) {
 			console.error("Erreur détails:", error);
-			setCampaignInfo((prev) => ({ ...prev, loading: false }));
+			setCampaign((prev) => ({ ...prev, loading: false }));
 		}
 	};
 
@@ -356,12 +365,12 @@ const Detail = () => {
 	return (
 		<div className="container mx-auto px-4 sm:px-6 lg:px-8">
 			<CampaignHeader
-				name={campaignInfo.name}
-				is_published={campaignInfo.is_published}
-				description={campaignInfo.description}
-				status={campaignInfo.status}
-				originalStatus={campaignInfo.originalStatus}
-				loading={campaignInfo.loading}
+				name={campaign.name}
+				is_published={campaign.is_published}
+				description={campaign.description}
+				status={campaign.status}
+				originalStatus={campaign.originalStatus}
+				loading={campaign.loading}
 				onEdit={() => openModal("edit-campaign")}
 				onShare={() => setIsShareModalOpen(true)}
 			/>
@@ -410,30 +419,30 @@ const Detail = () => {
 				</div>
 			</section>
 
-			<CampaignModals
-				isOpen={isOpen}
-				closeModal={closeModal}
-				isPreview={isPreview}
-				setIsPreview={setIsPreview}
-				selectedImage={selectedImage}
-				selectedPostId={selectedPostId}
-				selectedLandingPage={selectedLandingPage}
-				posts={campaignData.posts}
-				campaignName={campaignInfo.name}
-				campaignDescription={campaignInfo.description}
-				onContentRefresh={handleContentRefresh}
-				campaignId={campaignId}
-				isShareModalOpen={isShareModalOpen}
-				onCloseShareModal={() => setIsShareModalOpen(false)}
-				onShareCampaign={handleShareCampaign}
-				onDeletePost={handleDeletePost}
-				onDeleteImage={handleDeleteImage}
-				onDeleteLandingPage={() => {}}
-				deleteConfirmOpen={deleteConfirmOpen}
-				setDeleteConfirmOpen={setDeleteConfirmOpen}
-				setSelectedPostId={setSelectedPostId}
-				setSelectedLandingPage={setSelectedLandingPage}
-			/>
+			{campaign?.id && (
+				<CampaignModals
+					isOpen={isOpen}
+					closeModal={closeModal}
+					isPreview={isPreview}
+					setIsPreview={setIsPreview}
+					selectedImage={selectedImage}
+					selectedPostId={selectedPostId}
+					selectedLandingPage={selectedLandingPage}
+					posts={campaignData.posts}
+					campaign={campaign}
+					onContentRefresh={handleContentRefresh}
+					isShareModalOpen={isShareModalOpen}
+					onCloseShareModal={() => setIsShareModalOpen(false)}
+					onShareCampaign={handleShareCampaign}
+					onDeletePost={handleDeletePost}
+					onDeleteImage={handleDeleteImage}
+					onDeleteLandingPage={() => {}}
+					deleteConfirmOpen={deleteConfirmOpen}
+					setDeleteConfirmOpen={setDeleteConfirmOpen}
+					setSelectedPostId={setSelectedPostId}
+					setSelectedLandingPage={setSelectedLandingPage}
+				/>
+			)}
 		</div>
 	);
 };

@@ -101,17 +101,20 @@ const LandingPage = ({
 		}
 
 		if (content) {
-			if (content?.content?.template?.html && content?.content?.template?.data) {
+			// if (content?.content?.template?.html && content?.content?.template?.data) {
+			if (content?.content?.html) {
 				const processedHTML = processTemplate(
-					content.content.template.html,
-					content.content.template.data
+					// content.content.template.html,
+					// content.content.template.data
+					content.content.html,
+					null
 				);
 
 				return (
 					processedHTML ||
 					`
 						<div style="display: flex; justify-content: center; align-items: center; height: 90vh">
-							<p style="color: #f39c12;">Template vide après traitement</p>
+							<p style="color: #f39c12;">Landing page vide après traitement</p>
 						</div>
 					`
 				);
@@ -326,7 +329,7 @@ const LandingPage = ({
 				position="top-center"
 				showProgressBar
 			/>
-			<div className="h-full flex flex-col lg:flex-row gap-8 p-8">
+			<div className="h-full flex flex-col gap-6 px-6 py-8">
 				<div className="relative flex-1/2">
 					<div className="h-full rounded-2xl mx-auto">
 						<iframe ref={iframeRef} className="size-full rounded-2xl" />
@@ -347,89 +350,8 @@ const LandingPage = ({
 					</div>
 				</div>
 				<div
-					className={`${previewActive ? "flex-0 overflow-hidden" : "h-full flex-1/4 flex flex-col"} transition-all ease-in-out duration-300`}
+					className={`${previewActive ? "flex-0 overflow-hidden" : "flex flex-col"} transition-all ease-in-out duration-300`}
 				>
-					<div className="flex-shrink-0">
-						<div className="sticky top-0 py-1 z-20">
-							<h1 className="text-center text-3xl font-bold mb-2">Landing page</h1>
-						</div>
-						<div className="flex flex-wrap gap-2 my-4 p-2">
-							{availableSections.map((section) => (
-								<Button
-									key={section.id}
-									variant={selectedSection === section?.id ? "solid" : "outline"}
-									color={selectedSection === section?.id ? "primary" : "neutral"}
-									size="sm"
-									className="flex items-center gap-2"
-									onClick={() => setSelectedSection(section?.id)}
-									disabled={loading}
-								>
-									{section?.icon}
-									{section?.label}
-								</Button>
-							))}
-						</div>
-					</div>
-					<div className="h-full overflow-y-auto">
-						{selectedSection === "hero" && content?.content?.template?.data && (
-							<LandingPageLayout.HeroSection
-								content={content.content.template.data}
-								handleChange={handleChange}
-								getLengthError={getLengthError}
-								TEXT_LIMITS={TEXT_LIMITS}
-							/>
-						)}
-						{content?.content?.template?.data?.sections.map(
-							(section, index) =>
-								selectedSection === section.id && (
-									<SectionBlock
-										key={section.id}
-										title={`Section ${index + 1} - ${section.type
-											.split("-")
-											.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-											.join(" ")}`}
-									>
-										<div className="space-y-4">
-											{section.type === "text-section" && (
-												<LandingPageLayout.TextSectionEditor
-													section={section}
-													index={index}
-													handleChange={handleChange}
-													getLengthError={getLengthError}
-													TEXT_LIMITS={TEXT_LIMITS}
-												/>
-											)}
-
-											{section.type === "cta-section" && (
-												<LandingPageLayout.CtaSectionEditor
-													section={section}
-													index={index}
-													handleChange={handleChange}
-													getLengthError={getLengthError}
-													TEXT_LIMITS={TEXT_LIMITS}
-												/>
-											)}
-
-											{section.type === "columns-section" && (
-												<LandingPageLayout.ColumnsSectionEditor
-													section={section}
-													index={index}
-													handleChange={handleChange}
-													getLengthError={getLengthError}
-													TEXT_LIMITS={TEXT_LIMITS}
-												/>
-											)}
-										</div>
-									</SectionBlock>
-								)
-						)}
-						{selectedSection === "footer" && content?.content?.template?.data && (
-							<LandingPageLayout.FooterSection
-								content={content.content.template.data}
-								handleChange={handleChange}
-							/>
-						)}
-					</div>
 					{(!loading && content) ? (
 						<div className="text-end space-x-2 space-y-1 relative mt-3">
 							{!hasContentChanged ? (

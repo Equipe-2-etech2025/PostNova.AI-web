@@ -30,7 +30,8 @@ export const campaignService = {
 
 	async createCampaign(campaignData) {
 		try {
-			const response = await api.post("/campaigns", campaignData);
+			// const response = await api.post("/campaigns", campaignData);
+			const response = await api.post("/v2/campaign/generate", campaignData);
 			return {
 				success: true,
 				data: response.data,

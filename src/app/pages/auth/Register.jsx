@@ -19,10 +19,10 @@ const Register = () => {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	// États pour afficher ou masquer le mot de passe
-	const [showPassword, setShowPassword] = useState(false);
-	const togglePasswordVisibility = () => {
-		setShowPassword((prev) => !prev);
-	};
+	const [showPassword, setShowPassword] = useState({
+		password: false,
+		confirmation: false
+	});
 
 	const [formData, setFormData] = useState({
 		name: "",
@@ -219,7 +219,7 @@ const Register = () => {
 							</div>
 							<div className="space-y-2 relative">
 								<InputForm
-									type={showPassword ? "text" : "password"}
+									type={showPassword.password ? "text" : "password"}
 									name="password"
 									value={formData.password}
 									onChange={handleChange}
@@ -229,10 +229,10 @@ const Register = () => {
 								/>
 								{/* Icône œil */}
 								<div
-									onClick={togglePasswordVisibility}
+									onClick={() => setShowPassword(prev => ({...prev, password: !prev.password}))}
 									className="absolute right-3 top-2.5 cursor-pointer text-gray-500 hover:text-gray-700"
 								>
-									{showPassword ? (
+									{showPassword.password ? (
 										<AiOutlineEyeInvisible size={20} />
 									) : (
 										<AiOutlineEye size={20} />
@@ -247,7 +247,7 @@ const Register = () => {
 							</div>
 							<div className="space-y-2 relative">
 								<InputForm
-									type={showPassword ? "text" : "password"}
+									type={showPassword.confirmation ? "text" : "password"}
 									name="password_confirmation"
 									value={formData.password_confirmation}
 									onChange={handleChange}
@@ -257,10 +257,10 @@ const Register = () => {
 								/>
 								{/* Icône œil */}
 								<div
-									onClick={togglePasswordVisibility}
+									onClick={() => setShowPassword(prev => ({...prev, confirmation: !prev.confirmation}))}
 									className="absolute right-3 top-2.5 cursor-pointer text-gray-500 hover:text-gray-700"
 								>
-									{showPassword ? (
+									{showPassword.confirmation ? (
 										<AiOutlineEyeInvisible size={20} />
 									) : (
 										<AiOutlineEye size={20} />

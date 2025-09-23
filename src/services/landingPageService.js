@@ -18,6 +18,15 @@ export const landingPageService = {
 		}
 	},
 
+	async generateV2(params) {
+		try {
+			const res = await api.post(`/v2/landing-page/generate`, params);
+			return res.data;
+		} catch (err) {
+			return renderError(err);
+		}
+	},
+
 	async getAll(params) {
 		try {
 			const res = await api.get(`/landing-pages`, { params });

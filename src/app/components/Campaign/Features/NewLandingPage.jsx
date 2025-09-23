@@ -1,12 +1,27 @@
 import React, { useState } from "react";
 import { landingPageService } from "@services/landingPageService";
-import { promptService } from "@services/promptService";
 import MessageNotification from "@shared/MessageNotification";
 import TopicInput from "@layouts/Campaign/components/TopicInput";
 import RequestHeader from "@layouts/Campaign/components/RequestHeader";
+import CampaignInformationInputs from "@layouts/Campaign/components/CampaignInformationInputs";
 
-const NewLandingPage = ({ campaignId, onSuccess, modalSize = "3xl" }) => {
+const NewLandingPage = ({ campaign, onSuccess, modalSize = "3xl" }) => {
 	const [topic, setTopic] = useState("");
+	const [promptPrecision, setPromptPrecision] = useState({
+		business_name: campaign?.information.business_name || "",
+		email: campaign?.information.email || "",
+		phone_numbers: campaign?.information.phone_numbers || "",
+		company: campaign?.information.company || "",
+		website: campaign?.information.website || "",
+		industry: campaign?.information.industry || "",
+		location: campaign?.information.location || "",
+		target_audience: campaign?.information.target_audience || "",
+		goals: campaign?.information.goals || "",
+		budget: campaign?.information.budget || "",
+		keywords: campaign?.information.keywords || "",
+		preferred_style: campaign?.information.preferred_style || "",
+		additional_notes: campaign?.information.additional_notes || "",
+	});
 	const [loading, setLoading] = useState(false);
 	const [isCreating, setIsCreating] = useState(false);
 	const [notification, setNotification] = useState({
@@ -32,37 +47,35 @@ const NewLandingPage = ({ campaignId, onSuccess, modalSize = "3xl" }) => {
 		setIsCreating(true);
 
 		try {
-			const promptResponse = await promptService.create({
+			// const promptResponse = await promptService.create({
+			// 	content: topic,
+			// 	campaign_id: campaignId,
+			// });
+
+			// if (!promptResponse.success) {
+			// 	if (promptResponse.type === "quota_exceeded") {
+			// 		showNotification(
+			// 			`Quota dépassé ! Vous avez utilisé ${promptResponse.quota_used}/${promptResponse.quota_max} prompts aujourd'hui.`,
+			// 			"warning"
+			// 		);
+			// 	} else {
+			// 		showNotification("Erreur lors de la création du prompt.", "error");
+			// 	}
+			// 	setLoading(false);
+			// 	setIsCreating(false);
+			// 	return;
+			// }
+
+			// const promptId = promptResponse.data.data?.id;
+
+			const res = await landingPageService.generateV2({
 				content: topic,
-				campaign_id: campaignId,
-			});
-
-			if (!promptResponse.success) {
-				if (promptResponse.type === "quota_exceeded") {
-					showNotification(
-						`Quota dépassé ! Vous avez utilisé ${promptResponse.quota_used}/${promptResponse.quota_max} prompts aujourd'hui.`,
-						"warning"
-					);
-				} else {
-					showNotification("Erreur lors de la création du prompt.", "error");
-				}
-				setLoading(false);
-				setIsCreating(false);
-				return;
-			}
-
-			const promptId = promptResponse.data.data?.id;
-
-			const res = await landingPageService.generate({
-				prompt: topic,
-				campaign_id: campaignId,
-				prompt_id: promptId,
+				campaign_id: campaign.id,
 			});
 
 			if (res.success) {
 				onSuccess();
 			} else {
-				console.log(res);
 				showNotification("Erreur lors de la génération de la page.", "error");
 			}
 		} catch (error) {
@@ -84,24 +97,23 @@ const NewLandingPage = ({ campaignId, onSuccess, modalSize = "3xl" }) => {
 		setIsCreating(true);
 
 		try {
-			const promptResponse = await promptService.create({
+			// const promptResponse = await promptService.create({
+			// 	content: updatedTopic,
+			// 	campaign_id: campaignId,
+			// });
+
+			// if (!promptResponse.success) {
+			// 	showNotification("Erreur lors de la création du prompt.", "error");
+			// 	setLoading(false);
+			// 	setIsCreating(false);
+			// 	return;
+			// }
+
+			// const promptId = promptResponse.data.data?.id;
+
+			const res = await landingPageService.generateV2({
 				content: updatedTopic,
-				campaign_id: campaignId,
-			});
-
-			if (!promptResponse.success) {
-				showNotification("Erreur lors de la création du prompt.", "error");
-				setLoading(false);
-				setIsCreating(false);
-				return;
-			}
-
-			const promptId = promptResponse.data.data?.id;
-
-			const res = await landingPageService.generate({
-				prompt: updatedTopic,
-				campaign_id: campaignId,
-				prompt_id: promptId,
+				campaign_id: campaign.id,
 			});
 
 			console.log(res);
@@ -139,6 +151,10 @@ const NewLandingPage = ({ campaignId, onSuccess, modalSize = "3xl" }) => {
 				hasGeneratedPosts={false}
 				selectedPlatform="any"
 			/>
+
+			<div className="max-h-72 md:max-h-120 mt-2 overflow-y-auto">
+				<CampaignInformationInputs state={promptPrecision} setState={setPromptPrecision} />
+			</div>
 		</div>
 	);
 };
